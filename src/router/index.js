@@ -20,7 +20,11 @@ export default new Router({
           name: 'firstpage',
           component: ()=>import('@/components/cookbook/firstpage'),
         }
-      ]
+      ],
+    },
+    {
+      path:'/login',
+      name:''
     }
   ]
 })

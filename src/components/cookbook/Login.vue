@@ -12,9 +12,9 @@
       :model="modelX"
       v-show="showX"
     >
-      <FormItem label="用户名" prop="name">
-        <template v-slot:label><i class="h-icon-user"></i> 用户账号</template>
-        <input type="text" v-model="modelX.name" >
+      <FormItem label="手机号" prop="phone">
+        <template v-slot:label><i class="h-icon-phone"></i> 手机号</template>
+        <input type="text" v-model="modelX.phone" >
       </FormItem>
       <FormItem label="密码" icon="h-icon-complete" prop="password">
         <input type="password" v-model="modelX.password" >
