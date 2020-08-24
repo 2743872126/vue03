@@ -8,7 +8,7 @@
           <el-container>
             <el-aside style="width: 250px">
               <el-menu style="width: 248px" :default-active="activeIndex" class="el-menu-demo"   @select="handleSelect" collapse="true">
-                <el-menu-item v-for="v in menu">{{v}}</el-menu-item>
+                <el-menu-item v-for="v in menu" index="menu.mtid">{{v.mtname}}</el-menu-item>
                 <el-submenu index="2">
                   <template slot="title">我的工作台</template>
                   <el-menu-item index="2-1">选项1</el-menu-item>
