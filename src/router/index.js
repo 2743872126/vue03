@@ -15,6 +15,7 @@ export default new Router({
       name: 'main',
       component: ()=>import('@/components/cookbook/main'),
       children:[
+
         {
           path: 'firstpage',
           name: 'firstpage',
@@ -23,8 +24,9 @@ export default new Router({
       ],
     },
     {
-      path:'/login',
-      name:''
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/components/cookbook/Login')
     }
   ]
 })

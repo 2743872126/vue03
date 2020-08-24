@@ -1,9 +1,9 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div v-width="400" style="margin-top: 10%;margin-left: 35%">
+  <div v-width="400"style="margin-top: 10%;margin-left: 35%">
     <Tabs :datas="param" @change="change"></Tabs>
     <br><br><br>
     <Form
-      ref="form"
+      ref="formup"
       :validOnChange="validOnChange"
       :showErrorTip="showErrorTip"
       :labelPosition="labelPosition"
@@ -16,11 +16,11 @@
         <template v-slot:label><i class="h-icon-phone"></i> 手机号</template>
         <input type="text" v-model="modelX.phone" >
       </FormItem>
-      <FormItem label="密码" icon="h-icon-complete" prop="password">
-        <input type="password" v-model="modelX.password" >
+      <FormItem label="密码" icon="h-icon-complete" prop="pwd">
+        <input type="pwd" v-model="modelX.pwd" >
       </FormItem>
       <FormItem>
-        <Button color="primary" :loading="isLoading" @click="submit">提交</Button>&nbsp;&nbsp;&nbsp;
+        <Button color="primary" :loading="isLoading" @click="signup">登录</Button>&nbsp;&nbsp;&nbsp;
         <Button @click="reset">重置</Button>
       </FormItem>
     </Form>
@@ -39,11 +39,11 @@
         <input type="text" v-model="modelY.phone" >
       </FormItem>
       <FormItem label="验证码" icon="h-icon-complete" prop="msg">
-        <input type="password" v-model="modelY.msg" v-width="160">
+        <input type="msg" v-model="modelY.msg" v-width="160">
         <Button @click="getCode">{{count}}{{agin}}</Button>
       </FormItem>
       <FormItem>
-        <Button color="primary" :loading="isLoading" @click="submit">登录</Button>&nbsp;&nbsp;&nbsp;
+        <Button color="primary" :loading="isLoading" @click="signin">登录</Button>&nbsp;&nbsp;&nbsp;
         <Button @click="reset">重置</Button>
       </FormItem>
     </Form>
@@ -72,15 +72,15 @@ export default {
           right: 'Label右对齐'
         },
         modelX: {
-          name: '',
-          password: ''
+          phone: '',
+          pwd: ''
         },
         modelY: {
           phone: '',
           msg: ''
         },
         validationRulesX: {
-          required: ['name', 'password']
+          required: ['phone', 'pwd']
         },
         validationRulesY: {
           required: ['phone', 'msg']
@@ -135,11 +135,24 @@ export default {
         this.showY = true
       }
     },
-    submit() {
+    signin() {
       this.isLoading = true;
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
-        this.$Message('验证成功');
+        this.$Message('验证码成功');
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      } else {
+        this.isLoading = false;
+      }
+    },
+    signup() {
+      this.isLoading = true;
+      let validResult = this.$refs.formup.valid();
+      if (validResult.result) {
+        this.$Message('密码成功');
+        console.log("")
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -155,7 +168,5 @@ export default {
 </script>
 <style>
 
-  #bor{
-  }
 </style>
 
