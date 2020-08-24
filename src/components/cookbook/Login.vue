@@ -104,8 +104,8 @@ export default {
       this.countDown()
     },
     getCode(){
-      let tel = this.$qs.stringify({"tel":this.modelY.phone})
-      this.$axios.post("http://localhost:8080/cookbooktest/SMS",tel).then(resp =>{
+      let phone = this.$qs.stringify({"phone":this.modelY.phone})
+      this.$axios.post("http://localhost:8080/cookbooktest/SMS",phone).then(resp =>{
         console.log(resp)
       })
       this.agin="秒后重新获取"
@@ -140,6 +140,9 @@ export default {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
         this.$Message('验证码成功');
+        this.$axios.post("http://localhost:8080/cookbooktest/queryByphone",this.$qs.stringify({"phone":this.modelY.phone})).then(res=>{
+          console.log(res)
+        })
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
