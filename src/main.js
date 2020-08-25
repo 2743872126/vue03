@@ -18,13 +18,14 @@ Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios
 // 使用模块
 Vue.use(elementui)
-
+import store from './store/index'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

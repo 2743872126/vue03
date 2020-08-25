@@ -154,8 +154,11 @@ export default {
       this.isLoading = true;
       let validResult = this.$refs.formup.valid();
       if (validResult.result) {
-        this.$Message('密码成功');
-        console.log("")
+        this.$axios.post("http://localhost:8080/cookbooktest/quryByPwd",{'phone':this.modelX.phone,'pwd':this.modelX.pwd}).then(res=>{
+          this.$Message('密码验证成功');
+          this.$store.commit("users",res);
+          this.$router.push({name:'main'})
+        })
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
