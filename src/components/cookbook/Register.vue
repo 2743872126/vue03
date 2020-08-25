@@ -61,7 +61,7 @@
     },
     methods: {
       countDown:function(){
-        this.timer=setInterval(() => {
+        this.timer=setInterval(function() {
           this.countDownNum--;
           if(this.countDownNum<=0){
             clearInterval(this.timer);
@@ -82,7 +82,7 @@
               console.log(res)
               if(res.data.result==0){
                 this.isLoading = true;
-                setTimeout(() => {
+                setTimeout(function() {
                   this.isLoading = false;
                 }, 10000);
               }
@@ -92,7 +92,7 @@
             const TIME_COUNT = 60;
             if (!this.timer) {
               this.count = TIME_COUNT;
-              this.timer = setInterval(() => {
+              this.timer = setInterval(function(){
                 if (this.count > 0 && this.count <= TIME_COUNT) {
                   this.count--;
                 } else {
@@ -113,14 +113,22 @@
           // 当表单所有rules都返回true valid会是true
           if(valid){
             if(this.isLoading){
-              this.$axios.post('http://localhost:8080/cookbooktest/register',this.$qs.stringify(this.usersup))
+              this.$axios.post('http://localhost:8080/cookbooktest/queryphone',this.$qs.stringify({phone:this.usersup.phone}))
                 .then(res => {
                   console.log(res);
-                  if (null!==res.phone) {
-                    this.$store.commit("USER_SIGNIN", res);
-                    this.$router.push({name:'main'});
+                  if (res.data.length!=0) {
+                    this.$message.error("这个手机号已经注册");
                   }else{
-                    this.$message.error('验证码错误')
+                    this.$axios.post('http://localhost:8080/cookbooktest/register',this.$qs.stringify(this.usersup))
+                      .then(res => {
+                        console.log(res);
+                        if (null!==res.phone) {
+                          this.$store.commit("USER_SIGNIN", res);
+                          this.$router.push({name:'main'});
+                        }else{
+                          this.$message.error('验证码错误')
+                        }
+                      })
                   }
                 })
             }

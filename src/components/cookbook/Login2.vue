@@ -31,6 +31,7 @@
 
     </el-tabs>
     <div style="margin-top: 30px">还没有账号？<el-link type="success" @click="comeToRegister">去注册</el-link></div>
+
   </div>
 </template>
 
@@ -88,7 +89,7 @@ export default {
   },
   methods: {
     countDown:function(){
-      this.timer=setInterval(() => {
+      this.timer=setInterval(function() {
         this.countDownNum--;
         if(this.countDownNum<=0){
           clearInterval(this.timer);
@@ -106,7 +107,7 @@ export default {
           console.log(res)
           if(res.data.result==0){
             this.isLoading = true;
-            setTimeout(() => {
+            setTimeout(function() {
               this.isLoading = false;
             }, 10000);
           }
@@ -116,7 +117,7 @@ export default {
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
-          this.timer = setInterval(() => {
+          this.timer = setInterval(function() {
             if (this.count > 0 && this.count <= TIME_COUNT) {
               this.count--;
             } else {
