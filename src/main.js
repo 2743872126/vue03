@@ -7,6 +7,14 @@ import elementui from 'element-ui'
 import axios from 'axios'
 // 引入css样式
 import 'element-ui/lib/theme-chalk/index.css'
+import VueSession from 'vue-session'
+Vue.use(VueSession)
+import heyui from 'heyui'
+Vue.use(heyui)
+require("heyui/themes/index.css");
+import "heyui/themes/index.less";
+import qs from 'qs'
+Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios
 // 使用模块
 Vue.use(elementui)
