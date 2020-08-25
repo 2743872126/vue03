@@ -2,7 +2,7 @@
     <div>
       <el-container>
         <el-header style="height: 100px">
-          <div style="border: 1px solid black; width: 70%;margin-left: 15%;height: 98px">
+          <div style="border: 1px solid black; width: 80%;margin-left: 10%;height: 98px">
             <el-menu style="height: 98px" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
               <el-menu-item index="1">
                 <el-link :underline="false" href="#">
@@ -22,7 +22,7 @@
               <el-menu-item  index="5" style="line-height: 90px">
                 <el-link style="font-size: 22px">作品动态</el-link>
               </el-menu-item>
-              <el-menu-item  index="6" style="margin-left: 70px;line-height: 90px">
+              <el-menu-item  index="6" style="margin-left: 18%;line-height: 90px">
                 <el-link style="font-size: 22px">登陆</el-link>/
                 <el-link style="font-size: 22px">注册</el-link>
               </el-menu-item>
@@ -48,10 +48,9 @@
     color: #333;
   }
   .el-main {
-    background-color: #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 160px;
-    height: 820px;
+    height: 785px;
   }
 </style>
