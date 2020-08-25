@@ -24,14 +24,14 @@ export default new Router({
       ],
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: () => import('@/components/cookbook/Login')
-    },
-    {
       path: '/register',
       name: 'Register',
       component: () => import('@/components/cookbook/Register')
+    },
+    {
+      path: '/login2',
+      name: 'Login2',
+      component: () => import('@/components/cookbook/Login2')
     }
   ]
 })
