@@ -29,7 +29,7 @@
           <el-menu-item index="1" :route="{name:'General'}">概况</el-menu-item>
           <el-menu-item index="2" :route="{name:'Mymenus'}">菜谱</el-menu-item>
           <el-menu-item index="3" :route="{name:'Myworks'}">作品</el-menu-item>
-          <el-menu-item index="4" :route="{name:'Collected'}" :v-if="this.$store.state.user.userInfo.">收藏</el-menu-item>
+          <el-menu-item index="4" :route="{name:'Collected'}">收藏</el-menu-item>
           <el-menu-item index="5" :route="{name:'General'}" style="float: right">草稿箱</el-menu-item>
         </el-menu>
         <div>
