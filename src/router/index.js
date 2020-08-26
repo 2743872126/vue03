@@ -15,12 +15,39 @@ export default new Router({
       name: 'main',
       component: ()=>import('@/components/cookbook/main'),
       children:[
-
         {
           path: 'firstpage',
           name: 'firstpage',
           component: ()=>import('@/components/cookbook/firstpage'),
-        }
+        },
+
+        {
+          path: 'personal',
+          name: 'Personal',
+          component: ()=>import('@/components/cookbook/Personal'),
+          children:[
+            {
+              path: 'general',
+              name: 'General',
+              component: ()=>import('@/components/cookbook/General'),
+            },
+            {
+              path: 'mymenus',
+              name: 'Mymenus',
+              component: ()=>import('@/components/cookbook/Mymenus'),
+            },
+            {
+              path: 'myworks',
+              name: 'Myworks',
+              component: ()=>import('@/components/cookbook/Myworks'),
+            },
+            {
+              path: 'collected',
+              name: 'Collected',
+              component: ()=>import('@/components/cookbook/Collected'),
+            },
+          ]
+        },
       ],
     },
     {
