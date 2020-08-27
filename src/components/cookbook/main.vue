@@ -2,7 +2,7 @@
     <div>
       <el-container>
         <el-header style="height: 100px">
-          <div style="border: 1px solid black; width: 80%;margin-left: 10%;height: 98px">
+          <div style=" width: 80%;margin-left: 10%;height: 98px;position: relative">
             <el-menu style="height: 98px" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
               <el-menu-item index="1">
                 <el-link :underline="false" href="#">
@@ -10,7 +10,7 @@
                 </el-link>
               </el-menu-item>
               <el-menu-item  style="margin-right: 123px;line-height: 90px">
-                <el-input placeholder="搜索菜谱"></el-input>
+                <el-input placeholder="搜索菜谱"  style="position: relative;top: 29px;"></el-input>
                 <el-button>搜菜谱</el-button>
               </el-menu-item>
               <el-menu-item :route="{name:'firstpage'}" style="line-height: 90px"  index="3">
@@ -23,8 +23,8 @@
                 <el-link style="font-size: 22px">作品动态</el-link>
               </el-menu-item>
               <el-menu-item  index="6" style="margin-left: 18%;line-height: 90px">
-                <el-link style="font-size: 22px">登陆</el-link>/
-                <el-link style="font-size: 22px">注册</el-link>
+                <el-link style="font-size: 22px" href="">登陆</el-link>/
+                <el-link style="font-size: 22px" href="">注册</el-link>
               </el-menu-item>
             </el-menu>
           </div>
