@@ -22,9 +22,23 @@
               <el-menu-item  index="5" style="line-height: 90px">
                 <el-link style="font-size: 22px">作品动态</el-link>
               </el-menu-item>
-              <el-menu-item  index="6" style="margin-left: 18%;line-height: 90px">
-                <el-link style="font-size: 22px" href="">登陆</el-link>/
-                <el-link style="font-size: 22px" href="">注册</el-link>
+
+              <el-menu-item v-if="isuser" style="margin-left: 10%;line-height: 90px">
+                <el-link icon="el-icon-message" style="font-size: 22px">消息</el-link>/
+                <el-link style="font-size: 22px">
+                  <!--<el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar>-->
+                  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                    <el-submenu index="1" style="height: 50px">
+                      <template style="border: 1px solid black;height: 50px" slot="title"><el-avatar :size="50" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar></template>
+                      <el-menu-item index="1-1">我的厨房</el-menu-item>
+                      <el-menu-item index="1-2">退出</el-menu-item>
+                    </el-submenu>
+                  </el-menu>
+                </el-link>
+              </el-menu-item>
+              <el-menu-item v-else style="margin-left: 18%;line-height: 90px">
+                <el-link style="font-size: 22px" href="http://localhost:8081/#/login2">登陆</el-link>/
+                <el-link style="font-size: 22px" href="http://localhost:8081/#/register">注册</el-link>
               </el-menu-item>
             </el-menu>
           </div>
@@ -37,8 +51,24 @@
 </template>
 
 <script>
+    import user from "../../store/models/user";
+
     export default {
-        name: "main"
+        name: "main",
+        data() {
+          return{
+            user:{uname:''},
+            isuser:false,
+          }
+        },
+      created:function () {
+          this.user=this.$store.state.user.userInfo;
+          if (undefined!==this.user.uname){
+            this.isuser=true;
+          } else {
+            this.isuser=false;
+          }
+      }
     }
 </script>
 

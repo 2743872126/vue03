@@ -14,11 +14,17 @@ export default new Router({
       path: '/',
       name: 'main',
       component: ()=>import('@/components/cookbook/main'),
+      redirect:'/firstpage',
       children:[
         {
           path: 'firstpage',
           name: 'firstpage',
           component: ()=>import('@/components/cookbook/firstpage'),
+        },
+        {
+          path: 'Menus',
+          name: 'menus',
+          component: ()=>import('@/components/cookbook/Menus'),
         },
 
         {

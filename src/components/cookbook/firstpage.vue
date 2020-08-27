@@ -8,10 +8,10 @@
           <el-container>
             <el-aside style="width: 18%">
               <!--菜普分类-->
-              <el-menu style="width: 99%" :default-active="activeIndex" class="el-menu-demo"   @select="handleSelect" collapse="true">
+              <el-menu :router="true" style="width: 99%" :default-active="activeIndex" class="el-menu-demo"   @select="handleSelect" collapse="true">
                 <el-submenu v-for="v in menutypes" :index="v.mtid" :default-openeds="v.menutypess">
                   <template slot="title" >{{v.mtname}}</template>
-                  <el-menu-item style="font-size: 20px" v-for="s in v.menutypess">{{s.mtname}}</el-menu-item>
+                  <el-menu-item :index="v.mtid+'-'+s.mtid" style="font-size: 20px" v-for="s in v.menutypess" :route="{name:'menus',params:{'mtid':s.mtid,'mtname':s.mtname}}">{{s.mtname}}</el-menu-item>
                 </el-submenu>
               </el-menu>
             </el-aside>
@@ -60,10 +60,22 @@
                   </div>
                 </el-aside>
                 <el-main>
-                  <div style="height: 350px;margin-top: -20px;margin-left: 20px;margin-right: -20px;background-color: #E9EEF3">
+                  <div v-if="isuser==true" style="height: 350px;margin-top: -20px;margin-left: 20px;margin-right: -20px;background-color: #E9EEF3;position: relative">
+                    <el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic" style="margin-top: 50px"></el-avatar>
+                    <h1 style="margin-top: -120px"><a style="color: crimson">{{user.uname}}的厨房</a></h1>
+                    <h1 style="margin-top: -120px;font-size: 20px">
+                      <a style="color: crimson">{{user.munus.length}}菜谱</a>|
+                      <a style="color: crimson">{{user.works.length}}作品</a>|
+                      <a style="color: crimson">{{user.user_menus.length}}收藏</a>|
+                      <a style="color: crimson">草稿箱</a>
+                    </h1>
+                    <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px">创建菜谱</el-button>
+                  </div>
+                  <div v-else style="height: 350px;margin-top: -20px;margin-left: 20px;margin-right: -20px;background-color: #E9EEF3">
                         <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px;margin-top: 130px">登陆</el-button>
                         <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px">注册</el-button>
                   </div>
+
                   <!--下厨的朋友们-->
                   <div style="height: 350px;margin-top: 20px;margin-left: 20px;margin-right: -20px;">
                     <div style="height:70px;position: relative">
@@ -72,9 +84,6 @@
                     </div>
                     <div style="border: 1px solid gainsboro;height: 140px;margin-bottom:20px;position: relative" v-for="v in users.slice(0,8)">
                       <el-avatar style="position: absolute;left: 0px;top: 20px" :size="100" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar>
-<!--
-                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 70%"></el-image>
--->
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -30px;left: 120px;font-size: 24px"><a style="color: black">{{v.uname.substr(0,4)}}..</a></span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 0px;left: 120px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 30px;left: 120px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
@@ -101,6 +110,8 @@
             upmonthmenu:[],
             newmenu:[],
             users:[],
+            user:{uname:''},
+            isuser:false,
             currentPage:1,
             // 总条数，根据接口获取数据长度(注意：这里不能为空)
             totalCount:1,
@@ -109,6 +120,12 @@
           };
         },
         created:function () {
+          this.user=this.$store.state.user.userInfo;
+          if (undefined!==this.user.uname){
+            this.isuser=true;
+          } else {
+            this.isuser=false;
+          }
           this.$axios.post('http://localhost:8080/cookbooktest/MenuTypesController/queryall')
             .then(resp=>{
                 this.menutypes=resp.data;
@@ -159,7 +176,12 @@
             // 改变默认的页数
             this.currentPage=val
           },
+        },
+      methods:{
+        checkMenus:function (mtid) {
+
         }
+      }
     }
 </script>
 
