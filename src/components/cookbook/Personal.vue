@@ -1,34 +1,38 @@
 <template>
   <div class="container">
       <div class="top">
-        <el-row>
-          <el-col :span="12">
-            <el-avatar :size="200" :src="pic" style="margin-top: 40px;margin-bottom: -40px"></el-avatar>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 30px">{{this.$store.state.user.userInfo.uname}}的厨房</span>
-            &nbsp;<span>{{this.$store.state.user.userInfo.createTime.substring(0,10)}}加入</span>
-          </el-col>
-          <el-col :span="8"></el-col>
-          <el-col :span="4">
-            <el-row>
-              <el-col :span="12"></el-col>
-              <el-col :span="12">s</el-col>
-            </el-row>
-          </el-col>
-        </el-row>
+            <div style="float: left;margin-left: 100px">
+              <el-avatar :size="200" :src="userinfo.pic" style="margin-top: 40px;margin-bottom: -40px"></el-avatar>
+              <span style="font-size: 50px">{{this.userinfo.uname}}的厨房</span>
+              <span style="font-size: 20px">{{this.userinfo.createTime.substring(0,10)}}加入</span>
+            </div>
+           <div style="text-align: right">
+
+             <el-tooltip style="margin-left: 100px;font-size: 22px" class="item" effect="dark" :content="this.userinfo.selfinfo" placement="top-end">
+               <el-button>个人签名<i class="el-icon-view el-icon--right"></i></el-button>
+             </el-tooltip><br>
+             <el-button round class="buts">关注的人<br>
+               {{this.userinfo.users.length}}
+             </el-button>
+             <el-button round class="buts">
+               被关注的人<br>
+               {{this.userinfo.follows.length}}
+             </el-button>
+           </div>
       </div>
       <div class="main">
         <el-menu
           :router="true"
           class="el-menu-demo"
-          default-active="1"
+          :default-active="this.$route.query.actives===null?1:this.$route.query.actives"
           mode="horizontal"
-          background-color="#545c64"
+          background-color="crimson"
           text-color="#fff"
           active-text-color="#ffd04b"
         >
           <el-menu-item index="1" :route="{name:'General'}">概况</el-menu-item>
-          <el-menu-item index="2" :route="{name:'Mymenus'}">菜谱</el-menu-item>
-          <el-menu-item index="3" :route="{name:'Myworks'}">作品</el-menu-item>
+          <el-menu-item index="2" :route="{name:'Mymenus'}">菜谱{{this.userinfo.munus.length}}</el-menu-item>
+          <el-menu-item index="3" :route="{name:'Myworks'}">作品{{this.userinfo.works.length}}</el-menu-item>
           <el-menu-item index="4" :route="{name:'Collected'}">收藏</el-menu-item>
           <el-menu-item index="5" :route="{name:'General'}" style="float: right">草稿箱</el-menu-item>
         </el-menu>
@@ -36,7 +40,6 @@
           <router-view></router-view>
         </div>
       </div>
-
   </div>
 </template>
 
@@ -45,9 +48,22 @@
     name: 'Personal',
     data(){
       return {
-        pic:this.$store.state.user.userInfo.pic,
+        userinfo:{},
       }
     },
+    created:function(){
+
+      this.$axios.post("http://localhost:8080/cookbooktest/querymenuworklevelmessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.$store.state.user.userInfo.munus=res.data;
+        })
+      this.$axios.post("http://localhost:8080/cookbooktest/queryworkstartmessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.$store.state.user.userInfo.works=res.data;
+        })
+
+      this.userinfo=this.$store.state.user.userInfo;
+    }
   }
 </script>
 
@@ -58,16 +74,25 @@
     margin-left: 10%
   }
   .top{
-    border: 1px solid red;
+    border: 1px solid white;
+    margin-bottom: -40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     color: #333;
   }
   .main{
-    border: 1px solid green;
+    border: 1px solid white;
+    min-height: 600px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     color: #333;
   }
   .el-menu-item{
-    font-size: 19px;
+    font-size: 22px;
+  }
+  .buts{
+    width: 200px;
+    background-color: crimson;
+    color: white;
+    font-size: 22px;
+    font-weight: 900;
   }
 </style>

@@ -40,7 +40,7 @@ export default {
   name: 'Login',
   data: () => {
     return {
-      isLoading:false,
+      isLoading:true,
       butshow:false,
       timer:null,
       count:'获取验证码',
@@ -79,6 +79,7 @@ export default {
         ],
         Msg:[
           {required:true,message:'不能为空',trigger:['blur','change']},
+          {min:6,max:6,message:'验证码是6位',trigger:['blur','change']},
         ]
       }
     }
@@ -105,7 +106,7 @@ export default {
       }else{
         this.$axios.post("http://localhost:8080/cookbooktest/SMS",this.$qs.stringify({'phone':this.usersup.phone})).then(res =>{
           console.log(res)
-          if(res.data.result==0){
+          if(0==res.data.result){
             this.isLoading = true;
             setTimeout(function() {
               this.isLoading = false;
@@ -137,7 +138,7 @@ export default {
         if(valid){
           this.$axios.post('http://localhost:8080/cookbooktest/quryByPwd',this.usersin)
             .then(res => {
-              if (res.length !== 0) {
+              if (''!==res.data) {
                 console.log(res)
                 this.$store.commit("USER_SIGNIN", res.data);
                 this.$router.push({name:'main'});
@@ -157,7 +158,7 @@ export default {
             this.$axios.post('http://localhost:8080/cookbooktest/queryByphone',this.$qs.stringify(this.usersup))
               .then(res => {
                 console.log(res);
-                if (null!==res.phone) {
+                if (''!==res.data) {
                   this.$store.commit("USER_SIGNIN", res);
                   this.$router.push({name:'main'});
                 }else{
