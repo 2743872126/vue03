@@ -48,6 +48,11 @@ export default new Router({
               component: ()=>import('@/components/cookbook/Myworks'),
             },
             {
+              path: 'myStudio',
+              name: 'MyStudio',
+              component: ()=>import('@/components/cookbook/MyStudio'),
+            },
+            {
               path: 'collected',
               name: 'Collected',
               component: ()=>import('@/components/cookbook/Collected'),
