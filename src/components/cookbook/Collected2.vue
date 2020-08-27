@@ -1,7 +1,7 @@
 <template>
     <div>
-      <router-link style="float: right;margin:-40px 0 0 0;color: crimson;font-size: 30px" :to="{path:'菜谱'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
-      <div class="menus" v-for="(v,k) in userinfo.munus">
+      <p class="ps"><span @click="toc">菜单</span>       |        <span class="span">课程</span> </p>
+      <div class="menus" v-for="(v,k) in userinfo">
         <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.mname}}</h1></div>
         <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
@@ -12,33 +12,40 @@
           <span>{{v.leavMessages===null?0:v.leavMessages.length}}留言</span>
         </div>
       </div>
-
+      <p class="ps" v-show="isshow">你还没有收藏视频，<router-link :to="{name:''}">去看看<icon class="el-icon-caret-right"></icon></router-link></p>
     </div>
 </template>
 
 <script>
   export default {
-    name: 'Mymenus',
+    name: 'Collected',
     data(){
       return {
-        ismenus:true,
-        userinfo:{},
+        isshow:false,
+        userinfo:[],
       }
     },
     created:function(){
-      if(0!=this.$store.state.user.userInfo.munus.length){
-        this.ismenus=false;
+      this.userinfo=this.$store.state.user.userInfo.user_studios.studioList;
+      if(0==this.userinfo.length){
+        this.isshow=true;
       }
-      this.userinfo=this.$store.state.user.userInfo;
+    },
+    methods:{
+      toc(){
+        this.$router.push({name:'Collected'})
+      }
     }
   }
 </script>
 
 <style scoped>
-.menus{
-  float: left;
-  margin-top: 100px;
-  width: 33%;
-  border: 1px red solid;
-}
+  .ps{
+    text-align: left;
+    font-weight: 100;
+    font-size: 40px;
+  }
+  .span{
+    color:red;
+  }
 </style>
