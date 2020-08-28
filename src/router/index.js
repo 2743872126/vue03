@@ -26,7 +26,12 @@ export default new Router({
           name: 'menus',
           component: ()=>import('@/components/cookbook/Menus'),
         },
-
+        {
+          path:'/createMenus',
+          name:'CreateMenus',
+          component:()=>import('@/components/cookbook/CreateMenus')
+        }
+        ,
         {
           path: 'personal',
           name: 'Personal',
@@ -66,7 +71,7 @@ export default new Router({
               path: 'collected2',
               name: 'Collected2',
               component: ()=>import('@/components/cookbook/Collected2'),
-            },
+            }
           ]
         },
       ],

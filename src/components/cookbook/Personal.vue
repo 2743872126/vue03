@@ -82,14 +82,12 @@
     margin-left: 10%
   }
   .top{
-    border: 1px solid white;
     margin-bottom: -40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     color: #333;
   }
   .main{
-    border: 1px solid white;
-    min-height: 600px;
+
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     color: #333;
   }

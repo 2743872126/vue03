@@ -1,6 +1,8 @@
 <template>
     <div>
-      <router-link style="float: right;margin:-40px 0 0 0;color: crimson;font-size: 30px" :to="{path:'菜谱'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
+
+        <router-link style="float: right;margin:-30px 0 -500px 0;color: crimson;font-size: 30px" :to="{path:'菜谱'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
+
       <div class="menus" v-for="(v,k) in userinfo.munus">
         <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.mname}}</h1></div>
@@ -38,7 +40,7 @@
 .menus{
   float: left;
   margin-top: 100px;
-  width: 33%;
-  border: 1px red solid;
+  margin-left: 20px;
+  width: 32%;
 }
 </style>
