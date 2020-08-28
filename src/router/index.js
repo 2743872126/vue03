@@ -29,7 +29,7 @@ export default new Router({
         {
           path:'/createMenus',
           name:'CreateMenus',
-          component:()=>import('@/components/cookbook/CreateMenus')
+          component:()=>import('@/components/cookbook/createMenus')
         }
         ,
         {
