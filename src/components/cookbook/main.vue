@@ -27,11 +27,12 @@
                 <el-link icon="el-icon-message" style="font-size: 22px">消息</el-link>/
                 <el-link style="font-size: 22px">
                   <!--<el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar>-->
-                  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                  <el-menu  :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                     <el-submenu index="1" style="height: 50px">
                       <template style="border: 1px solid black;height: 50px" slot="title"><el-avatar :size="50" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar></template>
-                      <el-menu-item index="1-1">我的厨房</el-menu-item>
-                      <el-menu-item index="1-2">退出</el-menu-item>
+                      <el-menu-item :route="{name:'Personal'}" index="1-1">我的厨房</el-menu-item>
+                      <el-menu-item index="1-2">账号设置</el-menu-item>
+                      <el-menu-item index="1-3">退出</el-menu-item>
                     </el-submenu>
                   </el-menu>
                 </el-link>

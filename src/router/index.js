@@ -25,6 +25,18 @@ export default new Router({
           path: 'Menus',
           name: 'menus',
           component: ()=>import('@/components/cookbook/Menus'),
+          children:[
+            {
+              path: 'ChildrenMenu',
+              name: 'ChildrenMenu',
+              component: ()=>import('@/components/cookbook/ChildrenMenu'),
+            },
+            {
+              path: 'ChildrenMenu2',
+              name: 'ChildrenMenu2',
+              component: ()=>import('@/components/cookbook/ChildrenMenu2'),
+            }
+          ]
         },
 
         {

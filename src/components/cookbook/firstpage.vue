@@ -87,7 +87,7 @@
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -30px;left: 120px;font-size: 24px"><a style="color: black">{{v.uname.substr(0,4)}}..</a></span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 0px;left: 120px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 30px;left: 120px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
-                      <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px">关注</el-button>
+                      <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px" v-if="v.uid!==user.uid">关注</el-button>
                     </div>
                   </div>
                 </el-main>
@@ -177,11 +177,6 @@
             this.currentPage=val
           },
         },
-      methods:{
-        checkMenus:function (mtid) {
-
-        }
-      }
     }
 </script>
 
