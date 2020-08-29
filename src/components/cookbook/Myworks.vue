@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="workss" v-for="(v,k) in userinfo.works.slice(0,9)">
-        <el-image style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
+        <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -100px;margin-bottom: -100px"><p style="font-size: 22px;" >{{v.winfo.substring(0,20)}}..</p></div>
         <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
           {{v.makeTime.substring(0,10)}}拍摄
@@ -10,6 +10,9 @@
           <span><el-icon class="el-icon-star-off"></el-icon>{{v.startUsers===null?0:v.startUsers.length}}</span>
         </div>
       </div>
+      <p v-if="this.isworks" style="font-size: 25px">
+        <router-link style="color: crimson" :to="{path:'myworks'}">发布一个作品<icon class="el-icon-caret-right"></icon></router-link>
+      </p>
     </div>
 </template>
 
@@ -18,10 +21,14 @@
     name: 'Myworks',
     data(){
       return {
+        isworks:true,
         userinfo:{},
       }
     },
     created:function(){
+      if(0!=this.$store.state.user.userInfo.works.length){
+        this.isworks=false;
+      }
       this.userinfo=this.$store.state.user.userInfo;
     }
   }

@@ -34,7 +34,8 @@
           <el-menu-item index="2" :route="{name:'Mymenus'}">菜谱{{this.userinfo.munus.length}}</el-menu-item>
           <el-menu-item index="3" :route="{name:'Myworks'}">作品{{this.userinfo.works.length}}</el-menu-item>
           <el-menu-item index="4" :route="{name:'Collected'}">收藏</el-menu-item>
-          <el-menu-item index="5" :route="{name:'General'}" style="float: right">草稿箱</el-menu-item>
+          <el-menu-item index="5" :route="{name:'MyStudio'}">课程</el-menu-item>
+          <el-menu-item index="6" :route="{name:'General'}" style="float: right">草稿箱</el-menu-item>
         </el-menu>
         <div>
           <router-view></router-view>
@@ -61,7 +62,14 @@
         .then(res=>{
           this.$store.state.user.userInfo.works=res.data;
         })
-
+      this.$axios.post("http://localhost:8080/cookbooktest/queryusercollectedmenu",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.$store.state.user.userInfo.user_menus.menus=res.data;
+        })
+      this.$axios.post("http://localhost:8080/cookbooktest/queryusercollectedstudio",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.$store.state.user.userInfo.user_studios.studioList=res.data;
+        })
       this.userinfo=this.$store.state.user.userInfo;
     }
   }
@@ -74,14 +82,12 @@
     margin-left: 10%
   }
   .top{
-    border: 1px solid white;
     margin-bottom: -40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     color: #333;
   }
   .main{
-    border: 1px solid white;
-    min-height: 600px;
+
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     color: #333;
   }

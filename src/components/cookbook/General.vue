@@ -12,7 +12,10 @@
           <span><el-icon class="el-icon-star-off"></el-icon>{{v.startUsers===null?0:v.startUsers.length}}</span>
         </div>
       </div>
-      <span style="font-size: 25px">
+      <p v-if="this.isworks" style="font-size: 25px">
+        <router-link style="color: crimson" :to="{path:'myworks'}">发布一个作品<icon class="el-icon-caret-right"></icon></router-link>
+      </p>
+      <span v-if="this.isworks===false" style="font-size: 25px">
         <router-link style="color: crimson" :to="{path:'myworks',query:{actives:'3'}}">查看我的全部作品<icon class="el-icon-caret-right"></icon></router-link>
       </span>
     </div>
@@ -29,7 +32,10 @@
           <span>{{v.leavMessages===null?0:v.leavMessages.length}}留言</span>
         </div>
       </div>
-      <span style="font-size: 25px">
+      <p v-if="this.ismenus" style="font-size: 25px">
+        <router-link style="color: crimson" :to="{path:'菜谱'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
+      </p>
+      <span v-if="this.ismenus===false" style="font-size: 25px">
         <router-link style="color: crimson" :to="{path:'mymenus',query:{actives:'2'}}">查看我的全部菜谱<icon class="el-icon-caret-right"></icon>
         </router-link>
       </span>
@@ -42,10 +48,18 @@
     name: 'General',
     data(){
       return {
+        isworks:true,
+        ismenus:true,
         userinfo:{},
       }
     },
     created:function(){
+      if(0!=this.$store.state.user.userInfo.works.length){
+        this.isworks=false;
+      }
+      if(0!=this.$store.state.user.userInfo.munus.length){
+        this.ismenus=false;
+      }
       this.userinfo=this.$store.state.user.userInfo;
     }
   }
@@ -55,11 +69,5 @@
 .workss{
   width: 33%;
   border: 1px white solid;
-}
-.textarea>>>.el-input__inner{
-  font-size: 18px!important;
-  color:#000000!important;
-  font-family: cursive!important;
-  border-color: white;
 }
 </style>
