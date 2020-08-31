@@ -41,7 +41,7 @@ export default new Router({
         {
           path:'/createMenus',
           name:'CreateMenus',
-          component:()=>import('@/components/cookbook/createMenus')
+          component:()=>import('@/components/cookbook/createMenus'),
         }
         ,
         {
@@ -83,6 +83,11 @@ export default new Router({
               path: 'collected2',
               name: 'Collected2',
               component: ()=>import('@/components/cookbook/Collected2'),
+            },
+            {
+              path: 'drafts',
+              name: 'Drafts',
+              component: ()=>import('@/components/cookbook/Drafts'),
             }
           ]
         },
@@ -97,6 +102,11 @@ export default new Router({
       path: '/login2',
       name: 'Login2',
       component: () => import('@/components/cookbook/Login2')
+    },
+    {
+      path: '/tools',
+      name: 'Tools',
+      component: () => import('@/components/cookbook/Tools')
     }
   ]
 })

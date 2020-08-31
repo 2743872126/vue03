@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <router-link style="float: right;margin:-30px 0 -500px 0;color: crimson;font-size: 30px" :to="{path:'菜谱'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
+        <router-link style="float: right;margin:-30px 0 -500px 0;color: crimson;font-size: 30px" :to="{name:'CreateMenus'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
 
       <div class="menus" v-for="(v,k) in userinfo.munus">
         <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>

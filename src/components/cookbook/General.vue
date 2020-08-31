@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>
+    <div style="overflow: hidden">
       <h1 style="text-align: left ;font-size: 42px">作品</h1>
-      <div class="workss" v-for="(v,k) in userinfo.works.slice(0,9)">
+      <div style="float:left;" class="workss" v-for="(v,k) in userinfo.works.slice(0,9)">
         <el-image style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -100px;margin-bottom: -100px"><p style="font-size: 22px;" >{{v.winfo.substring(0,20)}}..</p></div>
         <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
@@ -19,9 +19,9 @@
         <router-link style="color: crimson" :to="{path:'myworks',query:{actives:'3'}}">查看我的全部作品<icon class="el-icon-caret-right"></icon></router-link>
       </span>
     </div>
-    <div>
+    <div style="overflow: auto">
       <h1 style="text-align: left ;font-size: 42px">菜谱</h1>
-      <div class="workss" v-for="(v,k) in userinfo.munus.slice(0,9)">
+      <div style="float:left;" class="workss" v-for="(v,k) in userinfo.munus.slice(0,9)">
         <el-image style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.mname}}</h1></div>
         <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
