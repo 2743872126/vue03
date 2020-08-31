@@ -22,6 +22,16 @@ export default new Router({
           component: ()=>import('@/components/cookbook/firstpage'),
         },
         {
+          path: 'UsersShow',
+          name: 'UsersShow',
+          component: ()=>import('@/components/cookbook/UsersShow'),
+        },
+        {
+          path: 'CheckUsers',
+          name: 'CheckUsers',
+          component: ()=>import('@/components/cookbook/CheckUsers'),
+        },
+        {
           path: 'Menus',
           name: 'menus',
           component: ()=>import('@/components/cookbook/Menus'),
@@ -35,6 +45,16 @@ export default new Router({
               path: 'ChildrenMenu2',
               name: 'ChildrenMenu2',
               component: ()=>import('@/components/cookbook/ChildrenMenu2'),
+            },
+            {
+              path: 'ChilerenAllMenus',
+              name: 'ChilerenAllMenus',
+              component: ()=>import('@/components/cookbook/ChilerenAllMenus'),
+            },
+            {
+              path: 'CheckMenus',
+              name: 'CheckMenus',
+              component: ()=>import('@/components/cookbook/CheckMenus'),
             }
           ]
         },

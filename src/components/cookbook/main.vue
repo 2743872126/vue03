@@ -10,8 +10,18 @@
                 </el-link>
               </el-menu-item>
               <el-menu-item  style="margin-right: 123px;line-height: 90px">
-                <el-input placeholder="搜索菜谱"  style="position: relative;top: 29px;"></el-input>
-                <el-button>搜菜谱</el-button>
+                <!--<el-input placeholder="搜索菜谱"  style="position: relative;top: 29px;"></el-input>-->
+                <el-autocomplete
+                  style="position: relative;top: 29px;"
+                  class="inline-input"
+                  v-model="state2"
+                  :fetch-suggestions="querySearch"
+                  placeholder="搜索菜谱"
+                  :trigger-on-focus="false"
+                  @select="handleSelect"
+                ></el-autocomplete>
+
+                <el-button @click="checke">搜菜谱</el-button>
               </el-menu-item>
               <el-menu-item :route="{name:'firstpage'}" style="line-height: 90px"  index="3">
                 <el-link style="font-size: 22px">首页</el-link>
@@ -60,6 +70,8 @@
           return{
             user:{uname:''},
             isuser:false,
+            restaurants: [],
+            state2: ''
           }
         },
       created:function () {
@@ -69,6 +81,45 @@
           } else {
             this.isuser=false;
           }
+      },
+      methods:{
+          checke(){
+            this.$axios.post('http://localhost:8080/cookbooktest/MenuController/queryBymname',this.$qs.stringify({'mname':this.state2}))
+              .then(resp=>{
+                this.$router.push({name:'menus',params:{menus:resp.data,state:this.state2}})
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
+          },
+        querySearch(queryString, cb) {
+          var restaurants = this.restaurants;
+          var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+          // 调用 callback 返回建议列表的数据
+          console.info(restaurants.filter(this.createFilter(queryString)))
+          cb(results);
+        },
+        createFilter(queryString) {
+          return (restaurant) => {
+            console.info('restaurant'+restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()))
+            return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1);
+          };
+        },
+        handleSelect(item) {
+          console.log(item);
+          console.log('item');
+        }
+      },
+      mounted() {
+        this.$axios.post('http://localhost:8080/cookbooktest/MenuController/queryAllMenu')
+          .then(resp=>{
+            for (let item of resp.data) {
+              this.restaurants.push({"value": item.mname})
+            }
+          })
+          .catch(err=>{
+            this.$message.error("错误");
+          });
       }
     }
 </script>

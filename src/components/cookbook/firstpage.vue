@@ -35,7 +35,9 @@
                   <div style="height: 300px">
                     <div style="height:70px;position: relative">
                     <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">新秀菜谱</span>
-                      <span style="position: absolute;top: -50px;left: 150px;font-size: 18px;color: red">全部</span>
+                      <span style="position: absolute;top: -50px;left: 150px;font-size: 18px">
+                        <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
+                      </span>
                     <el-pagination style="height: 35px;width: 90px;position: absolute;top:10px;left: 87%" background  @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="PageSize"
                                     layout="prev, next"
                                     :total="totalCount">
@@ -50,7 +52,9 @@
                   <div >
                     <div style="height:70px;position: relative">
                       <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">本月最热</span>
-                      <span style="position: absolute;top: -50px;left: 150px;font-size: 18px;color: red">全部</span>
+                      <span style="position: absolute;top: -50px;left: 150px;font-size: 18px;color: red">
+                        <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
+                      </span>
                     </div>
                     <div style="border: 1px solid gainsboro;width: 320px;height: 250px;float: left;margin-right: 25px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
                       <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 70%"></el-image>
@@ -72,22 +76,27 @@
                     <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px">创建菜谱</el-button>
                   </div>
                   <div v-else style="height: 350px;margin-top: -20px;margin-left: 20px;margin-right: -20px;background-color: #E9EEF3">
-                        <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px;margin-top: 130px">登陆</el-button>
-                        <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px">注册</el-button>
+                        <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px;margin-top: 130px" @click="loginin">登陆</el-button>
+                        <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px" @click="loginon">注册</el-button>
                   </div>
 
                   <!--下厨的朋友们-->
                   <div style="height: 350px;margin-top: 20px;margin-left: 20px;margin-right: -20px;">
                     <div style="height:70px;position: relative">
-                      <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">下厨的朋友们</span>
-                      <span style="position: absolute;top: -50px;left: 220px;font-size: 18px;color: red">更多</span>
+                      <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">万能的吃货</span>
+                      <span style="position: absolute;top: -50px;left: 220px;font-size: 18px;color: red" @click="moreusers"><a style="color: crimson">更多</a></span>
                     </div>
                     <div style="border: 1px solid gainsboro;height: 140px;margin-bottom:20px;position: relative" v-for="v in users.slice(0,8)">
                       <el-avatar style="position: absolute;left: 0px;top: 20px" :size="100" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -30px;left: 120px;font-size: 24px"><a style="color: black">{{v.uname.substr(0,4)}}..</a></span>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -30px;left: 120px;font-size: 24px"><a style="color: black">{{v.uname.substr(0,4)}}..</a>
+                        <el-image src="static/jpg/xingji.png" v-if="v.users.state===1" style="height: 30px"></el-image>
+                      </span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 0px;left: 120px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 30px;left: 120px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
-                      <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px" v-if="v.uid!==user.uid">关注</el-button>
+                      <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px"  v-show="v.uid!==user.uid" @click="guanzhu(v.uid)">关注</el-button>
+<!--
+                      <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px" @click="guanzhu(v.uid)">已关注</el-button>
+-->
                     </div>
                   </div>
                 </el-main>
@@ -96,6 +105,7 @@
           </el-container>
         </el-container>
       </div>
+      {{user}}
     </div>
 </template>
 
@@ -121,6 +131,7 @@
         },
         created:function () {
           this.user=this.$store.state.user.userInfo;
+          console.info(this.$store.state.user.userInfo)
           if (undefined!==this.user.uname){
             this.isuser=true;
           } else {
@@ -164,6 +175,33 @@
             })
         },
         methods:{
+          guanzhu(uid){
+            if (undefined!==this.user.uname) {
+
+            }else {
+              this.$confirm('请登录账号,是否登陆?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                this.$router.push({name:'Login2'})
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消'
+                });
+              });
+            }
+          },
+          loginin(){
+            this.$router.push({name:'Login2'})
+          },
+          loginon(){
+            this.$router.push({name:'Register'})
+          },
+          moreusers(){
+            this.$router.push({name:'UsersShow',params:{users:this.users}})
+          },
           // 每页显示的条数
           handleSizeChange(val) {
             // 改变每页显示的条数
@@ -176,6 +214,7 @@
             // 改变默认的页数
             this.currentPage=val
           },
+
         },
     }
 </script>
