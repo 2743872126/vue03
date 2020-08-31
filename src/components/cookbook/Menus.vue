@@ -9,10 +9,13 @@
           <el-aside style="width: 18%">
             <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 22px;margin-left: 50px;margin-top: 10px;margin-bottom: 20px">
               <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item>{{menutypeinfo.mtname}}</el-breadcrumb-item>
+              <el-breadcrumb-item v-if="this.$route.params.state!==undefined">{{this.$route.params.state}}</el-breadcrumb-item>
+              <el-breadcrumb-item v-else-if="menutypeinfo.mtname!==undefined">{{menutypeinfo.mtname}}</el-breadcrumb-item>
+              <el-breadcrumb-item v-else>全部</el-breadcrumb-item>
             </el-breadcrumb>
             <!--菜普分类-->
             <el-menu :default-active="menutypeinfo.mtid+'-'+menutypeinfo.mtname" unique-opened  :router="true" style="width: 99%" class="el-menu-demo"   @select="handleSelect" >
+              <el-menu-item index="全部" :route="{name:'ChilerenAllMenus'}">全部</el-menu-item>
               <el-submenu v-for="v in menutypes" :index="v.mtid" :default-openeds="v.menutypess">
                 <template slot="title" >{{v.mtname}}</template>
                 <el-menu-item :index="s.mtid+'-'+s.mtname" style="font-size: 20px;color: crimson" v-for="s in v.menutypess" :route="{name:'ChildrenMenu',query:{'mtid':s.mtid,'mtname':s.mtname}}">
@@ -41,7 +44,37 @@
               menutypeinfo:{mtid:this.$route.params.mtid,mtname:this.$route.params.mtname}
             }
         },
+      watch:{
+        '$route':{
+          handler(newval,oldval){
+            console.info(newval,oldval);
+            if (newval.params.state!=undefined){
+              this.$router.push({name:'CheckMenus',params:{menus:this.$route.params.menus,state:this.$route.params.state}})
+            }
+          },
+          deep:true,
+          immediate:true
+        }
+      },
         created:function () {
+          console.info(this.menutypeinfo)
+          if (this.$route.params.state!=undefined){
+            console.info('this.$route.params.menus')
+            console.info(this.$route.params.menus)
+            console.info(this.$route.params.state)
+            this.$router.push({name:'CheckMenus',params:{menus:this.$route.params.menus,state:this.$route.params.state}})
+          }else {
+            if (this.menutypeinfo.mtid == undefined) {
+              this.$router.push({
+                name: 'ChilerenAllMenus',
+              })
+            } else {
+              this.$router.push({
+                name: 'ChildrenMenu',
+                query: {'mtid': this.menutypeinfo.mtid, 'mtname': this.menutypeinfo.mtname}
+              })
+            }
+          }
           this.$axios.post('http://localhost:8080/cookbooktest/MenuTypesController/queryall')
             .then(resp=>{
               this.menutypes=resp.data;
@@ -56,7 +89,8 @@
             .catch(err=>{
               this.$message.error("错误");
             });
-          this.$router.push({name:'ChildrenMenu',query:{'mtid':this.menutypeinfo.mtid,'mtname':this.menutypeinfo.mtname}})
+
+
         },
       methods:{
         handleSelect:function (key) {
