@@ -1,12 +1,12 @@
 <template>
     <div>
-      <div style=" width: 80%;margin-left: 10%">
+      <div style="width: 80%;margin-left: 10%">
         <el-container>
           <el-header style="height: 100px">
             <img src="static/jpg/0f000cbIHKdVLOxTk3-o46.jpg" height="100%" width="100%"/>
           </el-header>
           <el-container>
-            <el-aside style="width: 18%">
+            <el-aside style="width: 17%">
               <!--菜普分类-->
               <el-menu :router="true" style="width: 99%" :default-active="activeIndex" class="el-menu-demo"   @select="handleSelect" collapse="true">
                 <el-submenu v-for="v in menutypes" :index="v.mtid" :default-openeds="v.menutypess">
@@ -17,7 +17,7 @@
             </el-aside>
             <el-main>
               <el-container>
-                <el-aside style="width: 60%">
+                <el-aside style="width: 57%">
                   <!--轮播-->
                   <div style="border: 1px solid black;height: 350px;position: relative">
                     <el-carousel height="348px">
@@ -38,14 +38,14 @@
                       <span style="position: absolute;top: -50px;left: 150px;font-size: 18px">
                         <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
                       </span>
-                    <el-pagination style="height: 35px;width: 90px;position: absolute;top:10px;left: 87%" background  @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="PageSize"
+                    <el-pagination style="height: 35px;width: 90px;position: absolute;top:10px;left: 83%" background  @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="PageSize"
                                     layout="prev, next"
                                     :total="totalCount">
                     </el-pagination>
                     </div>
-                    <div style="width: 200px;height: 200px;float: left;margin-left: 10px;margin-right: 24px;position: relative" v-for="v in newmenu.slice((currentPage-1)*PageSize,currentPage*PageSize)">
+                    <div style="width: 150px;height: 150px;float: left;margin-left: 5px;margin-right: 15px;position: relative" v-for="v in newmenu.slice((currentPage-1)*PageSize,currentPage*PageSize)">
                       <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 80%"></el-image>
-                      <span style="height:90px;width:198px;position: absolute;top: 50%;left: 0px;font-size: 22px">{{v.mname.substr(0,8)}}..</span>
+                      <span style="height:90px;width:148px;position: absolute;top: 50%;left: 0px;font-size: 18px">{{v.mname.substr(0,7)}}..</span>
                     </div>
                   </div>
                   <!--本月最热-->
@@ -56,15 +56,15 @@
                         <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
                       </span>
                     </div>
-                    <div style="border: 1px solid gainsboro;width: 320px;height: 250px;float: left;margin-right: 25px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
+                    <div style="border: 1px solid gainsboro;width: 255px;height: 250px;float: left;margin-right: 5px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
                       <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 70%"></el-image>
-                      <span style=" height:90px;width:318px;position: absolute;top: 50%;left: 0px;font-size: 24px">{{v.mname.substr(0,8)}}..</span>
-                      <span style=" height:90px;width:318px;position: absolute;top: 63%;left: 0px;font-size: 18px;color: darkgrey"><a style="color: black">{{v.users.uname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{v.works.length}}人做过</span>
+                      <span style=" height:90px;width:253px;position: absolute;top: 50%;left: 0px;font-size: 24px">{{v.mname.substr(0,8)}}..</span>
+                      <span style=" height:90px;width:253px;position: absolute;top: 63%;left: 0px;font-size: 18px;color: darkgrey"><a style="color: black">{{v.users.uname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{v.works.length}}人做过</span>
                     </div>
                   </div>
                 </el-aside>
                 <el-main>
-                  <div v-if="isuser==true" style="height: 350px;margin-top: -20px;margin-left: 20px;margin-right: -20px;background-color: #E9EEF3;position: relative">
+                  <div v-if="isuser==true" style="height: 350px;margin-top: -20px;margin-right: -20px;background-color: #E9EEF3;position: relative">
                     <el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic" style="margin-top: 50px"></el-avatar>
                     <h1 style="margin-top: -120px"><a style="color: crimson">{{user.uname}}的厨房</a></h1>
                     <h1 style="margin-top: -120px;font-size: 20px">
@@ -73,27 +73,28 @@
                       <a style="color: crimson">{{user.user_menus.length}}收藏</a>|
                       <a style="color: crimson">草稿箱</a>
                     </h1>
-                    <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px">创建菜谱</el-button>
+                    <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px" @click="creatMenu">创建菜谱</el-button>
                   </div>
-                  <div v-else style="height: 350px;margin-top: -20px;margin-left: 20px;margin-right: -20px;background-color: #E9EEF3">
+                  <div v-else style="height: 350px;margin-top: -20px;margin-right: -20px;background-color: #E9EEF3">
                         <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px;margin-top: 130px" @click="loginin">登陆</el-button>
                         <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px" @click="loginon">注册</el-button>
                   </div>
 
                   <!--下厨的朋友们-->
-                  <div style="height: 350px;margin-top: 20px;margin-left: 20px;margin-right: -20px;">
+                  <div style="height: 800px;margin-top: 20px;margin-right: -20px;">
                     <div style="height:70px;position: relative">
                       <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">万能的吃货</span>
-                      <span style="position: absolute;top: -50px;left: 220px;font-size: 18px;color: red" @click="moreusers"><a style="color: crimson">更多</a></span>
+                      <span style="position: absolute;top: -50px;left: 180px;font-size: 18px;color: red" @click="moreusers"><a style="color: crimson">更多</a></span>
                     </div>
-                    <div style="border: 1px solid gainsboro;height: 140px;margin-bottom:20px;position: relative" v-for="v in users.slice(0,8)">
-                      <el-avatar style="position: absolute;left: 0px;top: 20px" :size="100" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -30px;left: 120px;font-size: 24px"><a style="color: black">{{v.uname.substr(0,4)}}..</a>
+                    <div style="border: 1px solid gainsboro;height: 120px;margin-bottom:20px;position: relative" v-for="v in users.slice(0,8)">
+                      <el-avatar style="position: absolute;left: 0px;top: 20px" :size="80" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -40px;left: 100px;font-size: 22px">
+                        <a style="color: black">{{v.uname.substr(0,4)}}..</a>
                         <el-image src="static/jpg/xingji.png" v-if="v.users.state===1" style="height: 30px"></el-image>
                       </span>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: 0px;left: 120px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: 30px;left: 120px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
-                      <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px"  v-show="v.uid!==user.uid" @click="guanzhu(v.uid)">关注</el-button>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -10px;left: 100px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: 20px;left: 100px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
+                      <el-button style="background-color: crimson;color: white;width: 100px;height: 50px;font-size: 22px;position: absolute;top: 35px;left: 245px"  v-show="v.uid!==user.uid" @click="guanzhu(v.uid)">关注</el-button>
 <!--
                       <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px" @click="guanzhu(v.uid)">已关注</el-button>
 -->
@@ -174,6 +175,9 @@
             })
         },
         methods:{
+          creatMenu(){
+            this.$router.push({name:'CreateMenus'})
+          },
           guanzhu(uid){
             if (undefined!==this.user.uname) {
 

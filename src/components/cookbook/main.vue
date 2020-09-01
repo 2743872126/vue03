@@ -9,7 +9,7 @@
                   <img src="static/jpg/logo2.jpg" height="98px" width="270px" />
                 </el-link>
               </el-menu-item>
-              <el-menu-item  style="margin-right: 123px;line-height: 90px">
+              <el-menu-item  style="margin-right: 50px;line-height: 90px">
                 <!--<el-input placeholder="搜索菜谱"  style="position: relative;top: 29px;"></el-input>-->
                 <el-autocomplete
                   style="position: relative;top: 29px;"
@@ -33,7 +33,7 @@
                 <el-link style="font-size: 22px">作品动态</el-link>
               </el-menu-item>
 
-              <el-menu-item v-if="isuser" style="margin-left: 10%;line-height: 90px">
+              <el-menu-item v-if="isuser" style="line-height: 90px">
                 <el-link icon="el-icon-message" style="font-size: 22px">消息</el-link>/
                 <el-link style="font-size: 22px">
                   <!--<el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar>-->
@@ -47,7 +47,7 @@
                   </el-menu>
                 </el-link>
               </el-menu-item>
-              <el-menu-item v-else style="margin-left: 18%;line-height: 90px">
+              <el-menu-item v-else style="margin-left: 5%;line-height: 90px">
                 <el-link style="font-size: 22px" href="http://localhost:8081/#/login2">登陆</el-link>/
                 <el-link style="font-size: 22px" href="http://localhost:8081/#/register">注册</el-link>
               </el-menu-item>
