@@ -105,7 +105,6 @@
           </el-container>
         </el-container>
       </div>
-      {{user}}
     </div>
 </template>
 
