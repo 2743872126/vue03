@@ -62,6 +62,11 @@ export default new Router({
           path:'/createMenus',
           name:'CreateMenus',
           component:()=>import('@/components/cookbook/createMenus'),
+        },
+        {
+          path:'/createStudio',
+          name:'CreateStudio',
+          component:()=>import('@/components/cookbook/CreateStudio'),
         }
         ,
         {

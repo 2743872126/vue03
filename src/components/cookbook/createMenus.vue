@@ -1,7 +1,6 @@
 <template>
   <div class="main">
     <el-form :model="newMenus" status-icon :rules="rules" ref="mform" label-width="100px" class="demo-ruleForm">
-
     <div style="float:left;width: 60%">
         <el-form-item prop="mname">
           <el-input  style="width: 100%;" v-model="newMenus.mname" placeholder="请输入菜谱名"></el-input>
@@ -16,6 +15,10 @@
         </el-form-item>
         <el-form-item prop="Info" style="margin-top: 60px">
           <el-input style="width: 100%;font-size: 33px;" v-model="newMenus.Info" type="textarea" placeholder="点击添加菜谱描述"></el-input>
+        </el-form-item>
+        <el-form-item style="margin-top: 60px;">
+          <el-avatar :size="100" :src="'/static/jpg/'+this.$store.state.user.userInfo.pic" style="float:left;margin-top: -30px;margin-bottom: 0px"></el-avatar>
+          <span style="margin-left: -300px;font-size: 40px">{{this.$store.state.user.userInfo.uname}}的厨房</span>
         </el-form-item>
         <el-form-item >
           <h1 style="text-align: left;margin-bottom: 10px">用料  :</h1>
@@ -166,7 +169,6 @@
         this.file1.push(file.raw);
       },
       changeStep(file){
-        alert("1")
         this.file2.push(file.raw);
         console.log(file.raw);
       },
@@ -184,11 +186,9 @@
       },
       addstep() {
         //判断是否已经添加过
-        this.upnum=this.upnum+1;
         this.menuSteps.push({msinfo:""})
       },
       removestep(index) {
-        this.upnum=this.upnum-1;
         console.log(index)
         this.menuSteps.splice(index,1);
       },

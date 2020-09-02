@@ -62,7 +62,6 @@
 </template>
 
 <script>
-    import user from "../../store/models/user";
 
     export default {
         name: "main",
@@ -75,7 +74,7 @@
           }
         },
       created:function () {
-          this.user=this.$store.state.user.userInfo;
+        this.user=this.$store.state.user.userInfo;
           if (undefined!==this.user.uname){
             this.isuser=true;
           } else {

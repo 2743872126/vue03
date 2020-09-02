@@ -2,7 +2,7 @@
   <div>
     <p class="ps"><span  @click="mys">购买的</span>         |        <span class="span">发布的</span></p>
 
-    <p class="ps" v-show="isshow">你还没有发布视频，<router-link :to="{name:''}">去看看<icon class="el-icon-caret-right"></icon></router-link></p>
+    <p class="ps" v-show="isshow">你还没有发布视频，<router-link :to="{name:'CreateStudio'}">去发布<icon class="el-icon-caret-right"></icon></router-link></p>
   </div>
 </template>
 

@@ -22,13 +22,21 @@
           </el-form-item>
           <el-form-item label="验证码" prop="Msg">
             <el-input v-model="usersup.Msg"  style="margin-left:20px;width: 200px; float: left"></el-input>
-            <el-Button :disabled="butshow"  style="margin-left:30px;float: left" @click="getCode">{{count}}{{agin}}</el-Button>
+            <el-Button :disabled="butshow"  style="margin-left:30px;float: left" @click="checksw();dialogVisible=true">{{count}}{{agin}}</el-Button>
           </el-form-item>
           <el-button type="primary"   @click="loginup()">登录</el-button>
           <el-button @click="reset()" type="danger" round>重置</el-button>
         </el-form>
       </el-tab-pane>
-
+      <el-dialog title='滑动验证' :visible.sync="dialogVisible" width="30%">
+        <div class="block">
+          <p>让滑块至于{{mm[0]}}-{{mm[1]}}</p>
+          <el-slider v-model="m2m" @change="getCode" range show-stops :max="20"></el-slider>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
     </el-tabs>
     <div style="margin-top: 30px">还没有账号？<el-link type="success" @click="comeToRegister">去注册</el-link></div>
 
@@ -40,6 +48,7 @@ export default {
   name: 'Login',
   data: () => {
     return {
+      dialogVisible: false,
       isLoading:true,
       butshow:false,
       timer:null,
@@ -47,6 +56,8 @@ export default {
       agin:'',
       usersin: {},
       usersup: {},
+      mm:[],
+      m2m:[0,20],
       rules:{
         phone:[
           {required:true,message:'不能为空'},
@@ -88,6 +99,10 @@ export default {
     this.usersin=this.$store.state.user.userInfo;
   },
   methods: {
+    checksw(){
+      this.mm[0]=Math.round(Math.random()*(10-1)+1);
+      this.mm[1]=Math.round(Math.random()*(20-10)+10);
+    },
     countDown:function(){
       this.timer=setInterval(function() {
         this.countDownNum--;
@@ -100,34 +115,37 @@ export default {
       this.countDown()
     },
     getCode(){
-      if(undefined==this.usersup.phone){
-        this.$message.error("输入手机号")
-      }else{
-        this.$axios.post("http://localhost:8080/cookbooktest/SMS",this.$qs.stringify({'phone':this.usersup.phone})).then(res =>{
-          console.log(res)
-          if(0==res.data.result){
-            this.isLoading = true;
-            setTimeout(function() {
-              this.isLoading = false;
-            }, 10000);
-          }
-        })
-        this.butshow=true;
-        this.agin="秒后重新获取"
-        const TIME_COUNT = 60;
-        if (!this.timer) {
-          this.count = TIME_COUNT;
-          this.timer = setInterval(function() {
-            if (this.count > 0 && this.count <= TIME_COUNT) {
-              this.count--;
-            } else {
-              clearInterval(this.timer);
-              this.timer = null;
-              this.butshow=false;
-              this.count="获取验证码"
-              this.agin = ''
+      if(this.m2m[0]==this.mm[0] && this.m2m[1]==this.mm[1]) {
+        this.dialogVisible = false;
+        if (undefined == this.usersup.phone) {
+          this.$message.error("输入手机号")
+        } else {
+          this.$axios.post("http://localhost:8080/cookbooktest/SMS", this.$qs.stringify({'phone': this.usersup.phone})).then(res => {
+            console.log(res)
+            if (0 == res.data.result) {
+              this.isLoading = true;
+              setTimeout(function () {
+                this.isLoading = false;
+              }, 10000);
             }
-          }, 1000)
+          })
+          this.butshow = true;
+          this.agin = "秒后重新获取"
+          const TIME_COUNT = 60;
+          if (!this.timer) {
+            this.count = TIME_COUNT;
+            this.timer = setInterval(function () {
+              if (this.count > 0 && this.count <= TIME_COUNT) {
+                this.count--;
+              } else {
+                clearInterval(this.timer);
+                this.timer = null;
+                this.butshow = false;
+                this.count = "获取验证码"
+                this.agin = ''
+              }
+            }, 1000)
+          }
         }
       }
     },
