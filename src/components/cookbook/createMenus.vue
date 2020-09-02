@@ -4,7 +4,7 @@
 
     <div style="float:left;width: 60%">
         <el-form-item prop="mname">
-          <input style="width: 100%;height: 60px;font-size: 55px;border: 1px solid gainsboro ;" v-model="newMenus.mname" placeholder="请输入菜谱名"></input>
+          <el-input  style="width: 100%;" v-model="newMenus.mname" placeholder="请输入菜谱名"></el-input>
         </el-form-item>
         <el-form-item style="text-align: left" >
           <el-upload limit="1" :on-change="filespic" list-type="picture-card" drag="" accept=".jpg,.png"  :on-preview="handlePictureCardPreview" :auto-upload="false">
@@ -88,6 +88,13 @@
           mname: [
             {required: true, message: '不能为空'},
             {min: 1, max: 20, message: '最多20个字', trigger: ['blur']},
+            {validator:function(rule,value,callback){
+                if(value.indexOf('-') == -1){
+                  callback();
+                }else{
+                  callback(new Error("不能包 含特殊字符"));
+                }
+              },trigger: ['blur','change']}
           ],
           Info:[
             {required: true, message: '不能为空'},
@@ -115,48 +122,45 @@
           }
         })
       },
-      '$route':{
-        handler(newval,oldval){
-          console.log(newval);
-          console.log(oldval);
-        }
-      }
     }
     ,
     methods: {
       submitForm () {
         //this.$refs.uploads.submit();
-        if(0!=this.file1.length||0!=this.file2.length){
-          if(undefined!=this.newMenus.Mtid ){
-            let for1=new FormData();
-            for(let i of this.file2){
-              for1.append('file2',i);
+        this.$refs['mform'].validate(valid=> {
+          if (valid) {
+            if (0 != this.file1.length || 0 != this.file2.length) {
+              if (undefined != this.newMenus.Mtid) {
+                let for1 = new FormData();
+                for (let i of this.file2) {
+                  for1.append('file2', i);
+                }
+                this.$axios.post("http://localhost:8080/cookbooktest/file/uploadImage", for1, {headers: {'Content-Type': 'multipart/form-data'}})
+                let for2 = new FormData();
+                for2.append("file1", this.file1[0])
+                this.$axios.post("http://localhost:8080/cookbooktest/file/uploadpic", for2, {headers: {'Content-Type': 'multipart/form-data'}})
+                let for3 = new FormData();
+                for3.append("menu", JSON.stringify(this.newMenus));
+                for3.append("menuStep", JSON.stringify(this.menuSteps));
+                for3.append("detail", JSON.stringify(this.menuSteps));
+                this.$axios.post("http://localhost:8080/cookbooktest/file/upMenus", for3, {headers: {'Content-Type': 'multipart/form-data'}}
+                ).then(res => {
+                  this.$router.beforeEach((to, from, next) => {
+                    console.log(to);
+                    console.log(from);
+                    console.log(next);
+                  })
+                }).catch(error => {
+                  console.log(error);
+                })
+              } else {
+                this.$Message.error("请选择分类");
+              }
+            } else {
+              this.$Message.error("图片必不可少");
             }
-            this.$axios.post("http://localhost:8080/cookbooktest/file/uploadImage",for1,{headers: {'Content-Type': 'multipart/form-data'}})
-            let for2 =new FormData();
-            for2.append("file1",this.file1[0])
-            this.$axios.post("http://localhost:8080/cookbooktest/file/uploadpic",for2,{headers: {'Content-Type': 'multipart/form-data'}})
-            let for3=new FormData();
-            for3.append("menu",JSON.stringify(this.newMenus));
-            for3.append("menuStep",JSON.stringify(this.menuSteps));
-            for3.append("detail",JSON.stringify(this.menuSteps));
-            this.$axios.post("http://localhost:8080/cookbooktest/file/upMenus", for3,{headers: {'Content-Type': 'multipart/form-data'}}
-            ).then(res=>{
-              this.$router.beforeEach((to,from,next)=>{
-                console.log(to);
-                console.log(from);
-                console.log(next);
-              })
-            }).catch(error=>{
-              console.log(error);
-            })
-          }else{
-            this.$Message.error("请选择分类");
           }
-        }else{
-          this.$Message.error("图片必不可少");
-        }
-
+        })
       },
       filespic(file){
         this.file1.push(file.raw);

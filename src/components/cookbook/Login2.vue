@@ -84,9 +84,8 @@ export default {
       }
     }
   },
-  created:function(){
+  created(){
     this.usersin=this.$store.state.user.userInfo;
-
   },
   methods: {
     countDown:function(){

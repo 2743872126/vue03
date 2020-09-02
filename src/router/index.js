@@ -116,6 +116,12 @@ export default new Router({
             }
           ]
         },
+        {
+          path: '/tools',
+          name: 'Tools',
+          component: () => import('@/components/cookbook/Tools')
+        }
+
       ],
     },
     {
@@ -127,11 +133,6 @@ export default new Router({
       path: '/login2',
       name: 'Login2',
       component: () => import('@/components/cookbook/Login2')
-    },
-    {
-      path: '/tools',
-      name: 'Tools',
-      component: () => import('@/components/cookbook/Tools')
     }
   ]
 })
