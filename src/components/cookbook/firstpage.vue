@@ -22,7 +22,7 @@
                   <div style="border: 1px solid black;height: 350px;position: relative">
                     <el-carousel height="348px">
                       <el-carousel-item v-for="item in upmonthmenu" :key="item.mid">
-                        <el-image :src="'static/jpg/'+item.pic" style="width: 100%"></el-image>
+                        <el-image :src="'static/jpg/'+item.pic" style="width: 100%" @click="menudetail(item)"></el-image>
                         <h1 style="position: absolute;top: 180px;left: 20px;color: white;font-size: 45px" class="small">{{ item.mname}}</h1>
                         <span style="position: absolute;top: 240px;left: 20px;color: white;font-size: 18px" >{{item.works.length}}人做过这道菜
                           &nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;
@@ -175,6 +175,9 @@
             })
         },
         methods:{
+          menudetail(item){
+            this.$router.push({name:'MenusDetail',params:{menudetail:item}})
+          },
           creatMenu(){
             this.$router.push({name:'CreateMenus'})
           },

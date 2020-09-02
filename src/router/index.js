@@ -32,6 +32,11 @@ export default new Router({
           component: ()=>import('@/components/cookbook/CheckUsers'),
         },
         {
+          path: 'MenusDetail',
+          name: 'MenusDetail',
+          component: ()=>import('@/components/cookbook/MenusDetail'),
+        },
+        {
           path: 'Menus',
           name: 'menus',
           component: ()=>import('@/components/cookbook/Menus'),
