@@ -4,8 +4,12 @@
         <router-link style="float: right;margin:-30px 0 -500px 0;color: crimson;font-size: 30px" :to="{name:'CreateMenus'}">发布一个菜谱<icon class="el-icon-caret-right"></icon></router-link>
 
       <div class="menus" v-for="(v,k) in userinfo.munus">
-        <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
-        <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.mname}}</h1></div>
+        <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"  @click="menudetail(v)"></el-image>
+        <div style="margin-top: -120px">
+          <h1 style="font-size: 32px;margin:30px 0 -100px 0 " >
+            <a style="border: 1px solid black" @click="menudetail(v)">{{v.mname}}</a>
+          </h1>
+        </div>
         <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
           &nbsp;&nbsp;
           {{v.madeTime.substring(0,10)}}发布
@@ -32,6 +36,13 @@
         this.ismenus=false;
       }
       this.userinfo=this.$store.state.user.userInfo;
+    },
+    methods:{
+      menudetail(item){
+        console.info(item)
+        item.users=this.$store.state.user.userInfo
+        this.$router.push({name:'MenusDetail',params:{menudetail:item}})
+      }
     }
   }
 </script>

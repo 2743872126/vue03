@@ -3,8 +3,8 @@
     <h1 style="text-align: left;line-height: 80px;font-size: 60px">全部</h1>
     <div style="height: 900px">
       <div style="border: 1px solid gainsboro;height: 235px;text-align: left;margin-bottom: 10px" v-for="v in menus">
-        <el-image :src="'static/jpg/'+v.pic" style="width: 30%;height: 233px;float: left;margin-right: 20px"></el-image>
-        <h1 style="font-size: 35px;line-height: 50px">{{v.mname}}
+        <el-image :src="'static/jpg/'+v.pic" style="width: 30%;height: 233px;float: left;margin-right: 20px" @click="menudetail(v)"></el-image>
+        <h1 style="font-size: 35px;line-height: 50px"><a style="color: black" @click="menudetail(v)">{{v.mname}}</a>
           <span v-if="v.menuSteps[0].msPic!==null">
                     <el-image src="static/jpg/step.png" style="height: 30px"></el-image>
                   </span>
@@ -39,6 +39,12 @@
             this.$message.error("错误");
           });
       },
+      methods:{
+        menudetail(item){
+          console.info(item)
+          this.$router.push({name:'MenusDetail',params:{menudetail:item}})
+        }
+      }
     }
 </script>
 

@@ -22,7 +22,7 @@
                   <div style="border: 1px solid black;height: 350px;position: relative">
                     <el-carousel height="348px">
                       <el-carousel-item v-for="item in upmonthmenu" :key="item.mid">
-                        <el-image :src="'static/jpg/'+item.pic" style="width: 100%"></el-image>
+                        <el-image :src="'static/jpg/'+item.pic" style="width: 100%" @click="menudetail(item)"></el-image>
                         <h1 style="position: absolute;top: 180px;left: 20px;color: white;font-size: 45px" class="small">{{ item.mname}}</h1>
                         <span style="position: absolute;top: 240px;left: 20px;color: white;font-size: 18px" >{{item.works.length}}人做过这道菜
                           &nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;
@@ -44,8 +44,8 @@
                     </el-pagination>
                     </div>
                     <div style="width: 150px;height: 150px;float: left;margin-left: 5px;margin-right: 15px;position: relative" v-for="v in newmenu.slice((currentPage-1)*PageSize,currentPage*PageSize)">
-                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 80%"></el-image>
-                      <span style="height:90px;width:148px;position: absolute;top: 50%;left: 0px;font-size: 18px">{{v.mname.substr(0,7)}}..</span>
+                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 80%" @click="menudetail(v)"></el-image>
+                      <span style="height:90px;width:148px;position: absolute;top: 50%;left: 0px;font-size: 18px" @click="menudetail(v)">{{v.mname.substr(0,7)}}..</span>
                     </div>
                   </div>
                   <!--本月最热-->
@@ -57,8 +57,8 @@
                       </span>
                     </div>
                     <div style="border: 1px solid gainsboro;width: 255px;height: 250px;float: left;margin-right: 5px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
-                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 70%"></el-image>
-                      <span style=" height:90px;width:253px;position: absolute;top: 50%;left: 0px;font-size: 24px">{{v.mname.substr(0,8)}}..</span>
+                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 70%" @click="menudetail(v)"></el-image>
+                      <span style=" height:90px;width:253px;position: absolute;top: 50%;left: 0px;font-size: 24px" @click="menudetail(v)">{{v.mname.substr(0,8)}}..</span>
                       <span style=" height:90px;width:253px;position: absolute;top: 63%;left: 0px;font-size: 18px;color: darkgrey"><a style="color: black">{{v.users.uname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{v.works.length}}人做过</span>
                     </div>
                   </div>
@@ -175,6 +175,10 @@
             })
         },
         methods:{
+          menudetail(item){
+            console.info(item)
+            this.$router.push({name:'MenusDetail',params:{menudetail:item}})
+          },
           creatMenu(){
             this.$router.push({name:'CreateMenus'})
           },
