@@ -2,7 +2,7 @@
   <div class="container">
       <div class="top">
             <div style="float: left;margin-left: 100px">
-              <el-avatar :size="200" :src="userinfo.pic" style="margin-top: 40px;margin-bottom: -40px"></el-avatar>
+              <el-avatar :size="200" :src="'/static/jpg/'+userinfo.pic" style="margin-top: 40px;margin-bottom: -40px"></el-avatar>
               <span style="font-size: 50px">{{this.userinfo.uname}}的厨房</span>
               <span style="font-size: 20px">{{this.userinfo.createTime.substring(0,10)}}加入</span>
             </div>

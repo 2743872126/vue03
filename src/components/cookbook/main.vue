@@ -42,7 +42,7 @@
                       <template style="border: 1px solid black;height: 50px" slot="title"><el-avatar :size="50" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar></template>
                       <el-menu-item :route="{name:'Personal'}" index="1-1">我的厨房</el-menu-item>
                       <el-menu-item :route="{name:'Tools'}" index="1-2">账号设置</el-menu-item>
-                      <el-menu-item index="1-3">退出</el-menu-item>
+                      <el-menu-item index="1-3" :route="{name:'main'}" @click="signout">退出</el-menu-item>
                     </el-submenu>
                   </el-menu>
                 </el-link>
@@ -108,6 +108,10 @@
         handleSelect(item) {
           console.log(item);
           console.log('item');
+        },
+        signout(){
+          this.$store.commit("USER_SIGNOUT");
+          this.$router.go(0);
         }
       },
       mounted() {
