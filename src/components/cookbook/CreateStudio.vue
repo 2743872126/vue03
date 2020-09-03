@@ -1,5 +1,6 @@
 <template>
 <div class="main">
+  <h1 style="text-align: left;color: crimson; margin-left: 50px;margin-top: -50px">发布  :</h1>
   <el-form :model="newStudio" status-icon :rules="rules" ref="myForm" label-width="100px" class="demo-ruleForm">
     <div style="float:left;width: 60%">
       <el-form-item prop="sname">
@@ -13,7 +14,10 @@
           <img width="100%" :src="tu1" >
         </el-dialog>
       </el-form-item>
-      <el-form-item prop="money" style="margin-top: 60px">
+      <el-form-item prop="Info">
+        <el-input type="textarea"  style="margin-top:30px;float: left;width: 70%;" v-model="newStudio.Info" placeholder="课程描述"></el-input>
+      </el-form-item>
+      <el-form-item style="margin-top: 60px">
         <el-input-number :min="0" :max="500" style="margin-left: -170px;width: 70%;font-size: 33px;" v-model="newStudio.money" placeholder="价格"></el-input-number>
       </el-form-item>
       <el-form-item style="margin-top: 60px;">
@@ -37,7 +41,7 @@
         <el-button @click="addstep2" round style="float:left;background-color: orange;color: white; font-size: 20px">追加一集</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button style="font-size: 30px;background-color: crimson" type="primary" @click="submitForm2">发布视频</el-button>
+        <el-button style="font-size: 30px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布视频</el-button>
         <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 30px;background-color: crimson;"  type="primary" >退出</el-button>
       </el-form-item>
 
@@ -63,11 +67,13 @@
     name: 'CreateStudio',
     data(){
       return {
+        fullscreenLoading:false,
         dialogVisible:false,
         tu1:'',
-        newStudio:{uid:this.$store.state.user.userInfo.uid},
+        newStudio:{uid:this.$store.state.user.userInfo.uid,money:0},
         studioDetail:[{sInfo:"第一集",State:0}],
         upnum:1,
+        yannum:true,
         values:'',
         options:[],
         childrenoptions:[],
@@ -89,13 +95,62 @@
             {required: true, message: '不能为空'},
             {min: 1, max: 99, message: '最多99个字', trigger: ['blur']},
           ],
-          money:[
-            {required: true, message: '不能为空'},
-          ],
         }
       }
     },
     methods:{
+      submitForm2(){
+        this.fullscreenLoading=true;
+        this.$refs['myForm'].validate(valid=>{
+          if(valid){
+            if (undefined != this.newStudio.stid) {
+              this.studioDetail.forEach(v=>{if(null==v.sInfo){
+                this.yannum=false;
+              }if(0==this.newStudio.money){
+                v.State=0;
+              }
+              })
+              if(this.yannum){
+                if(this.file2.length==this.upnum){
+                  let for1=new FormData();
+                  for1.append("file1",this.file1[0]);
+                  console.log(for1.get("file1"));
+                  this.$axios.post("http://localhost:8080/cookbooktest/file/uploads",for1).then(res=>{
+                    if(res.data=='ok'){
+                      this.file2.forEach(v=>{
+                        for1.append("file2",v);
+                      })
+                      this.$axios.post("http://localhost:8080/cookbooktest/file/studiosVideo",for1).then(res=>{
+                        if(res.data=='ok'){
+                          for1.append("newStudio",JSON.stringify(this.newStudio));
+                          for1.append("studioDetail",JSON.stringify(this.studioDetail));
+                          this.$axios.post("http://localhost:8080/cookbooktest/file/upStudios",for1).then(res=>{
+                            if(res.data=='ok'){
+                              setTimeout(() => {
+                                this.fullscreenLoading=false;
+                                this.$router.push({name:'MyStudio2'});
+                              }, 2000);
+
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+                }else{
+                  this.$message.error("视频必不可少"+this.file2.length);
+                }
+              }else{
+                this.$message.error("详情、价格都必不可少");
+              }
+            }else{
+              this.$message.error("请选择种类");
+            }
+          }else{
+            this.$message.error("完成表单必填项");
+          }
+        })
+      },
       filespic2(file){
         this.file1.push(file.raw);
       },
@@ -112,14 +167,8 @@
       handlePictureCardPreview2(file) {
         this.tu1 = file.url;
       },
-      submitForm2(){
-        this.$refs['myForm'].validate(valid=>{
-          if(valid){
 
-          }
-        })
-      },
-      changeSteppic(){
+      changeSteppic(file){
         this.file2.push(file.raw);
         console.log(file.raw);
       }

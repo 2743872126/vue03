@@ -31,7 +31,7 @@
                  <radio v-model="users.sex" border size="medium" class="el-radio" value="1">女</radio>
                </el-radio-group>
              </el-form-item>
-             <el-form-item label="生日">
+             <el-form-item label="生日"  prop="birthday">
                <el-date-picker v-model="users.birthday"></el-date-picker>
              </el-form-item>
              <el-form-item>
@@ -109,8 +109,7 @@
           ]
         },
         rulesS:{
-
-          Msg:[
+          msg:[
             {required:true,message:'不能为空',trigger:['blur','change']},
             {min:6,max:6,message:'6位',trigger:['blur']},
           ],
@@ -202,7 +201,7 @@
       },
       resetForm () {
         this.users = {};
-        this.userss = {};
+        this.userss = {phone:this.$store.state.user.userInfo.phone};
       },
       changeRequest (file) {
         let file1 = URL.createObjectURL(file.raw);

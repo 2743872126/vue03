@@ -112,7 +112,7 @@
 
 <script>
     export default {
-        name: "MenusDetail",
+      name: "MenusDetail",
       data() {
         return {
           menu:{},

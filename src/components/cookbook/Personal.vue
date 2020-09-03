@@ -66,10 +66,6 @@
         .then(res=>{
           this.$store.state.user.userInfo.user_menus.menus=res.data;
         })
-      this.$axios.post("http://localhost:8080/cookbooktest/queryusercollectedstudio",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
-        .then(res=>{
-          this.$store.state.user.userInfo.user_studios.studioList=res.data;
-        })
       this.userinfo=this.$store.state.user.userInfo;
     }
   }
