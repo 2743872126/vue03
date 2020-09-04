@@ -46,12 +46,12 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <h1 v-if="menu.works!==null" style="text-align: left;line-height: 70px;font-size: 30px;color: darkseagreen;margin-top: 20px">
+                <h1 v-if="menu.works.length!==0" style="text-align: left;line-height: 70px;font-size: 30px;color: darkseagreen;margin-top: 20px">
                   参照这个菜谱，大家做出 {{menu.works.length}} 作品
-                  <a style="font-size: 18px;color: crimson;margin-left: 220px">全部 {{menu.works.length}} 作品</a>
+                  <a style="font-size: 18px;color: crimson;margin-left: 220px" @click="checkAllWorks()">全部 {{menu.works.length}} 作品</a>
                 </h1>
                 <div v-for="w in menu.works" style="border:1px solid gainsboro;height: 290px;width: 180px;float: left;margin-right: 12px">
-                  <img :src="'static/jpg/'+w.pic" width="178px" height="150px"/>
+                  <img :src="'static/jpg/'+w.pic" width="178px" height="150px" @click="toWorkDetail(w)"/>
                   <p style="line-height: 20px;margin-top: -60px">{{w.makeTime.substr(0,10)}}</p>
                   <p style="height:40px;line-height: 20px">{{w.winfo.substr(0,24)}}</p>
                   <p style="line-height: 20px">
@@ -166,6 +166,14 @@
           .catch(err=>{
             this.$message.error("错误");
           });
+      },
+      methods:{
+        checkAllWorks(works){
+          this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
+        },
+        toWorkDetail(work){
+          this.$router.push({name:'WorkDetail',params:{work:work}})
+        }
       }
     }
 </script>

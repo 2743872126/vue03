@@ -22,6 +22,21 @@ export default new Router({
           component: ()=>import('@/components/cookbook/firstpage'),
         },
         {
+          path: 'MenuWorks',
+          name: 'MenuWorks',
+          component: ()=>import('@/components/cookbook/MenuWorks'),
+        },
+        {
+          path: 'MenuWorks2',
+          name: 'MenuWorks2',
+          component: ()=>import('@/components/cookbook/MenuWorks2'),
+        },
+        {
+          path: 'WorkDetail',
+          name: 'WorkDetail',
+          component: ()=>import('@/components/cookbook/WorkDetail'),
+        },
+        {
           path: 'UsersShow',
           name: 'UsersShow',
           component: ()=>import('@/components/cookbook/UsersShow'),

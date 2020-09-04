@@ -3,7 +3,7 @@
       <el-container>
         <el-header style="height: 100px">
           <div style=" width: 80%;margin-left: 10%;height: 98px;position: relative">
-            <el-menu style="height: 98px" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu style="height: 98px" :router="true" class="el-menu-demo" mode="horizontal" @select="handleSelect">
               <el-menu-item index="1">
                 <el-link :underline="false" href="#">
                   <img src="static/jpg/logo2.jpg" height="98px" width="270px" />
@@ -18,7 +18,6 @@
                   :fetch-suggestions="querySearch"
                   placeholder="搜索菜谱"
                   :trigger-on-focus="false"
-                  @select="handleSelect"
                 ></el-autocomplete>
 
                 <el-button @click="checke">搜菜谱</el-button>
