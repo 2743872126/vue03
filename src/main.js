@@ -20,7 +20,10 @@ Vue.prototype.$axios = axios
 Vue.use(elementui)
 import store from './store/index'
 Vue.config.productionTip = false
-
+import VideoPlayer from 'vue-video-player'
+Vue.use(VideoPlayer)
+// 阻止启动生产消息
+Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

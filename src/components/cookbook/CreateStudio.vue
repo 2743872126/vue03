@@ -57,8 +57,6 @@
       </select>
     </div>
   </el-form>
-  {{newStudio}}
-  {{studioDetail}}
 </div>
 </template>
 
@@ -115,7 +113,7 @@
                   let for1=new FormData();
                   for1.append("file1",this.file1[0]);
                   console.log(for1.get("file1"));
-                  this.$axios.post("http://localhost:8080/cookbooktest/file/uploads",for1).then(res=>{
+                  this.$axios.post("http://localhost:8080/cookbooktest/file/uploads",for1,).then(res=>{
                     if(res.data=='ok'){
                       this.file2.forEach(v=>{
                         for1.append("file2",v);

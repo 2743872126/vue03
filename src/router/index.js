@@ -77,6 +77,11 @@ export default new Router({
           path:'/studioBook',
           name:'StudioBook',
           component:()=>import('@/components/cookbook/StudioBook'),
+        },
+        {
+          path: '/createWorks',
+          name: 'CreateWorks',
+          component: ()=>import('@/components/cookbook/CreateWorks'),
         }
         ,
         {
@@ -143,6 +148,22 @@ export default new Router({
       path: '/login2',
       name: 'Login2',
       component: () => import('@/components/cookbook/Login2')
+    },
+    {
+      path: '/myVideo',
+      name: 'MyVideo',
+      component: () => import('@/components/cookbook/MyVideo')
+    },
+    {
+      path: '/videoPlay',
+      name: 'videoPlay',
+      component: () => import('@/components/cookbook/videoPlay')
+    }
+    ,
+    {
+      path: '/success',
+      name: 'Success',
+      component: () => import('@/components/cookbook/Success')
     }
   ]
 })

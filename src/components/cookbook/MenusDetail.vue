@@ -59,7 +59,7 @@
                     <a style="color: crimson">{{w.users.uname}}</a>
                   </p>
                 </div>
-                <p style="clear: both;background-color: crimson;line-height: 50px;color: white;font-size: 20px">
+                <p style="clear: both;background-color: crimson;line-height: 50px;color: white;font-size: 20px" @click="tocreateworks">
                   上传你做的{{menu.mname}}
                 </p>
                 <div style="background-color: gainsboro">
@@ -166,6 +166,11 @@
           .catch(err=>{
             this.$message.error("错误");
           });
+      },
+      methods:{
+        tocreateworks(){
+          this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
+        }
       }
     }
 </script>
