@@ -8,7 +8,7 @@
           <el-container>
             <el-aside style="width: 17%">
               <!--菜普分类-->
-              <el-menu :router="true" style="width: 99%" :default-active="activeIndex" class="el-menu-demo"   @select="handleSelect" collapse="true">
+              <el-menu :router="true" style="width: 99%" class="el-menu-demo"   @select="handleSelect" collapse="true">
                 <el-submenu v-for="v in menutypes" :index="v.mtid" :default-openeds="v.menutypess">
                   <template slot="title" >{{v.mtname}}</template>
                   <el-menu-item :index="v.mtid+'-'+s.mtid" style="font-size: 20px" v-for="s in v.menutypess" :route="{name:'menus',params:{'mtid':s.mtid,'mtname':s.mtname}}">{{s.mtname}}</el-menu-item>
