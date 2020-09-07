@@ -39,5 +39,6 @@
     margin-top: 20px;
     width: 33%;
     border: 1px white solid;
+    float: left;
   }
 </style>

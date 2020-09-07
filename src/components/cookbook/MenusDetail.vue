@@ -88,7 +88,7 @@
                       {{l.reply}}
                     </p>
                 </div>
-                <p style="line-height: 50px"><a style="color: crimson" @click="toLeavMessage(menu.mid)">更多菜谱留言</a></p>
+                <p style="line-height: 50px"><a style="color: crimson">更多菜谱留言</a></p>
                 </div>
               </div>
             </el-aside>
@@ -172,6 +172,7 @@
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },
         toWorkDetail(work){
+          console.log(work)
           this.$router.push({name:'WorkDetail',params:{work:work}})
         },
         tocreateworks(){
@@ -179,6 +180,9 @@
         },
         toLeavMessage(mid){
           this.$router.push({name:'LeavMessage',params:{mid:mid}})
+        },
+        tocreateworks(){
+          this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})
         }
       }
     }

@@ -101,7 +101,7 @@
           ],
           Info:[
             {required: true, message: '不能为空'},
-            {min: 1, max: 99, message: '最多99个字', trigger: ['blur']},
+            {min: 10, max: 300, message: '最多99个字', trigger: ['blur']},
           ]
         }
       }
@@ -145,14 +145,10 @@
                 let for3 = new FormData();
                 for3.append("menu", JSON.stringify(this.newMenus));
                 for3.append("menuStep", JSON.stringify(this.menuSteps));
-                for3.append("detail", JSON.stringify(this.menuSteps));
+                for3.append("detail", JSON.stringify(this.detail));
                 this.$axios.post("http://localhost:8080/cookbooktest/file/upMenus", for3, {headers: {'Content-Type': 'multipart/form-data'}}
                 ).then(res => {
-                  this.$router.beforeEach((to, from, next) => {
-                    console.log(to);
-                    console.log(from);
-                    console.log(next);
-                  })
+                  this.$router.push({name:"Mymenus"})
                 }).catch(error => {
                   console.log(error);
                 })

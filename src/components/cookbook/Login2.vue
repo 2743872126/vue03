@@ -10,6 +10,9 @@
           <el-form-item label="密码" prop="pwd">
             <el-input type="password" v-model="usersin.pwd" ></el-input>
           </el-form-item>
+          <el-form-item stylse="text-align: left">
+            <el-checkbox @change="clickChecked" :checked="ischecked">记住密码</el-checkbox>
+          </el-form-item>
           <el-button type="primary" round @click="loginIn()">登录</el-button>
           <el-button @click="resetin()" type="danger" round >重置</el-button>
         </el-form>
@@ -24,6 +27,7 @@
             <el-input v-model="usersup.Msg"  style="margin-left:20px;width: 200px; float: left"></el-input>
             <el-Button :disabled="butshow"  style="margin-left:30px;float: left" @click="checksw();dialogVisible=true">{{count}}{{agin}}</el-Button>
           </el-form-item>
+
           <el-button type="primary"   @click="loginup()">登录</el-button>
           <el-button @click="reset()" type="danger" round>重置</el-button>
         </el-form>
@@ -48,6 +52,7 @@ export default {
   name: 'Login',
   data: () => {
     return {
+      ischecked:false,
       dialogVisible: false,
       isLoading:true,
       butshow:false,
@@ -97,8 +102,22 @@ export default {
   },
   created(){
     this.usersin=this.$store.state.user.userInfo;
+    if(null!=localStorage.getItem("phone")){
+      this.usersin.phone=localStorage.getItem("phone");
+    }
+    if(null!=localStorage.getItem("pwd")){
+      this.usersin.pwd=localStorage.getItem("pwd");
+    }
+    this.ischecked=localStorage.getItem("ischecked");
   },
   methods: {
+    clickChecked(){
+      if(this.ischecked){
+        this.ischecked=false;
+      }else{
+        this.ischecked=true;
+      }
+    },
     checksw(){
       this.mm[0]=Math.round(Math.random()*(10-1)+1);
       this.mm[1]=Math.round(Math.random()*(20-10)+10);
@@ -158,7 +177,16 @@ export default {
               if (''!==res.data) {
                 console.log(res)
                 this.$store.commit("USER_SIGNIN", res.data);
-                this.$router.push({name:'main'});
+                if(this.ischecked){
+                  localStorage.setItem("phone",res.data.phone);
+                  localStorage.setItem("pwd",res.data.pwd);
+                  localStorage.setItem("ischecked",this.ischecked);
+                }else{
+                  localStorage.removeItem("phone");
+                  localStorage.removeItem("pwd");
+                  localStorage.removeItem("ischecked")
+                }
+                this.$router.push({path:'/'});
               }else{
                 this.$message.error('用户名或密码错误')
               }
