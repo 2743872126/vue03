@@ -8,7 +8,7 @@
       </p>
       <div style="height: 900px">
         <div style="border: 1px solid gainsboro;height: 470px;margin-bottom: 10px;width: 28%;float: left;margin-right: 60px" v-for="v in works">
-          <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
+          <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
           <p style="font-size: 14px;line-height: 20px;text-align: left;margin-top: -50px"><a style="color: crimson" @click="menudetail()">{{menu.mname}}</a></p>
           <p style="font-size: 14px;line-height: 20px;text-align: left;height: 80px">{{v.winfo}}</p>
           <p style="font-size: 14px;line-height: 20px;text-align: left">
@@ -32,13 +32,13 @@
       top="20px"
       :before-close="handleClose">
       <el-container>
-        <el-aside style="border: 1px solid black;width: 70%">
-          <div style="border: 1px solid black;width: 90%">
+        <el-aside style="width: 70%">
+          <div style="width: 90%">
             <el-image :src="'static/jpg/'+work.pic" style="height: 450px"></el-image>
             <p style="line-height: 20px;text-align: left;margin-top: -50px;margin-left: 20px;position: relative">
               <el-image :src="'static/jpg/'+work.user.pic" style="width: 60px;height: 60px;margin-right: 20px"></el-image>
               <span style="position: absolute;top: 15px">
-                <a style="color: crimson">{{work.user.uname}}</a>  做过  <a style="color: crimson">{{menu.mname}}</a>
+                <a style="color: crimson">{{work.user.uname}}</a>  做过  <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a>
               </span>
               <span style="position: absolute;top: 15px;left: 520px">
                 <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
@@ -49,21 +49,23 @@
             </p>
             <p style="line-height: 30px;text-align: left;margin-top: 0px;margin-left: 100px">
               发布于 {{work.makeTime.substr(0,10)}}
+              <a v-if="user.uid===work.user.uid" style="color: crimson">编辑作品</a>
+              <a v-if="user.uid===work.user.uid" style="color: crimson">删除作品</a>
             </p>
             <div style="height: 150px;margin-top: 20px;background-color: gainsboro">
               <p style="line-height: 50px;margin-top: 20px;text-align: left;margin-left: 20px;position: relative">
-                <el-image :src="'static/jpg/'+menu.pic" style="height: 100px;width: 120px;margin-right: 20px;margin-top: 20px"></el-image>
-                <span style="position: absolute;top: 15px"><a style="color: crimson;font-size: 18px">{{menu.mname}}</a></span>
-                <span style="position: absolute;top: 55px"><a style="color: dimgray;font-size: 16px">{{menu.users.uname}}</a></span>
+                <el-image :src="'static/jpg/'+MenuDetail.pic" style="height: 100px;width: 120px;margin-right: 20px;margin-top: 20px"></el-image>
+                <span style="position: absolute;top: 15px"><a style="color: crimson;font-size: 18px" @click="menudetail()">{{MenuDetail.mname}}</a></span>
+                <span style="position: absolute;top: 55px"><a style="color: dimgray;font-size: 16px">{{MenuDetail.users.uname}}</a></span>
               </p>
             </div>
-            <h1 style="border: 1px solid black;text-align: left;margin-left: 20px;line-height: 70px;color: dimgray">
+            <h1 style="text-align: left;margin-left: 20px;line-height: 70px;color: dimgray">
               {{work.startUsers.length}}  赞
             </h1>
-            <p style="border: 1px solid black;text-align: left;margin-left: 20px;line-height: 0px">
-              <el-image v-for="ws in work.startUsers" :src="'static/jpg/'+ws.pic" style="height: 50px;width: 50px;border: 1px solid black;margin-right: 10px"></el-image>
+            <p style="text-align: left;margin-left: 20px;line-height: 0px">
+              <el-image v-for="ws in work.startUsers" :src="'static/jpg/'+ws.pic" style="height: 50px;width: 50px;margin-right: 10px"></el-image>
             </p>
-            <h1 style="border: 1px solid black;text-align: left;margin-left: 20px;line-height: 70px;color: dimgray">
+            <h1 style="text-align: left;margin-left: 20px;line-height: 70px;color: dimgray">
               {{work.works_messages.length}}  评论
             </h1>
             <div v-for="l in work_messages" style="margin-left: 20px;">
@@ -116,13 +118,20 @@
             </div>
           </div>
         </el-aside>
-        <el-main style="border: 1px solid black">
+        <el-main>
           <p style="line-height: 14px;text-align: left;position: relative">
             <el-avatar :size="50" fit="fill" :src="'static/jpg/'+workuser.pic"></el-avatar>
             <span style="position: absolute;top: 20px;left: 60px;font-size: 14px"><a style="color: crimson">{{workuser.uname}}</a></span>
           </p>
           <p style="line-height: 20px">
             {{workuser.users.length}} 关注 | {{workuser.munus.length}} 菜谱 | {{workuser.works.length}} 作品
+          </p>
+          <h1 style="text-align: left;line-height: 70px;font-size: 22px;color: darkseagreen;margin-top: 20px">
+             {{workuser.uname}}的其他作品
+            <a style="font-size: 14px;color: crimson;margin-left: 50px" @click="checkAllWorks()">全部</a>
+          </h1>
+          <p style="text-align: left;line-height: 0px">
+            <el-image v-for="ws in workuser.works" :src="'static/jpg/'+ws.pic" style="height: 70px;width: 80px;margin-right: 5px"></el-image>
           </p>
         </el-main>
       </el-container>
@@ -144,7 +153,8 @@
           dialogVisible: false,
           user:{},
           message:{},
-          workuser:{munus:[],works:[],users:[]}
+          workuser:{munus:[],works:[],users:[]},
+          MenuDetail:{users:{}}
         }
       },
       created:function () {
@@ -228,6 +238,15 @@
           this.$axios.post('http://localhost:8080/cookbooktest/UController/queryUser',this.$qs.stringify({'uid':uid}))
             .then(resp=>{
               this.workuser=resp.data;
+            })
+            .catch(err=>{
+              this.$message.error("错误");
+            });
+        },
+        getMenuDetail(mid){
+          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/querybymid',this.$qs.stringify({'mid':mid}))
+            .then(resp=>{
+              this.MenuDetail=resp.data;
             })
             .catch(err=>{
               this.$message.error("错误");

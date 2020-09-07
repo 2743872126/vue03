@@ -37,6 +37,21 @@ export default new Router({
           component: ()=>import('@/components/cookbook/WorkDetail'),
         },
         {
+          path: 'LeavMessage',
+          name: 'LeavMessage',
+          component: ()=>import('@/components/cookbook/LeavMessage'),
+        },
+        {
+          path: 'LeavMessage2',
+          name: 'LeavMessage2',
+          component: ()=>import('@/components/cookbook/LeavMessage2'),
+        },
+        {
+          path: 'WriteLeavMessage',
+          name: 'WriteLeavMessage',
+          component: ()=>import('@/components/cookbook/WriteLeavMessage'),
+        },
+        {
           path: 'UsersShow',
           name: 'UsersShow',
           component: ()=>import('@/components/cookbook/UsersShow'),

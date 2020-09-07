@@ -88,7 +88,7 @@
                       {{l.reply}}
                     </p>
                 </div>
-                <p style="line-height: 50px"><a style="color: crimson">更多菜谱留言</a></p>
+                <p style="line-height: 50px"><a style="color: crimson" @click="toLeavMessage(menu.mid)">更多菜谱留言</a></p>
                 </div>
               </div>
             </el-aside>
@@ -138,7 +138,7 @@
                 });
             })
           }
-        this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/querymessageBymid',this.$qs.stringify({'mid':this.menu.mid}))
+        this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/querymessagereplyNonull',this.$qs.stringify({'mid':this.menu.mid}))
           .then(resp=>{
             this.LeavlMessage=resp.data;
           })
@@ -168,16 +168,17 @@
           });
       },
       methods:{
-        tocreateworks(){
-          this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
-        }
-      },
-      methods:{
-        checkAllWorks(works){
+        checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },
         toWorkDetail(work){
           this.$router.push({name:'WorkDetail',params:{work:work}})
+        },
+        tocreateworks(){
+          this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
+        },
+        toLeavMessage(mid){
+          this.$router.push({name:'LeavMessage',params:{mid:mid}})
         }
       }
     }
