@@ -138,7 +138,7 @@
                 });
             })
           }
-        this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/querymessageBymid',this.$qs.stringify({'mid':this.menu.mid}))
+        this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/querymessagereplyNonull',this.$qs.stringify({'mid':this.menu.mid}))
           .then(resp=>{
             this.LeavlMessage=resp.data;
           })
@@ -168,12 +168,18 @@
           });
       },
       methods:{
-        checkAllWorks(works){
+        checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },
         toWorkDetail(work){
           console.log(work)
           this.$router.push({name:'WorkDetail',params:{work:work}})
+        },
+        tocreateworks(){
+          this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
+        },
+        toLeavMessage(mid){
+          this.$router.push({name:'LeavMessage',params:{mid:mid}})
         },
         tocreateworks(){
           this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})
