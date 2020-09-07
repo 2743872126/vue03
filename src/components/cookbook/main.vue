@@ -31,9 +31,15 @@
               <el-menu-item  index="5" style="line-height: 90px">
                 <el-link style="font-size: 22px">作品动态</el-link>
               </el-menu-item>
+              <el-menu-item style="margin-top: 20px;" index="99" v-if="isuser" :route="{name:'Email'}">
+                <el-link style="font-size: 22px">
+                  <el-badge style="line-height: 10px;" v-model="isEmail==0?'':isEmail" class="item">
+                    <icon style="font-size: 30px" class="el-icon-message"></icon>
+                  </el-badge>
+                </el-link>
+              </el-menu-item>
+              <el-menu-item  v-if="isuser" style="line-height: 90px">
 
-              <el-menu-item v-if="isuser" style="line-height: 90px">
-                <el-link icon="el-icon-message" style="font-size: 22px">消息</el-link>/
                 <el-link style="font-size: 22px">
                   <!--<el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar>-->
                   <el-menu  :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -69,16 +75,29 @@
             user:{uname:''},
             isuser:false,
             restaurants: [],
-            state2: ''
+            state2: '',
+            isEmail:'0',
           }
         },
       created:function () {
+        this.$store.commit('USER_INFO_COMMIT')
+        this.isEmail= localStorage.getItem("isEmail");
+        'NaN'==this.isEmail?this.isEmail=0:this.isEmail
         this.user=this.$store.state.user.userInfo;
           if (undefined!==this.user.uname){
             this.isuser=true;
           } else {
             this.isuser=false;
           }
+        this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+          this.isEmail=Number(this.isEmail+res.data.length);
+        })
+        this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+          this.isEmail=Number(this.isEmail+res.data.length);
+        })
+        this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+          this.isEmail=Number(this.isEmail+res.data.length);
+        })
       },
       methods:{
           checke(){

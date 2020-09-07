@@ -52,6 +52,11 @@ export default new Router({
           component: ()=>import('@/components/cookbook/MenusDetail'),
         },
         {
+          path: 'email',
+          name: 'Email',
+          component: ()=>import('@/components/cookbook/Email'),
+        },
+        {
           path: 'Menus',
           name: 'menus',
           component: ()=>import('@/components/cookbook/Menus'),
@@ -97,6 +102,7 @@ export default new Router({
           path: '/createWorks',
           name: 'CreateWorks',
           component: ()=>import('@/components/cookbook/CreateWorks'),
+          meta: {allowBack: false}
         }
         ,
         {
@@ -143,6 +149,16 @@ export default new Router({
               path: 'drafts',
               name: 'Drafts',
               component: ()=>import('@/components/cookbook/Drafts'),
+            },
+            {
+              path:'followMe',
+              name:'FollowMe',
+              component:()=>import("@/components/cookbook/FollowMe")
+            },
+            {
+              path:'follows',
+              name:'Follows',
+              component:()=>import("@/components/cookbook/Follows")
             }
           ]
         },

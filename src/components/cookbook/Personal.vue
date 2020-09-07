@@ -11,11 +11,11 @@
              <el-tooltip style="margin-left: 100px;font-size: 22px" class="item" effect="dark" :content="this.userinfo.selfinfo" placement="top-end">
                <el-button>个人签名<i class="el-icon-view el-icon--right"></i></el-button>
              </el-tooltip><br>
-             <el-button round class="buts">关注的人<br>
+             <el-button @click="()=>{this.$router.push({name:'Follows'})}" round class="buts">关注的人<br>
                {{this.userinfo.users.length}}
              </el-button>
-             <el-button round class="buts">
-               被关注的人<br>
+             <el-button @click="()=>{this.$router.push({name:'FollowMe'})}" round class="buts">
+               被关注<br>
                {{this.userinfo.follows.length}}
              </el-button>
            </div>

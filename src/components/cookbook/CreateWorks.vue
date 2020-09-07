@@ -1,21 +1,21 @@
 <template>
   <div class="main">
     <h1 style="text-align: left;color: crimson; margin-left: 50px;margin-top: -50px">上传我做的{{this.$route.params.mname}}</h1>
-    <el-form :model="newWork" status-icon :rules="rules" ref="myForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="newWorks" status-icon :rules="rulecs" ref="fmin" label-width="100px" class="demo-ruleForm">
       <div style="float:left;width: 60%">
         <el-form-item prop="winfo">
-          <el-input type="textarea"  style="margin-top:30px;float: left;width: 70%;" v-model="newWork.winfo" placeholder="分享心得"></el-input>
+          <el-input type="textarea"  style="margin-top:30px;float: left;width: 70%;" v-model="newWorks.winfo" placeholder="分享心得"></el-input>
         </el-form-item>
         <el-form-item style="text-align: left" >
           <el-upload :limit="1" :on-change="filespic2" list-type="picture-card" drag="" accept=".jpg,.png"  :on-preview="handlePictureCardPreview2" :auto-upload="false">
-            <el-link style="font-size: 22px" slot="trigger" size="small" type="primary">上传预览图</el-link>
+            <el-link style="font-size: 22px" slot="trigger" size="small" type="primary">上传大图</el-link>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="tu1" >
           </el-dialog>
         </el-form-item>
-        <el-form-item>
-          <el-button style="font-size: 30px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布视频</el-button>
+        <el-form-item style="margin-top: 300px;margin-left: -200px">
+          <el-button style="font-size: 30px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布作品</el-button>
           <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 30px;background-color: crimson;"  type="primary" >退出</el-button>
         </el-form-item>
 
@@ -30,12 +30,12 @@
     name: 'CreateWorks',
     data(){
       return {
-        newWork:{uid:this.$store.state.user.userInfo.uid,mid:this.$route.params.mid},
+        newWorks:{uid:this.$store.state.user.userInfo.uid,mid:this.$route.params.mid},
         file1:[],
-        dialogVisible:fale,
+        dialogVisible:false,
         tu1:'',
         fullscreenLoading:false,
-        rules: {
+        rulecs: {
           winfo: [
             {required: true, message: '不能为空'},
             {min: 10, max: 99, message: '好好写', trigger: ['blur']},
@@ -61,15 +61,26 @@
       }, submitForm2(){
         this.$refs['fmin'].validate(valid=> {
           if(valid){
-            fullscreenLoading = true;
-            this.$axios.post("http://localhost:8080/cookbooktest/file/uploadpic", new FormData().append("file1", this.file1[0]), {headers: {'Content-Type': 'multipart/form-data'}})
-              .then(res => {
-                alert(res.data);
-                if (res.data.length > 0) {
-                  alert(res.date);
-                  //this.$axios.post("http://localhost:8080/cookbooktest/WorksController/saveWorks",this.)
-                }
-              })
+            if(this.file1.length>0){
+              this.fullscreenLoading = true;
+              let format=new FormData();
+              format.append("file1", this.file1[0]);
+              this.$axios.post("http://localhost:8080/cookbooktest/file/uploadpic",format , {headers: {'Content-Type': 'multipart/form-data'}})
+                .then(res => {
+                  if (res.data.length > 0) {
+                    this.fullscreenLoading = true;
+                    this.newWorks.pic=res.data;
+                    this.$axios.post("http://localhost:8080/cookbooktest/WorksController/saveWorks",this.newWorks)
+                      .then(ser=>{
+                        if(1!=ser.data){
+                          this.$message.error("发布失败");
+                        }
+                        this.$router.push({name:'Myworks'});
+
+                      })
+                  }
+                })
+            }
           }
         })
       },
@@ -81,7 +92,8 @@
 
   .main{
     width: 80%;
-    margin-left: 10%
+    height: 700px;
+    margin-left: 10%;
   }
   .el-col {
     border-radius: 4px;

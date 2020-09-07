@@ -168,16 +168,15 @@
           });
       },
       methods:{
-        tocreateworks(){
-          this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
-        }
-      },
-      methods:{
         checkAllWorks(works){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },
         toWorkDetail(work){
+          console.log(work)
           this.$router.push({name:'WorkDetail',params:{work:work}})
+        },
+        tocreateworks(){
+          this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})
         }
       }
     }
