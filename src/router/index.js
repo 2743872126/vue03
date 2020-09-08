@@ -178,6 +178,28 @@ export default new Router({
           ]
         },
         {
+          path: 'theirPersonal',
+          name: 'TheirPersonal',
+          component: ()=>import('@/components/cookbook/TheirPersonal'),
+          children:[
+            {
+              path:'thierMenus',
+              name:'ThierMenus',
+              component:()=>import("@/components/cookbook/ThierMenus")
+            },
+            {
+              path:'thireWorks',
+              name:'ThireWorks',
+              component:()=>import("@/components/cookbook/ThireWorks")
+            },
+            {
+              path:'thireStudio',
+              name:'ThireStudio',
+              component:()=>import("@/components/cookbook/ThireStudio")
+            }
+          ]
+        },
+        {
           path: '/tools',
           name: 'Tools',
           component: () => import('@/components/cookbook/Tools')
