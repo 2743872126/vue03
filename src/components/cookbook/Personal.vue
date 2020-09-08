@@ -53,20 +53,21 @@
       }
     },
     created:function(){
+        this.$axios.post("http://localhost:8080/cookbooktest/querymenuworklevelmessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+          .then(res=>{
+            this.$store.state.user.userInfo.munus=res.data;
+          })
+        this.$axios.post("http://localhost:8080/cookbooktest/queryworkstartmessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+          .then(res=>{
+            this.$store.state.user.userInfo.works=res.data;
+          })
+        this.$axios.post("http://localhost:8080/cookbooktest/queryusercollectedmenu",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+          .then(res=>{
+            this.$store.state.user.userInfo.user_menus.menus=res.data;
+          })
+        this.userinfo=this.$store.state.user.userInfo;
 
-      this.$axios.post("http://localhost:8080/cookbooktest/querymenuworklevelmessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
-        .then(res=>{
-          this.$store.state.user.userInfo.munus=res.data;
-        })
-      this.$axios.post("http://localhost:8080/cookbooktest/queryworkstartmessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
-        .then(res=>{
-          this.$store.state.user.userInfo.works=res.data;
-        })
-      this.$axios.post("http://localhost:8080/cookbooktest/queryusercollectedmenu",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
-        .then(res=>{
-          this.$store.state.user.userInfo.user_menus.menus=res.data;
-        })
-      this.userinfo=this.$store.state.user.userInfo;
+
     }
   }
 </script>

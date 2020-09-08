@@ -65,8 +65,8 @@
         payInfo:{
           outTradeNo:'',
           subject:'',
-          totalAmount:1,
-          body:''
+          totalAmount:'',
+          body:'',
         }
       }
     },
