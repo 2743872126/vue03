@@ -12,11 +12,11 @@
                <el-button>个人签名<i class="el-icon-view el-icon--right"></i></el-button>
              </el-tooltip><br>
              <el-button @click="()=>{this.$router.push({name:'Follows'})}" round class="buts">关注的人<br>
-               {{this.userinfo.users.length}}
+               {{users}}
              </el-button>
              <el-button @click="()=>{this.$router.push({name:'FollowMe'})}" round class="buts">
                被关注<br>
-               {{this.userinfo.follows.length}}
+               {{follow}}
              </el-button>
            </div>
       </div>
@@ -50,6 +50,8 @@
     data(){
       return {
         userinfo:{},
+        users:0,
+        follow:0,
       }
     },
     created:function(){
@@ -66,7 +68,14 @@
             this.$store.state.user.userInfo.user_menus.menus=res.data;
           })
         this.userinfo=this.$store.state.user.userInfo;
-
+      this.$axios.post("http://localhost:8080/cookbooktest/queryguanzhu",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.users=res.data.length;
+        })
+      this.$axios.post("http://localhost:8080/cookbooktest/querybeiguanzhu",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.follow=res.data.length;
+        })
 
     }
   }

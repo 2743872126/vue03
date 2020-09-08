@@ -111,7 +111,7 @@
       if (undefined==this.$store.state.user.userInfo.uid) { // 查询本地存储信息是否已经登陆
         this.$router.push({path: '/login2'});
       }
-
+      let mid=this.$route.params.mid;
       this.$axios.post("http://localhost:8080/cookbooktest/MenuTypesController/queryall").then(res=>{
         this.options=res.data;
       })

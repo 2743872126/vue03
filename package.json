@@ -24,6 +24,8 @@
     "showapirequest_nodejs": "^1.0.2",
     "video.js": "^7.8.4",
     "vue": "^2.5.2",
+    "vue-browser-back": "^0.1.0",
+    "vue-prevent-browser-back": "^1.0.5",
     "vue-router": "^3.0.1",
     "vue-session": "^1.0.0",
     "vue-video-player": "^5.0.2",

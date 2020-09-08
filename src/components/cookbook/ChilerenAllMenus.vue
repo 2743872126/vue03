@@ -24,7 +24,7 @@
 
 <script>
     export default {
-        name: "ChilerenAllMenus",
+      name: "ChilerenAllMenus",
       data(){
         return{
           menus:[],
