@@ -51,10 +51,10 @@
                   <a style="font-size: 18px;color: crimson;margin-left: 220px" @click="checkAllWorks()">全部 {{menu.works.length}} 作品</a>
                 </h1>
                 <div v-for="w in menu.works" style="border:1px solid gainsboro;height: 290px;width: 180px;float: left;margin-right: 12px">
-                  <img :src="'static/jpg/'+w.pic" width="178px" height="150px" @click="toWorkDetail(w)"/>
+                  <img :src="'static/jpg/'+w.pic" width="178px" height="150px" @click="toWorkDetail(w.wid)"/>
                   <p style="line-height: 20px;margin-top: -60px">{{w.makeTime.substr(0,10)}}</p>
                   <p style="height:40px;line-height: 20px">{{w.winfo.substr(0,24)}}</p>
-                  <p style="line-height: 20px">
+                  <p style="line-height: 20px" v-if="w.users!==null">
                     <el-avatar v-if="w.users.pic!==null" :size="20" fit="fill" :src="'static/jpg/'+w.users.pic"></el-avatar>
                     <a style="color: crimson">{{w.users.uname}}</a>
                   </p>
@@ -88,7 +88,7 @@
                       {{l.reply}}
                     </p>
                 </div>
-                <p style="line-height: 50px"><a style="color: crimson">更多菜谱留言</a></p>
+                <p style="line-height: 50px"><a style="color: crimson" @click="toLeavMessage()">更多菜谱留言</a></p>
                 </div>
               </div>
             </el-aside>
@@ -115,7 +115,7 @@
       name: "MenusDetail",
       data() {
         return {
-          menu:{},
+          menu:{pic:'',users:{pic:''}},
           menuStep:[],
           menudetails:[],
           status:false,
@@ -171,15 +171,15 @@
         checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },
-        toWorkDetail(work){
-          console.log(work)
-          this.$router.push({name:'WorkDetail',params:{work:work}})
+        toWorkDetail(wid){
+          console.log(wid)
+          this.$router.push({name:'WorkDetail',params:{wid:wid}})
         },
-        tocreateworks(){
+        /*tocreateworks(){
           this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
-        },
-        toLeavMessage(mid){
-          this.$router.push({name:'LeavMessage',params:{mid:mid}})
+        },*/
+        toLeavMessage(){
+          this.$router.push({name:'LeavMessage',params:{mid:this.menu.mid}})
         },
         tocreateworks(){
           this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})

@@ -69,7 +69,7 @@
               {{work.works_messages.length}}  评论
             </h1>
             <div v-for="l in work_messages" style="margin-left: 20px;">
-              <p style="text-align:left;line-height: 20px;position: relative">
+              <p style="text-align:left;line-height: 20px;position: relative" v-if="l.users!==null">
                 <el-avatar :size="40" fit="fill" :src="'static/jpg/'+l.users.pic"></el-avatar>
                 <a style="color: crimson;position: absolute;top: 10px;left: 50px">{{l.users.uname}}</a>
                 <span style="position: absolute;top: 10px;left: 90px;color: dimgray">{{l.messageTime.substr(0,10)}}</span>
@@ -131,7 +131,7 @@
             <a style="font-size: 14px;color: crimson;margin-left: 50px" @click="checkAllWorks()">全部</a>
           </h1>
           <p style="text-align: left;line-height: 0px">
-            <el-image v-for="ws in workuser.works" :src="'static/jpg/'+ws.pic" style="height: 70px;width: 80px;margin-right: 5px"></el-image>
+            <el-image v-for="ws in workuser.works" :src="'static/jpg/'+ws.pic" style="height: 70px;width: 80px;margin-right: 5px" @click="toWorkDetail(ws.wid)"></el-image>
           </p>
         </el-main>
       </el-container>
@@ -146,7 +146,7 @@
         name: "MenuWorks",
       data() {
         return {
-          work:{user:{},makeTime:'',startUsers:[],works_messages:[]},
+          work:{user:{pic:''},makeTime:'',startUsers:[],works_messages:[]},
           work_messages:[],
           works:[],
           menu:{},
@@ -154,7 +154,7 @@
           user:{},
           message:{},
           workuser:{munus:[],works:[],users:[]},
-          MenuDetail:{users:{}}
+          MenuDetail:{users:{},pic:''}
         }
       },
       created:function () {
@@ -169,6 +169,10 @@
           });
       },
       methods: {
+        toWorkDetail(wid){
+          console.log(wid)
+          this.$router.push({name:'WorkDetail',params:{wid:wid}})
+        },
         menudetail() {
           this.$router.push({name: 'MenusDetail', params: {menudetail: this.menu}})
         },

@@ -25,15 +25,18 @@
               <p style="text-align:left;line-height: 20px;margin-top: -15px;margin-left: 50px">
                 {{l.info}}
               </p>
-              <p v-if="null!==l.reply" style="text-align:left;line-height: 40px;margin-top: -15px;margin-left: 50px">
-                作者回复&nbsp;
-                <span style="color: dimgray">{{l.replytime.substr(0,10)}}</span>
-                <span v-if="user.uid===menu.users.uid" style="position: absolute;top: 10px;left: 170px;color: dimgray">
-                        |<a > 删除</a>
-                      </span>
-              </p>
-              <p v-if="null!==l.reply" style="text-align:left;line-height: 40px;margin-top: -15px;margin-left: 50px;color: dimgray">
-                {{l.reply}}
+              <p style="text-align:left;line-height: 40px;margin-left: 50px">
+                <el-form :inline="true" :model="replymessage" class="demo-form-inline">
+                  <el-form-item>
+                    <el-input v-model="replymessage.lid"></el-input>
+                  </el-form-item>
+                  <el-form-item style="width: 600px">
+                    <el-input v-model="replymessage.reply" placeholder="请输入回复" style="width: 600px" @focus="showbutton(l.lid)"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="" style="background-color: crimson" v-show="buttonshow">回复</el-button>
+                  </el-form-item>
+                </el-form>
               </p>
             </div>
           </el-aside>
@@ -62,6 +65,8 @@
           LeavlMessage:[],
           menu:{pic:''},
           user:{},
+          replymessage:{lid:''},
+          buttonshow:false
         }
       },
       created:function () {
@@ -90,6 +95,10 @@
         },
         writeLm(){
           this.$router.push({name:'WriteLeavMessage',params:{mid:this.menu.mid}})
+        },
+        showbutton(lid){
+          this.buttonshow=true;
+          this.replymessage.lid=lid;
         }
       }
     }

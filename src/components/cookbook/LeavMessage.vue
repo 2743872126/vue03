@@ -40,7 +40,7 @@
             <p style="line-height: 60px;font-size: 18px;margin-top: -70px">
               <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a>
             </p>
-            <p style="line-height: 20px;position: relative">
+            <p style="line-height: 20px;position: relative" v-if="menu.users!==null">
               <el-image :src="'static/jpg/'+menu.users.pic" style="width: 60px;height: 60px;margin-right: 20px"></el-image>
               <span style="position: absolute;top: 20px">
                 <a style="color: crimson">{{menu.users.uname}}</a>
