@@ -86,7 +86,7 @@
                       <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">万能的吃货</span>
                       <span style="position: absolute;top: -50px;left: 180px;font-size: 18px;color: red" @click="moreusers"><a style="color: crimson">更多</a></span>
                     </div>
-                    <div style="border: 1px solid gainsboro;height: 120px;margin-bottom:20px;position: relative" v-for="v in users.slice(0,8)">
+                    <div style="border: 1px solid gainsboro;height: 120px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
                       <el-avatar style="position: absolute;left: 0px;top: 20px" :size="80" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -40px;left: 100px;font-size: 22px">
                         <a style="color: black">{{v.uname.substr(0,4)}}..</a>
@@ -94,7 +94,9 @@
                       </span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -10px;left: 100px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: 20px;left: 100px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
-                      <el-button style="background-color: crimson;color: white;width: 100px;height: 50px;font-size: 22px;position: absolute;top: 35px;left: 245px"  v-show="v.uid!==user.uid" @click="guanzhu(v.uid)">关注</el-button>
+                      <el-button  style="background-color: crimson;color: white;width: 100px;height: 50px;font-size: 22px;position: absolute;top: 35px;left: 245px"  v-show="v.uid!==user.uid" @click="guanzhu(i)">
+                        <span v-if="v.state===0">关注</span><span v-else>取关</span><br>
+                      </el-button>
 <!--
                       <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px" @click="guanzhu(v.uid)">已关注</el-button>
 -->
@@ -127,6 +129,7 @@
             totalCount:1,
             // 默认每页显示的条数（可修改）
             PageSize:3,
+            isFollow:false,
           };
         },
         created:function () {
@@ -169,22 +172,43 @@
           this.$axios.post('http://localhost:8080/cookbooktest/UController/queryuserinfo')
             .then(resp=>{
               this.users=resp.data;
+              this.users.forEach(v=>{
+                this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:v.uid}))
+                  .then(re=>{
+                    if(re.data>0){
+                      v.state=1;
+                    }else{
+                      v.state=0;
+                    }
+                  })
+              })
             })
             .catch(err=>{
-              this.$message.error("错误");
+              this.$message.error("请稍后尝试");
             })
+
         },
         methods:{
+
           menudetail(item){
-            console.info(item)
             this.$router.push({name:'MenusDetail',params:{menudetail:item}})
           },
           creatMenu(){
             this.$router.push({name:'CreateMenus'})
           },
-          guanzhu(uid){
+          guanzhu(i){
             if (undefined!==this.user.uname) {
-
+              if(this.users[i].state==1){
+                this.$axios.post("http://localhost:8080/cookbooktest/Isfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
+                  this.users[i].state=0;
+                })
+              }else {
+                this.$axios.post("http://localhost:8080/cookbooktest/saveIsfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
+                  this.users[i].state=1;
+                })
+              }
+              let temp=this.users[i];
+              this.$set(this.users,i,temp)
             }else {
               this.$confirm('请登录账号,是否登陆?', '提示', {
                 confirmButtonText: '确定',
@@ -207,7 +231,7 @@
             this.$router.push({name:'Register'})
           },
           moreusers(){
-            this.$router.push({name:'UsersShow',params:{users:this.users}})
+            this.$router.push({name:'UsersShow'})
           },
           // 每页显示的条数
           handleSizeChange(val) {

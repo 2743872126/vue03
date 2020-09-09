@@ -17,6 +17,11 @@ export default new Router({
       redirect:'/firstpage',
       children:[
         {
+          path: 'updateMenus',
+          name: 'UpdateMenus',
+          component: ()=>import('@/components/cookbook/UpdateMenus'),
+        },
+        {
           path: 'firstpage',
           name: 'firstpage',
           component: ()=>import('@/components/cookbook/firstpage'),
@@ -90,6 +95,7 @@ export default new Router({
               path: 'ChilerenAllMenus',
               name: 'ChilerenAllMenus',
               component: ()=>import('@/components/cookbook/ChilerenAllMenus'),
+
             },
             {
               path: 'CheckMenus',

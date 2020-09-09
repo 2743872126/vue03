@@ -88,8 +88,10 @@
             </el-aside>
             <el-main>
               <p style="text-align: left;line-height: 50px" v-if="user.uid===menu.users.uid">
-                <a style="color: crimson">编辑菜谱</a>
-                <a style="color: crimson">删除菜谱</a>
+                <router-link style="color: crimson" :to="{name:'UpdateMenus',params:{mid:this.menu.mid}}">编辑菜谱</router-link>
+                <el-popconfirm title="确定删除吗？">
+                  <a @click="del" slot="reference" style="color: crimson">删除菜谱</a>
+                </el-popconfirm>
               </p>
               <p style="text-align: left;color: dimgray;line-height: 30px">
                 该菜谱创建于{{menu.madeTime.substr(0,10)}}
@@ -105,7 +107,9 @@
 </template>
 
 <script>
+  import preventBack from 'vue-prevent-browser-back';//组件内单独引入
     export default {
+      mixins: [preventBack],
       name: "MenusDetail",
       data() {
         return {
@@ -119,6 +123,7 @@
         }
       },
       created:function () {
+
           this.user=this.$store.state.user.userInfo
           this.menu=this.$route.params.menudetail;
           if (null!=this.menu.works) {
@@ -162,6 +167,11 @@
           });
       },
       methods:{
+        del(){
+          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deleteMenu',this.$qs.stringify({'mid':this.menu.mid}))
+            .then(resp=>{
+            }).catch()
+        },
         checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },

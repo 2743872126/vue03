@@ -7,7 +7,6 @@
               <span style="font-size: 20px">{{this.userinfos.createTime.substring(0,10)}}加入</span>
             </div>
            <div style="text-align: right">
-
              <el-tooltip style="margin-left: 100px;font-size: 22px" class="item" effect="dark" :content="userinfos.selfinfo" placement="top-end">
                <el-button>个人签名<i class="el-icon-view el-icon--right"></i></el-button>
              </el-tooltip><br>
@@ -78,11 +77,30 @@
         .then(res=>{
           this.works=res.data;
         })
-    },methods:{
+      this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:uid}))
+        .then(res=>{
+          if(res.data>0){
+            this.isFollow=false;
+          }else{
+            this.isFollow=true;
+          }
+        })
+    }
+    ,methods:{
       changestate(){
-        this.$router.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:uid}))
+        this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.$route.params.uid}))
           .then(res=>{
-            alert(res.data)
+            if(res.data>0){
+              this.$axios.post("http://localhost:8080/cookbooktest/Isfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.$route.params.uid}))
+                .then(res=>{
+                  this.isFollow=true;
+                })
+            }else {
+              this.$axios.post("http://localhost:8080/cookbooktest/saveIsfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.$route.params.uid}))
+                .then(res=>{
+                  this.isFollow=false;
+                })
+            }
           })
       }
     }
