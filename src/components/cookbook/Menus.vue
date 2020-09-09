@@ -7,9 +7,9 @@
         </el-header>
         <el-container>
           <el-aside style="width: 18%">
-            <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 22px;margin-left: 50px;margin-top: 10px;margin-bottom: 20px">
+            <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 18px;margin-left: 50px;margin-top: 10px;margin-bottom: 20px">
               <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item v-if="this.$route.params.state!==undefined">{{this.$route.params.state}}</el-breadcrumb-item>
+              <el-breadcrumb-item v-if="this.$route.params.state!==undefined">{{this.$route.params.state.substr(0,4)}}..</el-breadcrumb-item>
               <el-breadcrumb-item v-else-if="menutypeinfo.mtname!==undefined">{{menutypeinfo.mtname}}</el-breadcrumb-item>
               <el-breadcrumb-item v-else>全部</el-breadcrumb-item>
             </el-breadcrumb>
@@ -18,13 +18,13 @@
               <el-menu-item index="全部" :route="{name:'ChilerenAllMenus'}">全部</el-menu-item>
               <el-submenu v-for="v in menutypes" :index="v.mtid" :default-openeds="v.menutypess">
                 <template slot="title" >{{v.mtname}}</template>
-                <el-menu-item :index="s.mtid+'-'+s.mtname" style="font-size: 20px;color: crimson" v-for="s in v.menutypess" :route="{name:'ChildrenMenu',query:{'mtid':s.mtid,'mtname':s.mtname}}">
+                <el-menu-item :index="s.mtid+'-'+s.mtname" style="font-size: 14px;color: gray" v-for="s in v.menutypess" :route="{name:'ChildrenMenu',query:{'mtid':s.mtid,'mtname':s.mtname}}">
                  {{s.mtname}}
                 </el-menu-item>
               </el-submenu>
             </el-menu>
           </el-aside>
-          <el-main style="border: 1px solid black;margin-left: 20px">
+          <el-main style="width: 70%">
             <router-view></router-view>
           </el-main>
         </el-container>

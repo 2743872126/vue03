@@ -17,6 +17,19 @@ export default new Router({
       redirect:'/firstpage',
       children:[
         {
+          path: 'studioTypes',
+          name: 'StudioTypes',
+          component: ()=>import('@/components/cookbook/StudioTypes'),
+          redirect:'/studioTypes/StudioMain',
+          children:[
+            {
+              path: 'StudioMain',
+              name: 'StudioMain',
+              component: ()=>import('@/components/cookbook/StudioMain'),
+            },
+          ]
+        },
+        {
           path: 'updateMenus',
           name: 'UpdateMenus',
           component: ()=>import('@/components/cookbook/UpdateMenus'),

@@ -25,7 +25,7 @@
               <el-menu-item :route="{name:'firstpage'}" style="line-height: 90px"  index="3">
                <span style="font-size: 20px">首页</span>
               </el-menu-item>
-              <el-menu-item  index="4" style="line-height: 90px">
+              <el-menu-item :route="{name:'StudioTypes'}"  index="4" style="line-height: 90px">
                 <span style="font-size: 20px">课程</span>
               </el-menu-item>
               <el-menu-item  index="5" style="line-height: 90px">
@@ -55,7 +55,7 @@
             </el-menu>
           </div>
         </el-header>
-        <el-main>
+        <el-main style="height: 580px">
           <router-view></router-view>
         </el-main>
       </el-container>
