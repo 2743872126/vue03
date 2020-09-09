@@ -7,7 +7,7 @@
     </div>
     <div>
       {{pay}}
-      <router-link :to="{name:'Tanwei_pay',query:{pay:this.$qs.stringify({'order_num':orderCode(),'bnbname':'cookbook','order_price':'2000'})}}" >
+      <router-link :to="{name:'Tanwei_pay',query:{pay:this.$qs.stringify({'order_num':orderCode(),'bnbname':'cookbook','order_price':'2000','flog':2})}}" >
           走》》
       </router-link>
     </div>
@@ -21,6 +21,15 @@
       return {
       }
     },
+    created(){
+      this.$axios.post("http://localhost:8080/cookbooktest/querybeiguanzhu",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+        if(1>res.data.length){
+          this.$message.info("你还不能申请，原因是没有足够的粉丝");
+          this.$router.push({name:'MyStudio'});
+        }
+      })
+    }
+    ,
     methods:{
       orderCode() {
         var orderCode='';

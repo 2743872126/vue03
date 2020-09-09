@@ -212,22 +212,26 @@
             });
         },
         fabu() {
-          if (this.message.message!=''){
-            if (this.message.upid != 0) {
-              this.message.message = this.message.message.substr(this.message.message.indexOf(':') + 1, this.message.message.length)
-              console.info(this.message)
+          if(this.$store.state.user.userLogin){
+            if (this.message.message!=''){
+              if (this.message.upid != 0) {
+                this.message.message = this.message.message.substr(this.message.message.indexOf(':') + 1, this.message.message.length)
+                console.info(this.message)
+              }
+              this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add', this.message)
+                .then(resp => {
+                  this.getMessage(this.message.wid);
+                  this.message.message = '';
+                  this.message.upid = 0;
+                })
+                .catch(err => {
+                  this.$message.error("错误");
+                });
+            }else {
+              this.$message('请输入内容再评论');
             }
-            this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add', this.message)
-              .then(resp => {
-                this.getMessage(this.message.wid);
-                this.message.message = '';
-                this.message.upid = 0;
-              })
-              .catch(err => {
-                this.$message.error("错误");
-              });
-          }else {
-            this.$message('请输入内容再评论');
+          }else{
+            this.$message.error('请登录再发布');
           }
         },
         del(wmid) {

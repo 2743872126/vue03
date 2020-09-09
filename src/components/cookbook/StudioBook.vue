@@ -39,7 +39,8 @@
                   <div class="grid-content bg-purple">
                     <router-link v-if="studioDet.uid==$store.state.user.userInfo.uid" :to="{path:'/videoPlay',query:{surl:v.surl,'pic':studioDet.stupic}}" target="_blank">立即查看</router-link>
                     <router-link v-else-if="v.state==0"  :to="{path:'/videoPlay',query:{surl:v.surl,'pic':studioDet.stupic}}" target="_blank">免费观看</router-link>
-                    <span v-else @click="Pay()">付费观看</span>
+                    <a v-else-if="v.state==1 && isPay==false" @click="Pay()">付费观看</a>
+                    <router-link v-else-if="v.state==1 && isPay" :to="{path:'/videoPlay',query:{surl:v.surl,'pic':studioDet.stupic}}" target="_blank">观看</router-link>
                   </div>
                 </el-col>
               </el-row>
@@ -68,6 +69,7 @@
         userInfo:{},
         isPay:false,
         isFollow:false,
+        pay:{},
         payInfo:{
           outTradeNo:'',
           subject:'',
@@ -80,6 +82,7 @@
       this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/querydetail",this.$qs.stringify({sid:this.$route.params.sid}))
         .then(res=>{
           this.studioDet=res.data;
+          console.log(this.studioDet);
           this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryTypeByid",this.$qs.stringify({stid:this.studioDet.stid}))
             .then(re=>{
               this.typename=re.data;
@@ -94,7 +97,7 @@
             })
           this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryPaysByids",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
             .then(ss=>{
-              this.isPay=ss.data;
+              this.isPay=ss.data=='no'?false:true;
             })
           this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyLikes",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
             .then(res=>{
@@ -119,7 +122,18 @@
           })
       },
       Pay(){
-
+        var orderCode='';
+        for (var i = 0; i < 6; i++) //6位随机数，用以加在时间戳后面。
+        {
+          orderCode += Math.floor(Math.random() * 10);
+        }
+        orderCode = new Date().getTime() + orderCode;  //时间戳，用来生成订单号。
+        if(this.isPay){
+          this.pay=this.$qs.stringify({order_num:orderCode,bnbname:this.studioDet.sname,order_price:this.studioDet.money,sid:this.studioDet.sid,flog:1})
+          this.$router.push({path:'/tanwei_pay',query:{pay:this.pay}})
+        }else{
+          this.$message("您已购买，请刷新后观看")
+        }
       }
     }
   }

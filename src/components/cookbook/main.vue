@@ -32,7 +32,7 @@
                 <span style="font-size: 20px">作品动态</span>
               </el-menu-item>
               <el-menu-item style="margin-top: 20px;" index="99" v-if="isuser" :route="{name:'Email'}">
-                  <el-badge style="line-height: 10px;" v-model="isEmail==0?'':isEmail" class="item">
+                  <el-badge style="line-height: 10px;" v-model="isEmail==0?EmailNum:isEmail" class="item">
                     <icon style="font-size: 30px" class="el-icon-message"></icon>
                   </el-badge>
               </el-menu-item>
@@ -75,6 +75,11 @@
             isEmail:'0',
           }
         },
+      props: {
+        EmailNum:{
+          default:0,
+        }
+      },
       created:function () {
         this.$store.commit('USER_INFO_COMMIT')
         this.isEmail= localStorage.getItem("isEmail");
@@ -88,10 +93,17 @@
         this.assdakfdsgjagf()
 
       },
+      watch:{
+        EmailNum:function(){
+          alert("变化")
+          this.$set(this.EmailNum,0,this.EmailNum)
+        }
+      },
       methods:{
           assdakfdsgjagf(){
             this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
               this.isEmail=Number(this.isEmail+res.data.length);
+
             })
             this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
               this.isEmail=Number(this.isEmail+res.data.length);

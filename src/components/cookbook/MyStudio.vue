@@ -42,16 +42,19 @@
     },
     methods:{
       mys2(){
-        if(this.$store.state.user.userInfo.state==1){
-          this.$router.push({name:'MyStudio2'})
-        }else{
-          this.$alert('你还未成为“美食作家”,去入驻', '系统消息', {
-            confirmButtonText: '确定',
-            callback:action =>{
-              this.$router.push({name:'ChenWeiStudioChu'})
-            }
-          })
-        }
+       this.$axios.post("http://localhost:8080/cookbooktest/queryUserById",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+         if(res.data.state==1){
+           this.$store.state.user.userInfo.state=1
+           this.$router.push({name:'MyStudio2'})
+         }else{
+           this.$alert('你还未成为“美食作家”,去入驻', '系统消息', {
+             confirmButtonText: '确定',
+             callback:action =>{
+               this.$router.push({name:'ChenWeiStudioChu'})
+             }
+           })
+         }
+       })
       },
       StudioDetail(sid){
         this.$router.push({name:'StudioBook',params:{'sid':sid}})

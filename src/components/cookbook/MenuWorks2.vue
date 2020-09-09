@@ -226,19 +226,23 @@
           }
         },
         fabu(){
-          if (this.message.upid!=0){
-            this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
-            console.info(this.message)
+          if(this.$store.state.user.userLogin){
+            if (this.message.upid!=0){
+              this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
+              console.info(this.message)
+            }
+            this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
+              .then(resp=>{
+                this.getMessage(this.message.wid);
+                this.message.message='';
+                this.message.upid=0;
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
+          }else{
+            this.$message.error('请登录再发布');
           }
-          this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
-            .then(resp=>{
-              this.getMessage(this.message.wid);
-              this.message.message='';
-              this.message.upid=0;
-            })
-            .catch(err=>{
-              this.$message.error("错误");
-            });
         },
         del(wmid){
           this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/del',this.$qs.stringify({'wmid':wmid}))

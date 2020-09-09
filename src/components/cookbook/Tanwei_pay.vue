@@ -31,7 +31,7 @@
         </dl>
       </div>
     </el-form>
-
+{{this.pay}}
     <div id="foot">
       <ul class="foot-ul">
         <li>支付宝版权所有 2015-2018 ALIPAY.COM</li>
@@ -52,8 +52,13 @@
       this.pay = this.$qs.parse(this.$route.query.pay);
     },methods:{
       payquery(){
-        window.location.href="http://localhost:8080/cookbooktest/order/pay?order_number="+this.pay.order_num+
-          "&bnbname="+this.pay.bnbname+"&order_price="+this.pay.order_price
+        if(this.pay.flog==2){
+          window.location.href="http://localhost:8080/cookbooktest/order/pay?order_number="+this.pay.order_num+
+            "&bnbname="+this.pay.bnbname+"&order_price="+this.pay.order_price+"&state=2&sid=0";
+        }else if(this.pay.flog==1){
+          window.location.href="http://localhost:8080/cookbooktest/order/pay?order_number="+this.pay.order_num+
+            "&bnbname="+this.pay.bnbname+"&order_price="+this.pay.order_price+"&state=1&sid="+this.pay.sid;
+        }
       }
     }
   }

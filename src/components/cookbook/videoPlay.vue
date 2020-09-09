@@ -15,7 +15,6 @@
       }
     },
     created(){
-
       this.pic='static/video/'+this.$route.query.pic;
       this.urll='static/video/'+this.$route.query.surl;
     },

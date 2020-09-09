@@ -133,14 +133,6 @@
           };
         },
         created:function () {
-          if(this.$store.state.user.userInfo.state==1){
-              const h = this.$createElement;
-              this.$notify({
-                title: '系统',
-                message: h('i', { style: 'color: crimson'}, "欢迎回来美食作家@"+this.$store.state.user.userInfo.uname)
-              });
-
-          }
           this.user=this.$store.state.user.userInfo;
           console.info(this.$store.state.user.userInfo)
           if (undefined!==this.user.uname){

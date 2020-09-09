@@ -11,7 +11,7 @@
     </el-aside>
     <el-main>
       <el-tabs type="border-card" class="tabs">
-        <el-tab-pane :label="'菜谱留言   '+menuMessage.length">
+        <el-tab-pane @click="flushFat" :label="'菜谱留言   '+menuMessage.length">
           <div v-if="menuMessage.length!==0">
             <div v-for="v,i in menuMessage">
               <p style="line-height: 30px;margin-top: 0px;position: relative">
@@ -33,7 +33,7 @@
             空空如也
           </p>
         </el-tab-pane>
-        <el-tab-pane :label="'课程留言   '+studioMessage.length">
+        <el-tab-pane @click="flushFat" :label="'课程留言   '+studioMessage.length">
           <div v-if="studioMessage.length!==0">
             <div v-for="v,i in studioMessage">
               <p style="line-height: 30px;margin-top: 0px;position: relative">
@@ -55,7 +55,7 @@
             空空如也
           </p>
         </el-tab-pane>
-        <el-tab-pane :label="'作品评论   '+workMessage.length">
+        <el-tab-pane @click="flushFat" :label="'作品评论   '+workMessage.length">
           <div v-if="workMessage.length!==0">
             <div v-for="v,i in workMessage">
               <p style="line-height: 30px;margin-top: 0px;position: relative">
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+  import mains from '@/components/cookbook/main'
   export default {
     name: 'Email',
     data(){
@@ -93,19 +94,37 @@
       }
     },
     created(){
+
       this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.menuMessage=res.data;
+        mains.EmailNum=Number(this.menuMessage.length+mains.EmailNum);
       })
       this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.studioMessage=res.data;
+        mains.EmailNum=Number(this.studioMessage.length+mains.EmailNum);
       })
       this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.workMessage=res.data;
+        mains.EmailNum=Number(this.workMessage.length+mains.EmailNum);
       })
+      this.$set(mains.EmailNum,0,mains.EmailNum);
     },
     methods:{
+      flushFat(){
+        this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+          this.menuMessage=res.data;
+          mains.EmailNum=Number(this.menuMessage.length+mains.EmailNum);
+        })
+        this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+          this.studioMessage=res.data;
+          mains.EmailNum=Number(this.studioMessage.length+mains.EmailNum);
+        })
+        this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+          this.workMessage=res.data;
+          mains.EmailNum=Number(this.workMessage.length+mains.EmailNum);
+        })
+      },
       del(i,lid,mid){
-        alert(mid)
         this.menuMessage.splice(i,1);
         this.$axios.post("http://localhost:8080/cookbooktest/LeavlMessageController/updatestate",this.$qs.stringify({'lid':lid})).then(res=>{
           if (mid!='') {
