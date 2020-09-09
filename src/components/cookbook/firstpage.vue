@@ -184,64 +184,31 @@
               })
             })
             .catch(err=>{
-              this.$message.error("错误");
+              this.$message.error("请稍后尝试");
             })
 
         },
         methods:{
 
           menudetail(item){
-            console.info(item)
-            let routeData = this.$router.resolve({
-            path: "MenusDetail",
-            query:{'menudetail':item}
-            });
-            window.open(routeData.href, '_blank');
-/*
             this.$router.push({name:'MenusDetail',params:{menudetail:item}})
-*/
           },
           creatMenu(){
             this.$router.push({name:'CreateMenus'})
           },
           guanzhu(i){
             if (undefined!==this.user.uname) {
-                  if(this.users[i].state==1){
-                    this.$axios.post("http://localhost:8080/cookbooktest/Isfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
-                      this.$axios.post('http://localhost:8080/cookbooktest/UController/queryuserinfo')
-                        .then(resp=>{
-                          this.users=resp.data;
-                          this.users.forEach(v=>{
-                            this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:v.uid}))
-                              .then(re=>{
-                                if(re.data>0){
-                                  v.state=1;
-                                }else{
-                                  v.state=0;
-                                }
-                              })
-                          })
-                        })
-                    })
-                  }else {
-                    this.$axios.post("http://localhost:8080/cookbooktest/saveIsfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
-                      this.$axios.post('http://localhost:8080/cookbooktest/UController/queryuserinfo')
-                        .then(resp=>{
-                          this.users=resp.data;
-                          this.users.forEach(v=>{
-                            this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:v.uid}))
-                              .then(re=>{
-                                if(re.data>0){
-                                  v.state=1;
-                                }else{
-                                  v.state=0;
-                                }
-                              })
-                          })
-                        })
-                    })
-                  }
-
+              if(this.users[i].state==1){
+                this.$axios.post("http://localhost:8080/cookbooktest/Isfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
+                  this.users[i].state=0;
+                })
+              }else {
+                this.$axios.post("http://localhost:8080/cookbooktest/saveIsfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
+                  this.users[i].state=1;
+                })
+              }
+              let temp=this.users[i];
+              this.$set(this.users,i,temp)
             }else {
               this.$confirm('请登录账号,是否登陆?', '提示', {
                 confirmButtonText: '确定',
@@ -264,7 +231,7 @@
             this.$router.push({name:'Register'})
           },
           moreusers(){
-            this.$router.push({name:'UsersShow',params:{users:this.users}})
+            this.$router.push({name:'UsersShow'})
           },
           // 每页显示的条数
           handleSizeChange(val) {

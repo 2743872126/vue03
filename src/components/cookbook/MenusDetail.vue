@@ -113,7 +113,9 @@
 </template>
 
 <script>
+  import preventBack from 'vue-prevent-browser-back';//组件内单独引入
     export default {
+      mixins: [preventBack],
       name: "MenusDetail",
       data() {
         return {
@@ -127,6 +129,7 @@
         }
       },
       created:function () {
+
           this.user=this.$store.state.user.userInfo
           this.menu=this.$route.params.menudetail;
           if (null!=this.menu.works) {

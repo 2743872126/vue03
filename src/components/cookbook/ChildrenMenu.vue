@@ -54,8 +54,9 @@
       },
       methods: {
         menudetail(item){
-          console.info(item)
-          this.$router.push({name:'MenusDetail',params:{menudetail:item}})
+
+          this.$router.replace({name:'MenusDetail',params:{menudetail:item}})
+
         },
           getinfo:function (mtid) {
             this.$axios.post('http://localhost:8080/cookbooktest/MenuController/querybymtidorderliuxing',this.$qs.stringify({'mtid':mtid}))
