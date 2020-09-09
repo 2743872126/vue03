@@ -23,6 +23,19 @@ export default new Router({
           component: ()=>import('@/components/cookbook/Housing_order'),
         },
         {
+          path: 'studioTypes',
+          name: 'StudioTypes',
+          component: ()=>import('@/components/cookbook/StudioTypes'),
+          redirect:'/studioTypes/StudioMain',
+          children:[
+            {
+              path: 'StudioMain',
+              name: 'StudioMain',
+              component: ()=>import('@/components/cookbook/StudioMain'),
+            },
+          ]
+        },
+        {
           path: 'updateMenus',
           name: 'UpdateMenus',
           component: ()=>import('@/components/cookbook/UpdateMenus'),

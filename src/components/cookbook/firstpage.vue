@@ -19,7 +19,7 @@
               <el-container>
                 <el-aside style="width: 57%">
                   <!--轮播-->
-                  <div style="border: 1px solid black;height: 350px;position: relative">
+                  <div style="height: 350px;position: relative">
                     <el-carousel height="348px">
                       <el-carousel-item v-for="item in upmonthmenu" :key="item.mid">
                         <el-image :src="'static/jpg/'+item.pic" style="width: 100%" @click="menudetail(item)"></el-image>
