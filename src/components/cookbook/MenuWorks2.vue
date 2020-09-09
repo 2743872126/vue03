@@ -38,7 +38,8 @@
             <p style="line-height: 20px;text-align: left;margin-top: -50px;margin-left: 20px;position: relative">
               <el-image :src="'static/jpg/'+work.user.pic" style="width: 60px;height: 60px;margin-right: 20px"></el-image>
               <span style="position: absolute;top: 15px">
-                <a style="color: crimson">{{work.user.uname}}</a>  做过  <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a>
+                <a style="color: crimson">{{work.user.uname}}</a>  <span v-if="MenuDetail!==''">做过  <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a></span>
+                  <span v-else>分享作品</span>
               </span>
               <span style="position: absolute;top: 15px;left: 520px">
                 <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
@@ -49,10 +50,10 @@
             </p>
             <p style="line-height: 30px;text-align: left;margin-top: 0px;margin-left: 100px">
               发布于 {{work.makeTime.substr(0,10)}}
-              <a v-if="user.uid===work.user.uid" style="color: crimson">编辑菜谱</a>
-              <a v-if="user.uid===work.user.uid" style="color: crimson">删除菜谱</a>
+              <a v-if="user.uid===work.user.uid" style="color: crimson">编辑</a>
+              <a v-if="user.uid===work.user.uid" style="color: crimson">删除</a>
             </p>
-            <div style="height: 150px;margin-top: 20px;background-color: gainsboro">
+            <div style="height: 150px;margin-top: 20px;background-color: gainsboro" v-if="MenuDetail!==''">
               <p style="line-height: 50px;margin-top: 20px;text-align: left;margin-left: 20px;position: relative">
                 <el-image :src="'static/jpg/'+MenuDetail.pic" style="height: 100px;width: 120px;margin-right: 20px;margin-top: 20px"></el-image>
                 <span style="position: absolute;top: 15px"><a style="color: crimson;font-size: 18px" @click="menudetail()">{{MenuDetail.mname}}</a></span>

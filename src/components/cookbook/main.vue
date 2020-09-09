@@ -23,26 +23,22 @@
                 <el-button @click="checke">搜菜谱</el-button>
               </el-menu-item>
               <el-menu-item :route="{name:'firstpage'}" style="line-height: 90px"  index="3">
-                <el-link style="font-size: 22px">首页</el-link>
+               <span style="font-size: 20px">首页</span>
               </el-menu-item>
               <el-menu-item  index="4" style="line-height: 90px">
-                <el-link style="font-size: 22px">课程</el-link>
+                <span style="font-size: 20px">课程</span>
               </el-menu-item>
               <el-menu-item  index="5" style="line-height: 90px">
-                <el-link style="font-size: 22px">作品动态</el-link>
+                <span style="font-size: 20px">作品动态</span>
               </el-menu-item>
               <el-menu-item style="margin-top: 20px;" index="99" v-if="isuser" :route="{name:'Email'}">
-                <el-link style="font-size: 22px">
                   <el-badge style="line-height: 10px;" v-model="isEmail==0?'':isEmail" class="item">
                     <icon style="font-size: 30px" class="el-icon-message"></icon>
                   </el-badge>
-                </el-link>
               </el-menu-item>
               <el-menu-item  v-if="isuser" style="line-height: 90px">
-
-                <el-link style="font-size: 22px">
                   <!--<el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar>-->
-                  <el-menu  :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                  <el-menu style="margin-top: 20px" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                     <el-submenu index="1" style="height: 50px">
                       <template style="border: 1px solid black;height: 50px" slot="title"><el-avatar :size="50" fit="fill" :src="'static/jpg/'+user.pic"></el-avatar></template>
                       <el-menu-item :route="{name:'Personal'}" index="1-1">我的厨房</el-menu-item>
@@ -50,11 +46,11 @@
                       <el-menu-item index="1-3" :route="{name:'main'}" @click="signout">退出</el-menu-item>
                     </el-submenu>
                   </el-menu>
-                </el-link>
+
               </el-menu-item>
               <el-menu-item v-else style="margin-left: 5%;line-height: 90px">
-                <el-link style="font-size: 22px" href="http://localhost:8081/#/login2">登陆</el-link>/
-                <el-link style="font-size: 22px" href="http://localhost:8081/#/register">注册</el-link>
+                <a style="font-size: 22px" href="http://localhost:8081/#/login2">登陆</a>/
+                <a style="font-size: 22px" href="http://localhost:8081/#/register">注册</a>
               </el-menu-item>
             </el-menu>
           </div>
@@ -89,17 +85,21 @@
           } else {
             this.isuser=false;
           }
-        this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
-          this.isEmail=Number(this.isEmail+res.data.length);
-        })
-        this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
-          this.isEmail=Number(this.isEmail+res.data.length);
-        })
-        this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
-          this.isEmail=Number(this.isEmail+res.data.length);
-        })
+        this.assdakfdsgjagf()
+
       },
       methods:{
+          assdakfdsgjagf(){
+            this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+              this.isEmail=Number(this.isEmail+res.data.length);
+            })
+            this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+              this.isEmail=Number(this.isEmail+res.data.length);
+            })
+            this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
+              this.isEmail=Number(this.isEmail+res.data.length);
+            })
+          },
           checke(){
             this.$axios.post('http://localhost:8080/cookbooktest/MenuController/queryBymname',this.$qs.stringify({'mname':this.state2}))
               .then(resp=>{
@@ -129,7 +129,7 @@
         signout(){
           this.$store.commit("USER_SIGNOUT");
           this.$router.go(0);
-        }
+        },
       },
       mounted() {
         this.$axios.post('http://localhost:8080/cookbooktest/MenuController/queryAllMenu')

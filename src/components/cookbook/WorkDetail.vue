@@ -12,7 +12,8 @@
               <p style="line-height: 20px;text-align: left;margin-top: -50px;margin-left: 20px;position: relative">
                 <el-image :src="'static/jpg/'+work.user.pic" style="width: 60px;height: 60px;margin-right: 20px"></el-image>
                 <span style="position: absolute;top: 15px">
-                <a style="color: crimson">{{work.user.uname}}</a>  做过  <a style="color: crimson" @click="menudetail()">{{MenuDetail.mname}}</a>
+                <a style="color: crimson">{{work.user.uname}}</a>  <span v-if="MenuDetail!==''">做过  <a style="color: crimson" @click="menudetail()">{{MenuDetail.mname}}</a></span>
+                  <span v-else>分享作品</span>
               </span>
                 <span style="position: absolute;top: 15px;left: 520px">
                 <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
@@ -23,10 +24,10 @@
               </p>
               <p style="line-height: 30px;text-align: left;margin-top: 0px;margin-left: 100px">
                 发布于 {{work.makeTime.substr(0,10)}}
-                <a v-if="user.uid===work.user.uid" style="color: crimson">编辑作品</a>
-                <a v-if="user.uid===work.user.uid" style="color: crimson">删除作品</a>
+                <a v-if="user.uid===work.user.uid" style="color: crimson">编辑</a>
+                <a v-if="user.uid===work.user.uid" style="color: crimson">删除</a>
               </p>
-              <div style="height: 150px;margin-top: 20px;background-color: gainsboro">
+              <div style="height: 150px;margin-top: 20px;background-color: gainsboro" v-if="MenuDetail!==''">
                 <p style="line-height: 50px;margin-top: 20px;text-align: left;margin-left: 20px;position: relative">
                   <el-image :src="'static/jpg/'+MenuDetail.pic" style="height: 100px;width: 120px;margin-right: 20px;margin-top: 20px"></el-image>
                   <span style="position: absolute;top: 15px"><a style="color: crimson;font-size: 18px" @click="menudetail()">{{MenuDetail.mname}}</a></span>
@@ -153,6 +154,7 @@
             });
           this.$axios.post('http://localhost:8080/cookbooktest/MenuController/querybymid', this.$qs.stringify({'mid': this.work.mid}))
             .then(resp => {
+              console.info(resp.data)
               this.MenuDetail = resp.data;
             })
             .catch(err => {
@@ -204,29 +206,29 @@
           }
         },
         del(wmid) {
-          this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/del', this.$qs.stringify({'wmid': wmid}))
-            .then(resp => {
-              this.$confirm('确定要删除吗, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-              }).then(() => {
+          this.$confirm('确定要删除吗, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/del', this.$qs.stringify({'wmid': wmid}))
+              .then(resp => {
                 this.$message({
                   type: 'success',
                   message: '删除成功!'
                 });
                 this.getMessage(this.message.wid);
-              }).catch(() => {
-                this.$message({
-                  type: 'info',
-                  message: '已取消删除'
-                });
-              });
 
-            })
-            .catch(err => {
-              this.$message.error("错误");
+              })
+              .catch(err => {
+                this.$message.error("错误");
+              });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
             });
+          });
         },
         menudetail() {
           this.$router.push({name: 'MenusDetail', params: {menudetail: this.MenuDetail}})

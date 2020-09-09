@@ -1,10 +1,10 @@
 <template>
     <div>
-      <h1 style="text-align: left;line-height: 80px;font-size: 60px">{{mtname}}</h1>
-      <h1 style="text-align: left;line-height: 80px">
+      <h1 style="text-align: left;line-height: 40px;font-size: 40px;margin-top: 20px">{{mtname}}</h1>
+      <p style="text-align: left;line-height: 18px;font-size: 18px">
         <span style="color: dimgray">最近流行</span>&nbsp;|
         <span><a @click="tochildrenMenu2" style="color: crimson">最受欢迎</a></span>
-      </h1>
+      </p>
       <div style="height: 900px">
         <div style="border: 1px solid gainsboro;height: 235px;text-align: left;margin-bottom: 10px" v-for="v in menus">
           <el-image :src="'static/jpg/'+v.pic" style="width: 30%;height: 233px;float: left;margin-right: 20px" @click="menudetail(v)"></el-image>

@@ -1,8 +1,8 @@
 <template>
     <div>
-      <div style="border:1px solid black;width: 80%;margin-left: 10%">
+      <div style="width: 72%;margin-left: 12%">
         <el-container>
-          <el-aside style="border:1px solid black;width: 70%">
+          <el-aside style="width: 65%">
             <h1 style="text-align: left;line-height: 60px;font-size: 40px">
               <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a>的留言
               <a style="font-size: 20px;margin-left: 50%;color: crimson" @click="writeLm">写留言</a>
@@ -13,35 +13,35 @@
               </span>&nbsp;|
               <span style="color: dimgray">作者未回复</span>
             </p>
-            <div v-for="l in LeavlMessage">
-              <p style="text-align:left;line-height: 20px;position: relative">
-                <el-avatar :size="40" fit="fill" :src="'static/jpg/'+l.leavUsers.pic"></el-avatar>
-                <a style="color: crimson;position: absolute;top: 10px;left: 50px">{{l.leavUsers.uname}}</a>
-                <span style="position: absolute;top: 10px;left: 90px;color: dimgray">{{l.leaveTime.substr(0,10)}}</span>
-                <span v-if="user.uid===l.uid" style="position: absolute;top: 10px;left: 170px;color: dimgray">
-                        |<a > 删除</a>
-                      </span>
-              </p>
-              <p style="text-align:left;line-height: 20px;margin-top: -15px;margin-left: 50px">
-                {{l.info}}
-              </p>
-              <p style="text-align:left;line-height: 40px;margin-left: 50px">
-                <el-form :inline="true" :model="replymessage" class="demo-form-inline">
-                  <el-form-item>
-                    <el-input v-model="replymessage.lid"></el-input>
-                  </el-form-item>
-                  <el-form-item style="width: 600px">
-                    <el-input v-model="replymessage.reply" placeholder="请输入回复" style="width: 600px" @focus="showbutton(l.lid)"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click="" style="background-color: crimson" v-show="buttonshow">回复</el-button>
-                  </el-form-item>
-                </el-form>
-              </p>
+            <div v-if="LeavlMessage.length!==0">
+              <div v-for="l in LeavlMessage">
+                <p style="text-align:left;line-height: 20px;position: relative">
+                  <el-avatar :size="40" fit="fill" :src="'static/jpg/'+l.leavUsers.pic"></el-avatar>
+                  <a style="color: crimson;position: absolute;top: 10px;left: 50px">{{l.leavUsers.uname}}</a>
+                  <span style="position: absolute;top: 10px;left: 90px;color: dimgray">{{l.leaveTime.substr(0,10)}}</span>
+                  <span v-if="user.uid===l.uid" style="position: absolute;top: 10px;left: 170px;color: dimgray">
+                          |<a @click="dellm(l.lid)"> 删除</a>
+                        </span>
+                </p>
+                <p style="text-align:left;line-height: 20px;margin-top: -15px;margin-left: 50px">
+                  {{l.info}}
+                </p>
+                <p v-if="user.uid===menu.uid" style="text-align:left;line-height: 40px;margin-left: 50px">
+                  <el-form :inline="true" :model="l" class="demo-form-inline">
+                    <el-form-item style="width: 500px">
+                      <el-input v-model="l.reply" placeholder="请输入回复" style="width: 500px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button type="primary" @click="" style="background-color: crimson" @click="huifu(l)">回复</el-button>
+                    </el-form-item>
+                  </el-form>
+                </p>
+              </div>
             </div>
+            <p v-else>暂无留言,点击写留言进行留言</p>
           </el-aside>
-          <el-main style="border:1px solid black;">
-            <el-image :src="'static/jpg/'+menu.pic" style="width: 100%;height: 300px"></el-image>
+          <el-main>
+            <el-image :src="'static/jpg/'+menu.pic" style="width: 100%;height: 300px;margin-top: 50px"></el-image>
             <p style="line-height: 60px;font-size: 18px;margin-top: -70px">
               <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a>
             </p>
@@ -65,8 +65,6 @@
           LeavlMessage:[],
           menu:{pic:''},
           user:{},
-          replymessage:{lid:''},
-          buttonshow:false
         }
       },
       created:function () {
@@ -96,10 +94,43 @@
         writeLm(){
           this.$router.push({name:'WriteLeavMessage',params:{mid:this.menu.mid}})
         },
-        showbutton(lid){
-          this.buttonshow=true;
-          this.replymessage.lid=lid;
-        }
+        huifu(l){
+          if (l.reply!=null){
+            this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/reply',l)
+              .then(resp=>{
+                this.$router.push({name:'LeavMessage',params:{mid:this.menu.mid}})
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
+          } else {
+            this.$message('请输入内容再回复');
+          }
+        },
+        dellm(lid){
+          this.$confirm('确定要删除吗, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/delBylid',this.$qs.stringify({'lid':lid}))
+              .then(resp=>{
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+                this.$router.push({name:'LeavMessage2',params:{mid:this.menu.mid}})
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        },
       }
     }
 </script>

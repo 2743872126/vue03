@@ -70,9 +70,6 @@
                       <el-avatar :size="40" fit="fill" :src="'static/jpg/'+l.leavUsers.pic"></el-avatar>
                       <a style="color: crimson;position: absolute;top: 10px;left: 50px">{{l.leavUsers.uname}}</a>
                       <span style="position: absolute;top: 10px;left: 90px;color: dimgray">{{l.leaveTime.substr(0,10)}}</span>
-                      <span v-if="user.uid===l.uid" style="position: absolute;top: 10px;left: 170px;color: dimgray">
-                        |<a > 删除</a>
-                      </span>
                     </p>
                     <p style="text-align:left;line-height: 20px;margin-top: -15px;margin-left: 50px">
                       {{l.info}}
@@ -80,9 +77,6 @@
                     <p v-if="null!==l.reply" style="text-align:left;line-height: 40px;margin-top: -15px;margin-left: 50px">
                       作者回复&nbsp;
                       <span style="color: dimgray">{{l.replytime.substr(0,10)}}</span>
-                      <span v-if="user.uid===menu.users.uid" style="position: absolute;top: 10px;left: 170px;color: dimgray">
-                        |<a > 删除</a>
-                      </span>
                     </p>
                     <p v-if="null!==l.reply" style="text-align:left;line-height: 40px;margin-top: -15px;margin-left: 50px;color: dimgray">
                       {{l.reply}}
@@ -172,7 +166,6 @@
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
         },
         toWorkDetail(wid){
-          console.log(wid)
           this.$router.push({name:'WorkDetail',params:{wid:wid}})
         },
         /*tocreateworks(){

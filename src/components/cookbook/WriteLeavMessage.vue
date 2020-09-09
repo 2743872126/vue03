@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div style="border:1px solid black;width: 80%;margin-left: 10%">
+    <div style="width: 80%;margin-left: 10%">
       <el-container>
-        <el-aside style="border:1px solid black;width: 70%">
-          <h1 style="text-align: left;line-height: 60px;font-size: 40px">
+        <el-aside style="width: 70%">
+          <h1 style="text-align: left;line-height: 60px;font-size: 30px;margin-left: 20px">
             写留言
           </h1>
-          <el-form :model="LeavMessage" style="margin-top: 100px;width: 90%;margin-left: 5%">
+          <el-form :model="LeavMessage" style="margin-top: 50px;width: 80%;margin-left: 5%">
             <el-form-item >
               <el-input type="textarea" :rows="6"
-                        placeholder="请输入内容" v-model="LeavMessage.info"></el-input>
+                        placeholder="写下你的留言" v-model="LeavMessage.info"></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="fabu">发布</el-button>
+            <el-form-item style="text-align: left">
+              <el-button type="primary" @click="fabu" style="background-color: crimson">发布</el-button>
             </el-form-item>
           </el-form>
         </el-aside>
-        <el-main style="border:1px solid black;">
-          <el-image :src="'static/jpg/'+menu.pic" style="width: 100%;height: 300px"></el-image>
+        <el-main>
+          <el-image :src="'static/jpg/'+menu.pic" style="width: 100%;height: 250px;margin-top: 50px"></el-image>
           <p style="line-height: 60px;font-size: 18px;margin-top: -70px">
             <a style="color: crimson" @click="menudetail()">{{menu.mname}}</a>
           </p>
@@ -27,6 +27,7 @@
                 <a style="color: crimson">{{menu.users.uname}}</a>
               </span>
           </p>
+          {{LeavMessage}}
         </el-main>
       </el-container>
     </div>
@@ -56,7 +57,18 @@
           this.$router.push({name: 'MenusDetail', params: {menudetail: this.menu}})
         },
         fabu(){
+          if (this.LeavMessage.info!=''){
+            this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/add',this.LeavMessage)
+              .then(resp=>{
+                this.$router.push({name:'LeavMessage2',params:{mid:this.$route.params.mid}})
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
 
+          }else {
+            this.$message('请输入内容再发布');
+          }
         }
       }
     }
