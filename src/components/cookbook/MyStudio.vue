@@ -45,8 +45,11 @@
         if(this.$store.state.user.userInfo.state==1){
           this.$router.push({name:'MyStudio2'})
         }else{
-          this.$alert('你还未成为“美食作家”', '系统消息', {
-            confirmButtonText: '确定'
+          this.$alert('你还未成为“美食作家”,去入驻', '系统消息', {
+            confirmButtonText: '确定',
+            callback:action =>{
+              this.$router.push({name:'ChenWeiStudioChu'})
+            }
           })
         }
       },

@@ -53,7 +53,9 @@
 </template>
 
 <script>
+  import preventBack from 'vue-prevent-browser-back';//组件内单独引入
     export default {
+      mixins: [preventBack],
         name: "LeavMessage",
       data() {
         return {

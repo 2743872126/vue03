@@ -16,7 +16,10 @@
                   <span v-else>分享作品</span>
               </span>
                 <span style="position: absolute;top: 15px;left: 520px">
-                <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
+                <el-button  @click="startWorks" style="width: 80px;background-color: crimson;color: white">
+                  <span v-if="isStart">赞</span>
+                    <span v-else>取消赞</span>
+                </el-button>
               </span>
               </p>
               <p style="line-height: 20px;text-align: left;margin-top: -15px;margin-left: 100px;color: black">
@@ -116,8 +119,10 @@
 </template>
 
 <script>
-    export default {
-        name: "WorkDetail",
+
+  export default {
+
+      name: "WorkDetail",
       data() {
         return {
           work:{user:{},makeTime:'',startUsers:[],works_messages:[]},
@@ -126,13 +131,23 @@
           user:{},
           message:{wid:this.$route.params.wid,message:'',upid:0,uid:this.$store.state.user.userInfo.uid},
           workuser:{munus:[],works:[],users:[]},
-          MenuDetail:{users:{}}
+          MenuDetail:{users:{}},
+          isStart:false,
         }
       },
       created:function () {
         this.$axios.post('http://localhost:8080/cookbooktest/WorksController/queryByWid',this.$qs.stringify({'wid':this.$route.params.wid}))
           .then(resp=>{
             this.work=resp.data;
+            this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryLikes",this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+              .then(res=>{
+                if(res.data>0){
+                  this.isStart=false;
+                }else{
+                  this.isStart=true;
+                }
+
+              })
           })
           .catch(err=>{
             this.$message.error("错误");
@@ -164,7 +179,17 @@
         this.user=this.$store.state.user.userInfo;
       },
       methods: {
-        toWorkDetail(wid){
+        startWorks(){
+          this.$axios.post('http://localhost:8080/cookbooktest/WorksController/updateLike',this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+            .then(resp=>{
+              if(resp.data>0){
+                this.isStart=false;
+              }else{
+                this.isStart=true;
+              }
+            }).catch()
+        },
+          toWorkDetail(wid){
           this.$router.push({name:'WorkDetail',params:{wid:wid}})
         },
         huifu(wmid, uname) {

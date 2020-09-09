@@ -16,13 +16,19 @@ export default new Router({
       component: ()=>import('@/components/cookbook/main'),
       redirect:'/firstpage',
       children:[
+
+        {
+          path: '/housing_order',
+          name: 'Housing_order',
+          component: ()=>import('@/components/cookbook/Housing_order'),
+        },
         {
           path: 'updateMenus',
           name: 'UpdateMenus',
           component: ()=>import('@/components/cookbook/UpdateMenus'),
         },
         {
-          path: 'firstpage',
+          path: 'firstpage/',
           name: 'firstpage',
           component: ()=>import('@/components/cookbook/firstpage'),
         },
@@ -132,6 +138,13 @@ export default new Router({
           component: ()=>import('@/components/cookbook/Personal'),
           children:[
             {
+              path: 'chenWeiStudioChu',
+              name: 'ChenWeiStudioChu',
+              component: ()=>import('@/components/cookbook/ChenWeiStudioChu'),
+            }
+            ,
+
+            {
               path: 'general',
               name: 'General',
               component: ()=>import('@/components/cookbook/General'),
@@ -232,6 +245,13 @@ export default new Router({
       path: '/videoPlay',
       name: 'videoPlay',
       component: () => import('@/components/cookbook/videoPlay')
+    },
+
+
+    {
+      path: '/tanwei_pay',
+      name: 'Tanwei_pay',
+      component: ()=>import('@/components/cookbook/Tanwei_pay'),
     }
     ,
     {

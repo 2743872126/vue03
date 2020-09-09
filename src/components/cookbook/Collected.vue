@@ -1,8 +1,8 @@
 <template>
     <div>
-      <p class="ps"><span class="span">菜单</span>         |        <span @click="toc2">课程</span></p>
+      <p class="ps"><span class="span">菜谱</span>         |        <span @click="toc2">课程</span></p>
       <div class="menus" v-for="(v,k) in userinfo">
-        <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
+          <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.mname}}</h1></div>
         <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
           {{v.madeTime.substring(0,10)}}发布&nbsp;
