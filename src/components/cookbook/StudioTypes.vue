@@ -9,10 +9,10 @@
           <el-aside style="width: 18%">
             <!--菜普分类-->
             <el-menu :default-active="studiotypes.stid+'-'+studiotypes.stname" unique-opened  :router="true" style="width: 99%" class="el-menu-demo"   @select="handleSelect" >
-              <el-menu-item index="全部" :route="{name:'ChilerenAllMenus'}">全部</el-menu-item>
+              <el-menu-item index="全部" :route="{name:'CheckAllStudio'}">全部</el-menu-item>
               <el-submenu v-for="v in studiotypes" :index="v.stid" :default-openeds="v.studioTypes">
                 <template slot="title" >{{v.stname}}</template>
-                <el-menu-item :index="s.stid+'-'+s.stname" style="font-size: 14px;color:gray" v-for="s in v.studioTypes" :route="{name:'ChildrenMenu',query:{'mtid':s.mtid,'mtname':s.mtname}}">
+                <el-menu-item :index="s.stid+'-'+s.stname" style="font-size: 14px;color:gray" v-for="s in v.studioTypes" :route="{name:'CheckStudiesByType',query:{'stid':s.stid,'stname':s.stname}}">
                   {{s.stname}}
                 </el-menu-item>
               </el-submenu>

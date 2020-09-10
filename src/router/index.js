@@ -23,11 +23,31 @@ export default new Router({
           redirect:'/studioTypes/StudioMain',
           children:[
             {
+              path: 'CheckStudiesByType',
+              name: 'CheckStudiesByType',
+              component: ()=>import('@/components/cookbook/CheckStudiesByType'),
+            },
+            {
+              path: 'CheckAllStudio',
+              name: 'CheckAllStudio',
+              component: ()=>import('@/components/cookbook/CheckAllStudio'),
+            },
+            {
               path: 'StudioMain',
               name: 'StudioMain',
               component: ()=>import('@/components/cookbook/StudioMain'),
             },
           ]
+        },
+        {
+          path: 'WorkDynamic',
+          name: 'WorkDynamic',
+          component: ()=>import('@/components/cookbook/WorkDynamic'),
+        },
+        {
+          path: 'AllWorks',
+          name: 'AllWorks',
+          component: ()=>import('@/components/cookbook/AllWorks'),
         },
         {
           path: 'updateMenus',

@@ -10,7 +10,7 @@
             <div style="margin-right: 40px">
               <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 18px;margin-left: 20px;margin-top: 20px;margin-bottom: 20px">
                 <el-breadcrumb-item :to="{path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{name:'menus',params:{'stid':typename.stid,'stname':typename.stname}}">{{typename.stname}}</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{name:'StudioTypes',params:{'stid':typename.stid,'stname':typename.stname}}">{{typename.stname}}</el-breadcrumb-item>
                 <el-breadcrumb-item>{{studioDet.sname}}</el-breadcrumb-item>
               </el-breadcrumb>
               <h1 style="line-height: 70px;text-align: left;font-size: 40px">{{studioDet.sname}}</h1>

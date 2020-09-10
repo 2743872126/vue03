@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="ps"><span class="span">购买的</span>         |        <span @click="mys2">发布的</span><router-link style="float: right" :to="{name:''}">去看看<icon class="el-icon-caret-right"></icon></router-link></p>
+    <p class="ps"><span class="span">购买的</span>         |        <span @click="mys2">发布的</span><router-link style="float: right" :to="{name:'StudioTypes'}">去看看<icon class="el-icon-caret-right"></icon></router-link></p>
     <div class="menus" v-for="(v,i) in payStudio" @click="StudioDetail(v.sid)">
       <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/video/'+v.stupic" fit="cover"></el-image>
       <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.sname}}</h1></div>

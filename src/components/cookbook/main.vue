@@ -28,7 +28,7 @@
               <el-menu-item :route="{name:'StudioTypes'}"  index="4" style="line-height: 90px">
                 <span style="font-size: 20px">课程</span>
               </el-menu-item>
-              <el-menu-item  index="5" style="line-height: 90px">
+              <el-menu-item :route="{name:'WorkDynamic'}"  index="5" style="line-height: 90px">
                 <span style="font-size: 20px">作品动态</span>
               </el-menu-item>
               <el-menu-item style="margin-top: 20px;" index="99" v-if="isuser" :route="{name:'Email'}">
