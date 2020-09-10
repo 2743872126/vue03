@@ -191,8 +191,9 @@
             }).catch()
         },
         del(){
-          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deleteMenu',this.$qs.stringify({'mid':this.menu.mid}))
+          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deletemenuBymid',this.$qs.stringify({'mid':this.menu.mid}))
             .then(resp=>{
+              this.$router.push({name:'Mymenus'})
             }).catch()
         },
         checkAllWorks(){
