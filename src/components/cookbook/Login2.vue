@@ -172,6 +172,7 @@ export default {
       this.$refs['fmin'].validate(valid=>{
         // 当表单所有rules都返回true valid会是true
         if(valid){
+          console.log(this.usersin);
           this.$axios.post('http://localhost:8080/cookbooktest/quryByPwd',this.usersin)
             .then(res => {
               if (''!==res.data) {

@@ -8,7 +8,7 @@
       </p>
       <div style="height: 900px">
         <div style="border: 1px solid gainsboro;height: 470px;margin-bottom: 10px;width: 28%;float: left;margin-right: 60px" v-for="v in works">
-          <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
+          <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,inits2(v),getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
           <p style="font-size: 14px;line-height: 20px;text-align: left;margin-top: -50px"><a style="color: crimson" @click="menudetail()">{{menu.mname}}</a></p>
           <p style="font-size: 14px;line-height: 20px;text-align: left;height: 80px">{{v.winfo}}</p>
           <p style="font-size: 14px;line-height: 20px;text-align: left">
@@ -42,7 +42,10 @@
                   <span v-else>分享作品</span>
               </span>
               <span style="position: absolute;top: 15px;left: 520px">
-                <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
+                <el-button  @click="startWorks3" style="width: 80px;background-color: crimson;color: white">
+                    <span v-if="isStart3">赞</span>
+                    <span v-else>取消赞</span>
+                </el-button>
               </span>
             </p>
             <p style="line-height: 20px;text-align: left;margin-top: -15px;margin-left: 100px;color: black">
@@ -155,7 +158,8 @@
           user:{},
           message:{},
           workuser:{munus:[],works:[],users:[]},
-          MenuDetail:{users:{}}
+          MenuDetail:{users:{}},
+          isStart3:false,
         }
       },
       created:function () {
@@ -167,9 +171,31 @@
           .catch(err=>{
             this.$message.error("错误");
           });
-        this.user=this.$store.state.user.userInfo
+        this.user=this.$store.state.user.userInfo;
+
       },
       methods: {
+        inits2(v){
+          this.work=v;
+          this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryLikes",this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+            .then(res=>{
+              if(res.data>0){
+                this.isStart2=false;
+              }else{
+                this.isStart2=true;
+              }
+            })
+        },
+        startWorks3(){
+          this.$axios.post('http://localhost:8080/cookbooktest/WorksController/updateLike',this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+            .then(resp=>{
+              if(resp.data>0){
+                this.isStart3=false;
+              }else{
+                this.isStart3=true;
+              }
+            }).catch()
+        },
         toWorkDetail(wid){
           console.log(wid)
           this.$router.push({name:'WorkDetail',params:{wid:wid}})
@@ -200,19 +226,23 @@
           }
         },
         fabu(){
-          if (this.message.upid!=0){
-            this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
-            console.info(this.message)
+          if(this.$store.state.user.userLogin){
+            if (this.message.upid!=0){
+              this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
+              console.info(this.message)
+            }
+            this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
+              .then(resp=>{
+                this.getMessage(this.message.wid);
+                this.message.message='';
+                this.message.upid=0;
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
+          }else{
+            this.$message.error('请登录再发布');
           }
-          this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
-            .then(resp=>{
-              this.getMessage(this.message.wid);
-              this.message.message='';
-              this.message.upid=0;
-            })
-            .catch(err=>{
-              this.$message.error("错误");
-            });
         },
         del(wmid){
           this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/del',this.$qs.stringify({'wmid':wmid}))

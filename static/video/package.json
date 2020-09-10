@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "vue-prevent-browser-back": "^1.0.5",
+    "vue-video-player": "^5.0.2"
+  }
+}

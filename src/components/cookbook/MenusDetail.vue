@@ -17,7 +17,10 @@
                 <el-image :src="'static/jpg/'+menu.pic" style="width: 100%;height: 500px"></el-image>
                 <p style="margin-top: -70px;line-height: 70px;color: dimgray;text-align: left">
                   <span style="color: crimson;font-size: 22px;font-weight: bold">{{menu.works.length}}</span>&nbsp;人做过这道菜
-                  <el-button style="background-color: crimson;color: white;width: 100px;margin-left: 70%;height: 48px">收藏</el-button>
+                  <el-button @click="CollectedMenu" style="background-color: crimson;color: white;width: 100px;margin-left: 70%;height: 48px">
+                    <span v-if="isCollected">收藏</span>
+                    <span v-else>取消收藏</span>
+                  </el-button>
                 </p>
                 <hr />
                 <p style="line-height: 14px;text-align: left;position: relative">
@@ -51,13 +54,15 @@
                   <a style="font-size: 18px;color: crimson;margin-left: 220px" @click="checkAllWorks()">全部 {{menu.works.length}} 作品</a>
                 </h1>
                 <div v-for="w in menu.works" style="border:1px solid gainsboro;height: 290px;width: 180px;float: left;margin-right: 12px">
-                  <img :src="'static/jpg/'+w.pic" width="178px" height="150px" @click="toWorkDetail(w.wid)"/>
-                  <p style="line-height: 20px;margin-top: -60px">{{w.makeTime.substr(0,10)}}</p>
-                  <p style="height:40px;line-height: 20px">{{w.winfo.substr(0,24)}}</p>
-                  <p style="line-height: 20px" v-if="w.users!==null">
-                    <el-avatar v-if="w.users.pic!==null" :size="20" fit="fill" :src="'static/jpg/'+w.users.pic"></el-avatar>
-                    <a style="color: crimson">{{w.users.uname}}</a>
-                  </p>
+                  <router-link :to="{name:'WorkDetail',params:{wid:w.wid}}">
+                    <img :src="'static/jpg/'+w.pic" width="178px" height="150px" />
+                    <p style="line-height: 20px;margin-top: -60px">{{w.makeTime.substr(0,10)}}</p>
+                    <p style="height:40px;line-height: 20px">{{w.winfo.substr(0,24)}}</p>
+                    <p style="line-height: 20px" v-if="w.users!==null">
+                      <el-avatar v-if="w.users.pic!==null" :size="20" fit="fill" :src="'static/jpg/'+w.users.pic"></el-avatar>
+                      <a style="color: crimson">{{w.users.uname}}</a>
+                    </p>
+                  </router-link>
                 </div>
                 <p style="clear: both;background-color: crimson;line-height: 50px;color: white;font-size: 20px" @click="tocreateworks">
                   上传你做的{{menu.mname}}
@@ -82,7 +87,7 @@
                       {{l.reply}}
                     </p>
                 </div>
-                <p style="line-height: 50px"><a style="color: crimson" @click="toLeavMessage()">更多菜谱留言</a></p>
+                <p style="line-height: 50px"><router-link style="color: crimson" :to="{name:'LeavMessage',params:{mid:this.menu.mid}}" >更多菜谱留言</router-link></p>
                 </div>
               </div>
             </el-aside>
@@ -119,11 +124,11 @@
           status:false,
           LeavlMessage:[],
           user:{},
-          menutype:{}
+          menutype:{},
+          isCollected:false,
         }
       },
       created:function () {
-
           this.user=this.$store.state.user.userInfo
           this.menu=this.$route.params.menudetail;
           if (null!=this.menu.works) {
@@ -165,8 +170,26 @@
           .catch(err=>{
             this.$message.error("错误");
           });
+        this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryusercollect",this.$qs.stringify({mid:this.menu.mid,uid:this.$store.state.user.userInfo.uid}))
+          .then(res=>{
+            if(res.data>0){
+              this.isCollected=false;
+            }else{
+              this.isCollected=true;
+            }
+          })
       },
       methods:{
+        CollectedMenu(){
+          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/updateCollection',this.$qs.stringify({mid:this.menu.mid,uid:this.$store.state.user.userInfo.uid}))
+            .then(resp=>{
+              if(resp.data>0){
+                this.isCollected=false;
+              }else{
+                this.isCollected=true;
+              }
+            }).catch()
+        },
         del(){
           this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deleteMenu',this.$qs.stringify({'mid':this.menu.mid}))
             .then(resp=>{
@@ -181,9 +204,7 @@
         /*tocreateworks(){
           this.$router.push({path: '/createWorks',query:{mid:this.menu.mid,mname:this.menu.mname}})
         },*/
-        toLeavMessage(){
-          this.$router.push({name:'LeavMessage',params:{mid:this.menu.mid}})
-        },
+
         tocreateworks(){
           this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})
         }

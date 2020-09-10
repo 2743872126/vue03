@@ -4,12 +4,13 @@
         <el-header style="height: 100px">
           <div style=" width: 80%;margin-left: 10%;height: 98px;position: relative">
             <el-menu style="height: 98px" :router="true" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="1">
-                <el-link :underline="false" href="#">
+              <el-menu-item :index="{name:'firstpage'}" >
+                <el-link :underline="false" >
                   <img src="static/jpg/logo2.jpg" height="98px" width="270px" />
                 </el-link>
               </el-menu-item>
               <el-menu-item  style="margin-right: 50px;line-height: 90px">
+
                 <!--<el-input placeholder="搜索菜谱"  style="position: relative;top: 29px;"></el-input>-->
                 <el-autocomplete
                   style="position: relative;top: 29px;"
@@ -19,7 +20,6 @@
                   placeholder="搜索菜谱"
                   :trigger-on-focus="false"
                 ></el-autocomplete>
-
                 <el-button @click="checke">搜菜谱</el-button>
               </el-menu-item>
               <el-menu-item :route="{name:'firstpage'}" style="line-height: 90px"  index="3">
@@ -32,7 +32,7 @@
                 <span style="font-size: 20px">作品动态</span>
               </el-menu-item>
               <el-menu-item style="margin-top: 20px;" index="99" v-if="isuser" :route="{name:'Email'}">
-                  <el-badge style="line-height: 10px;" v-model="isEmail==0?'':isEmail" class="item">
+                  <el-badge style="line-height: 10px;" v-model="isEmail==0?EmailNum:isEmail" class="item">
                     <icon style="font-size: 30px" class="el-icon-message"></icon>
                   </el-badge>
               </el-menu-item>
@@ -59,11 +59,12 @@
           <router-view></router-view>
         </el-main>
       </el-container>
+
     </div>
 </template>
 
 <script>
-
+import emails from  '@/components/cookbook/Email'
     export default {
         name: "main",
         data() {
@@ -72,7 +73,6 @@
             isuser:false,
             restaurants: [],
             state2: '',
-            isEmail:'0',
           }
         },
       created:function () {
@@ -88,10 +88,12 @@
         this.assdakfdsgjagf()
 
       },
+
       methods:{
           assdakfdsgjagf(){
             this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
               this.isEmail=Number(this.isEmail+res.data.length);
+
             })
             this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
               this.isEmail=Number(this.isEmail+res.data.length);
@@ -141,7 +143,8 @@
           .catch(err=>{
             this.$message.error("错误");
           });
-      }
+      },
+      components:{emails}
     }
 </script>
 

@@ -36,7 +36,7 @@
 
 <script>
     export default {
-        name: "WriteLeavMessage",
+      name: "WriteLeavMessage",
       data() {
         return {
           menu:{},
@@ -57,17 +57,21 @@
           this.$router.push({name: 'MenusDetail', params: {menudetail: this.menu}})
         },
         fabu(){
-          if (this.LeavMessage.info!=''){
-            this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/add',this.LeavMessage)
-              .then(resp=>{
-                this.$router.push({name:'LeavMessage2',params:{mid:this.$route.params.mid}})
-              })
-              .catch(err=>{
-                this.$message.error("错误");
-              });
+          if(this.$store.state.user.userLogin){
+            if (this.LeavMessage.info!=''){
+              this.$axios.post('http://localhost:8080/cookbooktest/LeavlMessageController/add',this.LeavMessage)
+                .then(resp=>{
+                  this.$router.push({name:'LeavMessage2',params:{mid:this.$route.params.mid}})
+                })
+                .catch(err=>{
+                  this.$message.error("错误");
+                });
 
-          }else {
-            this.$message('请输入内容再发布');
+            }else {
+              this.$message('请输入内容再发布');
+            }
+          }else{
+            this.$message.error('请登录再发布');
           }
         }
       }

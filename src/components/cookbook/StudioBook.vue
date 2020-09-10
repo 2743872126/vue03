@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div style="width: 80%;margin-left: 10%">
       <el-container>
         <el-header style="height: 100px">
@@ -17,7 +18,10 @@
               <el-image :src="'static/video/'+studioDet.stupic" style="width: 100%;height: 500px"></el-image>
               <p style="margin-top: -70px;line-height: 70px;color: dimgray;text-align: left">
                 <span style="color: crimson;font-size: 22px;font-weight: bold">{{sales}}</span>销量
-                <el-button style="background-color: crimson;color: white;width: 100px;margin-left: 70%;height: 48px">收藏</el-button>
+                <el-button @click="isCollecteds" style="background-color: crimson;color: white;width: 100px;margin-left: 70%;height: 48px">
+                  <span v-show="isFollow">收藏</span>
+                  <span v-show="!isFollow">取消收藏</span><br>
+                </el-button>
               </p>
               <hr />
               <p style="line-height: 14px;text-align: left;position: relative">
@@ -35,7 +39,8 @@
                   <div class="grid-content bg-purple">
                     <router-link v-if="studioDet.uid==$store.state.user.userInfo.uid" :to="{path:'/videoPlay',query:{surl:v.surl,'pic':studioDet.stupic}}" target="_blank">立即查看</router-link>
                     <router-link v-else-if="v.state==0"  :to="{path:'/videoPlay',query:{surl:v.surl,'pic':studioDet.stupic}}" target="_blank">免费观看</router-link>
-                    <span v-else @click="Pay()">付费观看</span>
+                    <a v-else-if="v.state==1 && isPay==false" @click="Pay()">付费观看</a>
+                    <router-link v-else-if="v.state==1 && isPay" :to="{path:'/videoPlay',query:{surl:v.surl,'pic':studioDet.stupic}}" target="_blank">观看</router-link>
                   </div>
                 </el-col>
               </el-row>
@@ -45,6 +50,7 @@
             <p style="text-align: left;color: dimgray;line-height: 30px">
               版权归作者所有，没有作者本人的书面许可任何人不得转载或使用整体或任何部分的内容。
             </p>
+
           </el-main>
         </el-container>
       </el-container>
@@ -62,6 +68,8 @@
         sales:'',// 销量
         userInfo:{},
         isPay:false,
+        isFollow:false,
+        pay:{},
         payInfo:{
           outTradeNo:'',
           subject:'',
@@ -74,6 +82,7 @@
       this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/querydetail",this.$qs.stringify({sid:this.$route.params.sid}))
         .then(res=>{
           this.studioDet=res.data;
+          console.log(this.studioDet);
           this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryTypeByid",this.$qs.stringify({stid:this.studioDet.stid}))
             .then(re=>{
               this.typename=re.data;
@@ -86,26 +95,45 @@
             .then(rr=>{
               this.userInfo=rr.data;
             })
-          this.$axios.post("http://localhost:8080/cookbooktest/queryPaysByid",this.$qs.stringify({uid:this.studioDet.uid,sid:this.$route.params.sid}))
+          this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryPaysByids",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
             .then(ss=>{
-              this.isPay=ss.data;
+              this.isPay=ss.data=='no'?false:true;
+            })
+          this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyLikes",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
+            .then(res=>{
+              if(res.data>0){
+                this.isFollow=false;
+              }else{
+                this.isFollow=true;
+              }
             })
         })
+
     },
     methods:{
+      isCollecteds(){
+        this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/updateMyLikes",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
+          .then(res=>{
+            if(res.data>0){
+              this.isFollow=false;
+            }else{
+              this.isFollow=true;
+            }
+          })
+      },
       Pay(){
-        this.$axios.post('url',this.payInfo).then(resp => {
-          // 添加之前先删除一下，如果单页面，页面不刷新，添加进去的内容会一直保留在页面中，二次调用form表单会出错
-          const divForm = document.getElementsByTagName('div')
-          if (divForm.length) {
-            document.body.removeChild(divForm[0])
-          }
-          const div = document.createElement('div')
-          div.innerHTML = resp.data // data就是接口返回的form 表单字符串
-          document.body.appendChild(div)
-          document.forms[0].setAttribute('target', '_blank') // 新开窗口跳转
-          document.forms[0].submit()
-        })
+        var orderCode='';
+        for (var i = 0; i < 6; i++) //6位随机数，用以加在时间戳后面。
+        {
+          orderCode += Math.floor(Math.random() * 10);
+        }
+        orderCode = new Date().getTime() + orderCode;  //时间戳，用来生成订单号。
+        if(this.isPay){
+          this.pay=this.$qs.stringify({order_num:orderCode,bnbname:this.studioDet.sname,order_price:this.studioDet.money,sid:this.studioDet.sid,flog:1})
+          this.$router.push({path:'/tanwei_pay',query:{pay:this.pay}})
+        }else{
+          this.$message("您已购买，请刷新后观看")
+        }
       }
     }
   }

@@ -11,7 +11,7 @@
     </el-aside>
     <el-main>
       <el-tabs type="border-card" class="tabs">
-        <el-tab-pane :label="'菜谱留言   '+menuMessage.length">
+        <el-tab-pane @click="flushFat" :label="'菜谱留言   '+menuMessage.length">
           <div v-if="menuMessage.length!==0">
             <div v-for="v,i in menuMessage">
               <p style="line-height: 30px;margin-top: 0px;position: relative">
@@ -55,7 +55,7 @@
             空空如也
           </p>
         </el-tab-pane>
-        <el-tab-pane :label="'作品评论   '+workMessage.length">
+        <el-tab-pane @click="flushFat" :label="'作品评论   '+workMessage.length">
           <div v-if="workMessage.length!==0">
             <div v-for="v,i in workMessage">
               <p style="line-height: 30px;margin-top: 0px;position: relative">
@@ -90,22 +90,28 @@
         menuMessage:[],
         studioMessage:[],
         workMessage:[],
+        EmailNum:0,
       }
+
     },
     created(){
+
       this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.menuMessage=res.data;
+        this.EmailNum=Number(this.menuMessage.length+this.EmailNum);
       })
       this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.studioMessage=res.data;
+        this.EmailNum=Number(this.studioMessage.length+this.EmailNum);
       })
       this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.workMessage=res.data;
+        this.EmailNum=Number(this.workMessage.length+this.EmailNum);
       })
+
     },
     methods:{
       del(i,lid,mid){
-        alert(mid)
         this.menuMessage.splice(i,1);
         this.$axios.post("http://localhost:8080/cookbooktest/LeavlMessageController/updatestate",this.$qs.stringify({'lid':lid})).then(res=>{
           if (mid!='') {
