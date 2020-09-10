@@ -65,8 +65,8 @@
                 </el-aside>
                 <el-main>
                   <div v-if="isuser==true" style="height: 350px;margin-top: -20px;margin-right: -20px;background-color: #E9EEF3;position: relative">
-                    <el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic" style="margin-top: 50px"></el-avatar>
-                    <h1 style="margin-top: -120px"><a style="color: crimson">{{user.uname}}的厨房</a></h1>
+                    <el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic" style="margin-top: 50px" @click="toPerson()"></el-avatar>
+                    <h1 style="margin-top: -120px"><a style="color: crimson"  @click="toPerson()">{{user.uname}}的厨房</a></h1>
                     <h1 style="margin-top: -120px;font-size: 20px">
                       <a style="color: crimson">{{user.munus.length}}菜谱</a>|
                       <a style="color: crimson">{{user.works.length}}作品</a>|
@@ -86,10 +86,10 @@
                       <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">万能的吃货</span>
                       <span style="position: absolute;top: -50px;left: 180px;font-size: 18px;color: red" @click="moreusers"><a style="color: crimson">更多</a></span>
                     </div>
-                    <div style="border: 1px solid gainsboro;height: 120px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
-                      <el-avatar style="position: absolute;left: 0px;top: 20px" :size="80" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar>
+                    <div   style="border: 1px solid gainsboro;height: 120px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
+                      <a @click="toThirePerson(v.uid)"><el-avatar style="position: absolute;left: 0px;top: 20px" :size="80" fit="fill" :src="'static/jpg/'+v.pic" ></el-avatar></a>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -40px;left: 100px;font-size: 22px">
-                        <a style="color: black">{{v.uname.substr(0,4)}}..</a>
+                        <a style="color: black" @click="toThirePerson(v.uid)">{{v.uname.substr(0,4)}}..</a>
                         <el-image src="static/jpg/xingji.png" v-if="v.users.state===1" style="height: 30px"></el-image>
                       </span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -10px;left: 100px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
@@ -189,7 +189,12 @@
 
         },
         methods:{
-
+          toThirePerson(uid){
+            this.$router.push({name:'TheirPersonal',params:{uid:uid}})
+          },
+          toPerson(){
+            this.$router.push({name:'Personal'})
+          },
           menudetail(item){
             this.$router.push({name:'MenusDetail',params:{menudetail:item}})
           },

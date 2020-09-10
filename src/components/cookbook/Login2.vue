@@ -172,11 +172,10 @@ export default {
       this.$refs['fmin'].validate(valid=>{
         // 当表单所有rules都返回true valid会是true
         if(valid){
-          console.log(this.usersin);
           this.$axios.post('http://localhost:8080/cookbooktest/quryByPwd',this.usersin)
             .then(res => {
-              if (''!==res.data) {
-                console.log(res)
+              if (0!==res.data.length) {
+
                 this.$store.commit("USER_SIGNIN", res.data);
                 if(this.ischecked){
                   localStorage.setItem("phone",res.data.phone);
@@ -191,7 +190,7 @@ export default {
               }else{
                 this.$message.error('用户名或密码错误')
               }
-            })
+            }).catch(err=>{alert(err)})
         }
       })
 

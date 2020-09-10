@@ -7,7 +7,7 @@
           <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px">新秀课程</p>
         </div>
         <div >
-          <div style="width: 200px;height: 300px;float: left;margin-right: 5px;margin-bottom:20px" v-for="v in newStudio">
+          <div @click="StudioDetail(v.sid)" style="width: 200px;height: 300px;float: left;margin-right: 5px;margin-bottom:20px" v-for="v in newStudio">
             <el-card  style="width: 200px;height: 280px;margin-right: 5px;margin-left: 5px;margin-bottom:20px" :body-style="{ padding: '0px' }">
               <el-image :src="'static/video/'+v.stupic" style="width: 100%;height: 180px" @click="StudioDetail(v.sid)"></el-image>
               <p style="font-size: 13px;line-height: 14px;margin-top: -60px;color: gray" >{{v.username}}</p>
@@ -20,7 +20,7 @@
         </div>
 
         <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">高分好课</p>
-        <div style="width: 200px;height: 300px;float: left;margin-right: 5px;margin-bottom:20px" v-for="v in highStudio">
+        <div @click="StudioDetail(v.sid)" style="width: 200px;height: 300px;float: left;margin-right: 5px;margin-bottom:20px" v-for="v in highStudio">
           <el-card style="width: 200px;height: 300px;margin-right: 5px;margin-left: 5px;margin-bottom:20px" :body-style="{ padding: '0px' }">
             <el-image :src="'static/video/'+v.stupic" style="width: 100%;height: 200px" @click="StudioDetail(v.sid)"></el-image>
             <p style="font-size: 13px;line-height: 14px;margin-top: -60px;color: gray">{{v.username}}</p>
@@ -37,7 +37,7 @@
     <el-main >
         <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><a style="color: crimson">查看我的课程>></a></p>
       <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">优秀美食作家</p>
-      <div v-for="v in youxiuuser" style="width: 110px;height: 180px;float: left;margin-right: 5px;margin-bottom:20px">
+      <div @click="toThirePerson(v.uid)" v-for="v in youxiuuser" style="width: 110px;height: 180px;float: left;margin-right: 5px;margin-bottom:20px">
         <el-card :body-style="{ padding: '0px' }" style="margin-top: 20px">
           <el-avatar :size="50" fit="fill" :src="'static/jpg/'+v.pic" style="margin-top: 20px"></el-avatar>
           <p style="line-height: 20px;margin-top: -50px"><a style="color:crimson">{{v.uname}}</a>   <el-image src="static/jpg/xingji.png" style="height: 20px"></el-image></p>
@@ -147,7 +147,10 @@
       methods:{
         StudioDetail(sid){
           this.$router.push({name:'StudioBook',params:{'sid':sid}})
-        }
+        },
+        toThirePerson(uid){
+          this.$router.push({name:'TheirPersonal',params:{uid:uid}})
+        },
       }
     }
 </script>

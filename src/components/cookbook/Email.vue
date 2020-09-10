@@ -41,8 +41,8 @@
                 <span style="position: absolute;top: 10px">
                   &nbsp;&nbsp;
                   <span style="font-weight: bold;color: black">{{v.leveluser.uname}}</span>&nbsp;&nbsp;评论了你的课程&nbsp;
-                  <a  @click="del2(i,v.smid)">去解答 ></a>
-                  <el-link style="margin-left: 380px" @click="del2(i,v.smid)" >忽略</el-link>
+                  <a  @click="del2(i,v.smid,v.sid)">去解答 ></a>
+                  <el-link style="margin-left: 380px" @click="del2(i,v.smid,'')" >忽略</el-link>
                 </span>
               </p>
               <p style="margin-top: -10px;margin-left: 50px;line-height: 20px;font-size: 13px">
@@ -119,9 +119,12 @@
           }
         }).catch()
       },
-      del2(i,smid){
+      del2(i,smid,sid){
         this.studioMessage.splice(i,1);
         this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/updatemessageBysmid",this.$qs.stringify({'smid':smid})).then(res=>{
+          if (sid!='') {
+            this.$router.push({name: 'StudioBook', params: {sid: sid}})
+          }
         }).catch()
       },
       del3(i,wmid,wid){

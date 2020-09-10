@@ -16,12 +16,16 @@ import "heyui/themes/index.less";
 import qs from 'qs'
 Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios
+import Echarts from 'echarts'
+
 // 使用模块
 Vue.use(elementui)
 import store from './store/index'
 Vue.config.productionTip = false
 import VideoPlayer from 'vue-video-player'
 Vue.use(VideoPlayer)
+Vue.prototype.$echarts = Echarts;
+
 // 阻止启动生产消息
 Vue.config.productionTip = false
 /* eslint-disable no-new */

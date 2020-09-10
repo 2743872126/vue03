@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 export default new Router({
   routes: [
     /*{
@@ -291,6 +294,63 @@ export default new Router({
       path: '/success',
       name: 'Success',
       component: () => import('@/components/cookbook/Success')
+    },
+
+
+
+    {
+      path: '/Login1',
+      name: 'Login1',
+      component: () => import('../components/backstage/Login')
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: () => import('../components/backstage/home'),
+      children: [
+        {
+          path: '/Users',
+          name: 'Users',
+          component: () => import('../components/backstage/Users')
+        },
+        {
+          path: '/functions',
+          name: 'functions',
+          component: () => import('../components/backstage/functions')
+        },{
+          path: '/backmenus',
+          name: 'backmenus',
+          component: () => import('../components/backstage/menus')
+        },{
+          path: '/Myself',
+          name: 'Myself',
+          component: () => import('../components/backstage/Myself')
+        }
+        ,{
+          path: '/menuType',
+          name: 'menuTypes',
+          component: () => import('../components/backstage/menuTypes')
+        }
+        ,{
+          path: '/CurriculumClassification',
+          name: 'CurriculumClassification',
+          component: () => import('../components/backstage/CurriculumClassification')
+        }
+        ,{
+          path: '/works',
+          name: 'works',
+          component: () => import('../components/backstage/work')
+        }
+        ,{
+          path: '/Msg',
+          name: 'Back_LeaveMessage',
+          component: () => import('../components/backstage/Back_LeaveMessage')
+        },{
+          path: '/form',
+          name: 'Back_LeaveMessage',
+          component: () => import('../components/backstage/Back_ReportForm')
+        }
+      ]
     }
   ]
 })
