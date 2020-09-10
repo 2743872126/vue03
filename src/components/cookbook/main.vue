@@ -10,6 +10,7 @@
                 </el-link>
               </el-menu-item>
               <el-menu-item  style="margin-right: 50px;line-height: 90px">
+
                 <!--<el-input placeholder="搜索菜谱"  style="position: relative;top: 29px;"></el-input>-->
                 <el-autocomplete
                   style="position: relative;top: 29px;"
@@ -19,7 +20,6 @@
                   placeholder="搜索菜谱"
                   :trigger-on-focus="false"
                 ></el-autocomplete>
-
                 <el-button @click="checke">搜菜谱</el-button>
               </el-menu-item>
               <el-menu-item :route="{name:'firstpage'}" style="line-height: 90px"  index="3">
@@ -59,11 +59,12 @@
           <router-view></router-view>
         </el-main>
       </el-container>
+
     </div>
 </template>
 
 <script>
-
+import emails from  '@/components/cookbook/Email'
     export default {
         name: "main",
         data() {
@@ -72,14 +73,8 @@
             isuser:false,
             restaurants: [],
             state2: '',
-            isEmail:'0',
           }
         },
-      props: {
-        EmailNum:{
-          default:0,
-        }
-      },
       created:function () {
         this.$store.commit('USER_INFO_COMMIT')
         this.isEmail= localStorage.getItem("isEmail");
@@ -93,12 +88,7 @@
         this.assdakfdsgjagf()
 
       },
-      watch:{
-        EmailNum:function(){
-          alert("变化")
-          this.$set(this.EmailNum,0,this.EmailNum)
-        }
-      },
+
       methods:{
           assdakfdsgjagf(){
             this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
@@ -153,7 +143,8 @@
           .catch(err=>{
             this.$message.error("错误");
           });
-      }
+      },
+      components:{emails}
     }
 </script>
 

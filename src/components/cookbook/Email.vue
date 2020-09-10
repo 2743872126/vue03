@@ -33,7 +33,7 @@
             空空如也
           </p>
         </el-tab-pane>
-        <el-tab-pane @click="flushFat" :label="'课程留言   '+studioMessage.length">
+        <el-tab-pane :label="'课程留言   '+studioMessage.length">
           <div v-if="studioMessage.length!==0">
             <div v-for="v,i in studioMessage">
               <p style="line-height: 30px;margin-top: 0px;position: relative">
@@ -83,7 +83,6 @@
 </template>
 
 <script>
-  import mains from '@/components/cookbook/main'
   export default {
     name: 'Email',
     data(){
@@ -91,39 +90,27 @@
         menuMessage:[],
         studioMessage:[],
         workMessage:[],
+        EmailNum:0,
       }
+
     },
     created(){
 
       this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.menuMessage=res.data;
-        mains.EmailNum=Number(this.menuMessage.length+mains.EmailNum);
+        this.EmailNum=Number(this.menuMessage.length+this.EmailNum);
       })
       this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.studioMessage=res.data;
-        mains.EmailNum=Number(this.studioMessage.length+mains.EmailNum);
+        this.EmailNum=Number(this.studioMessage.length+this.EmailNum);
       })
       this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
         this.workMessage=res.data;
-        mains.EmailNum=Number(this.workMessage.length+mains.EmailNum);
+        this.EmailNum=Number(this.workMessage.length+this.EmailNum);
       })
-      this.$set(mains.EmailNum,0,mains.EmailNum);
+
     },
     methods:{
-      flushFat(){
-        this.$axios.post("http://localhost:8080/cookbooktest/MenuController/queryMyMenuMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
-          this.menuMessage=res.data;
-          mains.EmailNum=Number(this.menuMessage.length+mains.EmailNum);
-        })
-        this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryMyStudioMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
-          this.studioMessage=res.data;
-          mains.EmailNum=Number(this.studioMessage.length+mains.EmailNum);
-        })
-        this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksMessage",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid})).then(res=>{
-          this.workMessage=res.data;
-          mains.EmailNum=Number(this.workMessage.length+mains.EmailNum);
-        })
-      },
       del(i,lid,mid){
         this.menuMessage.splice(i,1);
         this.$axios.post("http://localhost:8080/cookbooktest/LeavlMessageController/updatestate",this.$qs.stringify({'lid':lid})).then(res=>{
