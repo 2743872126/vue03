@@ -78,6 +78,11 @@
     name: 'Tools',
     data(){
       return {
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now() - 8.64e6
+          }
+        },
         dialogVisible: false,
         isLoading:true,
         butshow:false,
