@@ -64,21 +64,19 @@
             this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/querynewStudio')
               .then(resp=>{
                 this.newStudio=resp.data;
-                this.newStudio.forEach(value => {
+                this.newStudio.forEach((value,i) => {
                   this.$axios.post('http://localhost:8080/cookbooktest/UController/querybyid',this.$qs.stringify({uid:value.uid}))
                     .then(resp=>{
-                      this.newStudio=[]
                       value.username=resp.data.uname;
-                      this.newStudio.push(value)
+                      this.$set(this.newStudio,i,value)
                     })
                     .catch(err=>{
                       this.$message.error("错误");
                     });
                   this.$axios.post('http://localhost:8080/cookbooktest/UserTurnoverController/querycountBysid',this.$qs.stringify({sid:value.sid}))
                     .then(resp=>{
-                      this.newStudio=[]
                       value.paycount=resp.data;
-                      this.newStudio.push(value)
+                      this.$set(this.newStudio,i,value)
                     })
                     .catch(err=>{
                       this.$message.error("错误");
@@ -94,13 +92,11 @@
         this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/queryOrderBystart')
           .then(resp=>{
             this.highStudio=resp.data;
-            this.highStudio.forEach(value => {
+            this.highStudio.forEach((value,i) => {
               this.$axios.post('http://localhost:8080/cookbooktest/UController/querybyid',this.$qs.stringify({uid:value.uid}))
                 .then(resp=>{
-                  this.highStudio=[]
                   value.username=resp.data.uname;
-                  this.highStudio.push(value)
-
+                  this.$set(this.highStudio,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");
@@ -108,10 +104,9 @@
 
               this.$axios.post('http://localhost:8080/cookbooktest/UserTurnoverController/querycountBysid',this.$qs.stringify({sid:value.sid}))
                 .then(resp=>{
-                  this.highStudio=[]
 
                   value.paycount=resp.data;
-                  this.highStudio.push(value)
+                  this.$set(this.highStudio,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");
@@ -120,11 +115,8 @@
 
               this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/queryAvg',this.$qs.stringify({sid:value.sid}))
                 .then(resp=>{
-                  this.highStudio=[]
                   value.avgstart=resp.data;
-                  this.highStudio.push(value)
-                  console.info(this.highStudio)
-
+                  this.$set(this.highStudio,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");

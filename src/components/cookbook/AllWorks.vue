@@ -158,7 +158,7 @@
       },
       created:function () {
         this.user=this.$store.state.user.userInfo
-        this.$axios.post('http://localhost:8080/cookbooktest/WorksController/queryGuanzhuWorks',this.$qs.stringify({'uid':this.$store.state.user.userInfo.uid}))
+        this.$axios.post('http://localhost:8080/cookbooktest/WorksController/queryAllWorks')
           .then(resp=>{
             this.works=resp.data;
           })

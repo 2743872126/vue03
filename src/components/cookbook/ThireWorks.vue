@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div v-if="works.length!==0">
       <div class="workss" v-for="(v,k) in works.slice(0,9)">
         <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
-        <div style="margin-top: -100px;margin-bottom: -100px"><p style="font-size: 22px;" >{{v.winfo.substring(0,20)}}..</p></div>
-        <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
+        <div style="margin-top: -100px;margin-bottom: -100px"><p style="font-size: 18px;" >{{v.winfo.substring(0,20)}}..</p></div>
+        <div style="font-size: 14px;margin:-55px 0 -55px -30px ;">
           {{v.makeTime.substring(0,10)}}拍摄
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span><el-icon class="el-icon-chat-dot-round"></el-icon>{{works_messages===null?0:works_messages.length}}</span>
@@ -12,6 +12,7 @@
       </div>
 
     </div>
+  <p v-else>该作者没有发布作品</p>
 </template>
 
 <script>
@@ -45,9 +46,9 @@
 
 <style scoped>
   .workss{
-    margin-top: 20px;
-    width: 33%;
-    border: 1px white solid;
     float: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 30%;
   }
 </style>

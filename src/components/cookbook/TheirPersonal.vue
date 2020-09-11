@@ -2,22 +2,22 @@
   <div class="container">
       <div class="top">
             <div style="float: left;margin-left: 100px">
-              <el-avatar :size="200" :src="'/static/jpg/'+userinfos.pic" style="margin-top: 40px;margin-bottom: -40px"></el-avatar>
-              <span style="font-size: 50px">{{this.userinfos.uname}}的厨房</span>
-              <span style="font-size: 20px">{{this.userinfos.createTime.substring(0,10)}}加入</span>
+              <el-avatar :size="100" :src="'/static/jpg/'+userinfos.pic" style="margin-top: 40px"></el-avatar>
+              <span style="font-size: 30px">{{this.userinfos.uname}}的厨房</span>
+              <span style="font-size: 18px">{{this.userinfos.createTime.substring(0,10)}}加入</span>
             </div>
            <div style="text-align: right">
              <el-tooltip style="margin-left: 100px;font-size: 22px" class="item" effect="dark" :content="userinfos.selfinfo" placement="top-end">
                <el-button>个人签名<i class="el-icon-view el-icon--right"></i></el-button>
              </el-tooltip><br>
-             <el-button round class="buts">关注的人<br>
+             <span style="font-size: 18px">关注的人:
                {{follows.length}}
-             </el-button>
-             <el-button round class="buts">
-               被关注<br>
+             </span>|
+             <span style="font-size: 18px;margin-right: 50px">
+               被关注:
                {{followsMe.length}}
-             </el-button>
-             <el-button round class="buts" @click="changestate">
+             </span>
+             <el-button  v-show="this.$store.state.user.userLogin" style="margin-right: 10px"  class="buts" @click="changestate">
                <span v-show="isFollow">关注</span><span v-show="!isFollow">取关</span><br>
              </el-button>
            </div>
@@ -109,9 +109,9 @@
 
 <style scoped>
   .container{
-    width: 80%;
+    width: 73%;
     text-align: center;
-    margin-left: 10%
+    margin-left: 12%
   }
   .top{
     margin-bottom: -40px;

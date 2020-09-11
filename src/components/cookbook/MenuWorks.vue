@@ -103,20 +103,20 @@
               </el-collapse>
             </div>
             <el-form :model="message" style="margin-top: 100px;width: 90%;margin-left: 5%">
-              <el-form-item  hidden>
-                <el-input v-model="message.wid"></el-input>
-              </el-form-item>
-              <el-form-item  hidden>
-                <el-input v-model="message.upid"></el-input>
-              </el-form-item>
-              <el-form-item hidden>
-                <el-input v-model="message.uid"></el-input>
-              </el-form-item>
-              <el-form-item >
-                <el-input type="textarea" :rows="5"
-                          placeholder="请输入内容" v-model="message.message" @input="neirong" ></el-input>
-              </el-form-item>
-            </el-form>
+            <el-form-item  hidden>
+              <el-input v-model="message.wid"></el-input>
+            </el-form-item>
+            <el-form-item  hidden>
+              <el-input v-model="message.upid"></el-input>
+            </el-form-item>
+            <el-form-item hidden>
+              <el-input v-model="message.uid"></el-input>
+            </el-form-item>
+            <el-form-item >
+              <el-input type="textarea" :rows="5"
+                        placeholder="请输入内容" v-model="message.message" @input="neirong" ></el-input>
+            </el-form-item>
+          </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button type="primary" @click="fabu()">发布</el-button>
             </div>

@@ -2,9 +2,9 @@
   <div class="container">
       <div class="top">
             <div style="float: left;margin-left: 100px">
-              <el-avatar :size="200" :src="'/static/jpg/'+userinfo.pic" style="margin-top: 40px;margin-bottom: -40px"></el-avatar>
-              <span style="font-size: 50px">{{this.userinfo.uname}}的厨房</span>
-              <span style="font-size: 20px">{{this.userinfo.createTime.substring(0,10)}}加入</span>
+              <el-avatar :size="100" :src="'/static/jpg/'+userinfo.pic" style="margin-top: 40px;"></el-avatar>
+              <span style="font-size: 30px">{{this.userinfo.uname}}的厨房</span>&nbsp;&nbsp;
+              <span style="font-size: 18px">{{this.userinfo.createTime.substring(0,10)}}加入</span>
             </div>
            <div style="text-align: right">
 
@@ -35,9 +35,7 @@
           <el-menu-item index="3" :route="{name:'Myworks'}">作品{{this.userinfo.works.length}}</el-menu-item>
           <el-menu-item index="4" :route="{name:'Collected'}">收藏</el-menu-item>
           <el-menu-item index="5" :route="{name:'MyStudio'}">课程</el-menu-item>
-          <!--<el-menu-item index="6" :route="{name:'Drafts'}" style="float: right">草稿箱</el-menu-item>-->
           <el-menu-item v-if="$store.state.user.userInfo.state==1" index="7" :route="{name:'Turnover'}">流水</el-menu-item>
-          <el-menu-item index="8" :route="{name:'Drafts'}" style="float: right">草稿箱</el-menu-item>
         </el-menu>
         <div>
           <router-view></router-view>
@@ -85,9 +83,9 @@
 
 <style scoped>
   .container{
-    width: 80%;
+    width: 73%;
     text-align: center;
-    margin-left: 10%
+    margin-left: 12%
   }
   .top{
     margin-bottom: -40px;
@@ -100,13 +98,14 @@
     color: #333;
   }
   .el-menu-item{
-    font-size: 22px;
+    font-size: 18px;
   }
   .buts{
-    width: 200px;
+    width: 150px;
     background-color: crimson;
     color: white;
-    font-size: 22px;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: -100px;
   }
 </style>

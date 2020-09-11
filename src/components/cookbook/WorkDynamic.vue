@@ -1,14 +1,17 @@
 <template>
   <div style=" width: 72%;margin-left: 12%" >
-    <el-container>
-      <el-aside style="width: 70%">
         <div style="width: 180px;height: 50px;line-height: 50px;float: left;margin-right: 4px;background-color: crimson;color: white">
           我关注的更新</div>
         <div style="width: 130px;height: 50px;line-height: 50px;float: left;margin-right: 4px;background-color:ghostwhite" @click="toAllworks()">全站更新</div>
-        <div style="width: 420px;height: 50px;line-height: 50px;float: left;background-color: ghostwhite;margin-bottom: 20px"></div>
+        <div style="width: 520px;height: 50px;line-height: 50px;float: left;margin-right: 4px;background-color: ghostwhite;margin-bottom: 20px"></div>
+        <div style="width: 200px;height: 60px;line-height: 60px;float: left;margin-right: 4px;background-color:ghostwhite">
+          <a style="color: crimson" @click="moreusers">下厨的朋友>></a>
+        </div>
 
-        <div style="height: 2000px;clear: both" v-if="works.length!==0">
-          <div style="border: 1px solid gainsboro;height: 430px;margin-bottom: 20px;width: 42%;float: left;margin-right: 55px" v-for="v in works">
+
+
+        <div style="height: 2000px;clear: both" v-if="this.$store.state.user.userLogin">
+          <div style="border: 1px solid gainsboro;height: 430px;margin-bottom: 20px;width: 28%;float: left;margin-right: 55px" v-for="v in works">
             <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
             <p style="font-size: 14px;line-height: 20px;text-align: left;margin-top: -50px"><a style="color: crimson" @click="menudetail()">{{MenuDetail.mname}}</a></p>
             <p style="font-size: 14px;line-height: 20px;text-align: left;height: 40px">{{v.winfo}}</p>
@@ -140,13 +143,6 @@
           <span slot="footer" class="dialog-footer">
   </span>
         </el-dialog>
-      </el-aside>
-      <el-main >
-        <div style="width: 200px;height: 60px;line-height: 60px;float: left;margin-right: 4px;background-color:ghostwhite;margin-top: -20px">
-          <a style="color: crimson" @click="moreusers">下厨的朋友>></a>
-        </div>
-      </el-main>
-    </el-container>
   </div>
 </template>
 

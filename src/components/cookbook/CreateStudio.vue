@@ -1,7 +1,8 @@
 <template>
-  <div class="main" style="width: 73%;margin-left: 12%;border: 1px solid black">
+  <div class="main" style="width: 73%;margin-left: 12%">
   <el-form style="width: 80%;margin-left: 10%" :model="newStudio" status-icon :rules="rules" ref="myForm"  class="demo-ruleForm">
-      <el-form-item prop="sname">
+    <p style="line-height:50px;text-align: left;margin-bottom: 10px;font-size: 32px;color: black">课程发布</p>
+    <el-form-item prop="sname">
         <el-input  style="font-size: 20px;line-height: 20px" type="textarea" :rows="1" v-model="newStudio.sname" placeholder="请输入课程名"></el-input>
       </el-form-item>
     <p style="line-height:30px;text-align: left;margin-bottom: 10px;font-size: 22px;color: darkseagreen;font-weight: bold">上传封面图  :</p>
@@ -22,6 +23,16 @@
       <el-form-item prop="Info" style="margin-top: 40px">
         <el-input type="textarea" style="font-size: 20px;" v-model="newStudio.Info" placeholder="课程描述"></el-input>
       </el-form-item>
+
+    <p style="line-height:30px;text-align: left;margin-bottom: 10px;font-size: 22px;color: darkseagreen;font-weight: bold">选择分类  :</p>
+    <p style="line-height: 40px">
+      <select v-model="values" class="select" filterable placeholder="一级">
+        <option v-for="item,index in options"  :value="item.stid">{{item.stname}}</option>
+      </select>
+      <select  class="select" v-model="newStudio.stid" filterable placeholder="二级">
+        <option v-for="item in childrenoptions" :value="item.stid">{{item.stname}}</option>
+      </select>
+    </p>
     <p style="line-height:40px;text-align: left;margin-bottom: 10px;font-size: 22px;color: darkseagreen;font-weight: bold">选择价格  :</p>
     <el-form-item style="margin-top: 30px">
         <el-input-number :min="0" :max="500" style="width: 70%;font-size: 33px;" v-model="newStudio.money" placeholder="价格"></el-input-number>
@@ -42,21 +53,16 @@
           </el-col>
           <el-col :span="5"><icon title="删除这行"  @click="removestep2(i)" style="font-size: 40px;margin-top: 4px" class="el-icon-close"></icon></el-col>
         </el-row>
-        <el-button @click="addstep2" round style="float:left;background-color: orange;color: white; font-size: 20px">追加一集</el-button>
+        <el-button @click="addstep2" round style="background-color:crimson;color: white; font-size: 18px;margin-top: 20px;float: left">追加一集</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button style="font-size: 30px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布视频</el-button>
-        <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 30px;background-color: crimson;"  type="primary" >退出</el-button>
+        <p style="margin-top: 80px">
+        <el-button style="font-size: 20px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布视频</el-button>
+        <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 20px;background-color: crimson;"  type="primary" >退出</el-button>
+        </p>
       </el-form-item>
 
-    <p style="float: left;width: 5%"></p>
-      <h1 style="line-height:90px;text-align: left;margin-bottom: 10px">选择分类  :</h1>
-      <select v-model="values" class="select" filterable>
-        <option v-for="item,index in options" :value="item.stid">{{item.stname}}</option>
-      </select>
-      <select  class="select" v-model="newStudio.stid" filterable >
-        <option v-for="item in childrenoptions" :value="item.stid">{{item.stname}}</option>
-      </select>
+
   </el-form>
 </div>
 </template>
@@ -125,6 +131,7 @@
                           for1.append("studioDetail",JSON.stringify(this.studioDetail));
                           this.$axios.post("http://localhost:8080/cookbooktest/file/upStudios",for1).then(res=>{
                             if(res.data=='ok'){
+
                               setTimeout(() => {
                                 this.fullscreenLoading=false;
                                 this.$router.push({name:'MyStudio2'});
@@ -223,14 +230,13 @@
     border:1px solid gainsboro;
   }
   .select{
-    width: 45%;
-    border-color: gainsboro;
-    height: 40px;
-    font-size: 28px;
-    margin-top: -100px;
+    width: 200px;
+    height: 30px;
+    font-size: 12px;
   }
   .radios{
     height: 20px;
     font-weight: 900;
+    margin-top: 20px;
   }
 </style>

@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div v-if="release.length!==0">
     <div class="menus" v-for="(v,k) in release" @click="StudioDetail(v.sid)">
       <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/video/'+v.stupic" fit="cover"></el-image>
-      <div style="margin-top: -120px"><h1 style="font-size: 32px;margin:30px 0 -100px 0 ">{{v.sname}}</h1></div>
-      <div style="font-size: 18px;margin:-55px 0 -55px -30px ;">
+      <div style="margin-top: -120px"><h1 style="font-size: 18px;margin:30px 0 -100px 0 ">{{v.sname}}</h1></div>
+      <div style="font-size: 14px;margin:-55px 0 -55px -30px ;">
         {{v.upTime.substring(0,10)}}发布 |
         <span v-if="v.str">星级：<icon class="el-icon-star-on">{{v.str}}</icon> |</span>
         <span><icon class="el-icon-s-comment">{{v.studio_messages===null?0:v.studio_messages.length}}</icon></span>
       </div>
     </div>
   </div>
+  <p v-else>该作者没有发布菜谱</p>
 </template>
 
 <script>
@@ -55,8 +56,7 @@
   .menus {
     float: left;
     margin-top: 20px;
-    margin-left: 10px;
-    width: 32%;
-    border: 1px white solid;
+    margin-left: 20px;
+    width: 30%;
   }
 </style>

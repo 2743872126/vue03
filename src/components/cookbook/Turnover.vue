@@ -1,15 +1,15 @@
 <template>
   <div>
-    <p style="margin-left:10px;text-align: left;line-height: 30px"><span class="pppp" @click="changecolor2" :style=ZhiColor>收入</span><span style="font-size: 26px">|</span><span class="pppp" @click="changecolor" :style=ShouColor>支出</span>
+    <p class="ps" style="line-height: 30px"><span class="pppp" @click="changecolor2" :style=ZhiColor>收入</span><span style="font-size: 20px">|</span><span class="pppp" @click="changecolor" :style=ShouColor>支出</span>
     </p>
-    <el-table v-show="isshow" :data="tableData.slice((currentPage-1)*PageSize,currentPage*PageSize)" style="width: 100%;">
+    <el-table v-show="isshow" :data="tableData.slice((currentPage-1)*PageSize,currentPage*PageSize)" style="width: 100%;margin-top: -20px">
       <el-table-column prop="utid" style="width: 20%;" label="账单号"></el-table-column>
       <el-table-column prop="uid" style="width: 20%;" label="购买人"></el-table-column>
       <el-table-column prop="wid" style="width: 20%;" label="课程名"></el-table-column>
       <el-table-column prop="income" style="width: 20%;" label="收入"></el-table-column>
       <el-table-column prop="madeTime" style="width: 20%;" label="卖出时间"></el-table-column>
     </el-table>
-    <el-table v-show="!isshow" :data="dataTable.slice((currentPage-1)*PageSize,currentPage*PageSize)" style="width: 100%;">
+    <el-table v-show="!isshow" :data="dataTable.slice((currentPage-1)*PageSize,currentPage*PageSize)" style="width: 100%;margin-top: -20px">
       <el-table-column prop="utid" style="width: 20%;" label="账单号"></el-table-column>
       <el-table-column prop="wid" style="width: 20%;" label="课程名"></el-table-column>
       <el-table-column prop="pay" style="width: 20%;" label="支出"></el-table-column>
@@ -145,6 +145,6 @@
 
 <style scoped>
 .pppp{
-  font-size: 22px;
+  font-size: 20px;
 }
 </style>

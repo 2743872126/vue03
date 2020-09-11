@@ -18,14 +18,16 @@
               <el-image :src="'static/video/'+studioDet.stupic" style="width: 100%;height: 500px"></el-image>
               <p style="margin-top: -70px;line-height: 70px;color: dimgray;text-align: left">
                 <span style="color: crimson;font-size: 22px;font-weight: bold">{{sales}}</span>销量
-                <el-button @click="isCollecteds" style="background-color: crimson;color: white;width: 100px;margin-left: 70%;height: 48px">
+                &nbsp;&nbsp;平均分：{{avgstart}}
+                <el-button @click="isCollecteds" style="background-color: crimson;color: white;width: 100px;margin-left: 50%;height: 48px">
                   <span v-show="isFollow">收藏</span>
                   <span v-show="!isFollow">取消收藏</span><br>
                 </el-button>
+                <el-button style="background-color: crimson;color: white;width: 140px;margin-left: 2%;height: 48px" v-if="studioDet.uid!==$store.state.user.userInfo.uid&&isPay==false" @click="Pay()">￥{{studioDet.money}}  购买课程</el-button>
               </p>
               <hr />
               <p style="line-height: 14px;text-align: left;position: relative">
-                <el-avatar :size="80" fit="fill" :src="'static/jpg/'+userInfo.pic"></el-avatar>
+                <img :src="'static/jpg/'+userInfo.pic" width="80" height="80"/>
                 <span style="position: absolute;top: 30px;left: 100px;font-size: 22px">{{userInfo.uname}}</span>
               </p>
               <p style="text-align: left;line-height: 30px;font-size: 20px">
@@ -44,6 +46,52 @@
                   </div>
                 </el-col>
               </el-row>
+              <div style="background-color: gainsboro">
+                <h1 style="text-align: left;line-height: 50px;font-size: 30px;color: darkseagreen">课程评价
+                  <a style="font-size: 16px;color: crimson;margin-left: 580px" @click="cl">写评价</a>
+                </h1>
+<!--
+                {{this.studioMessages}}
+-->
+                <div v-for="l in studioMessages">
+                  <p style="text-align:left;line-height: 20px;position: relative">
+                    <el-avatar :size="40" fit="fill" :src="'static/jpg/'+l.leveluser.pic"></el-avatar>
+                    <a style="color: crimson;position: absolute;top: 10px;left: 50px">{{l.leveluser.uname}}</a>
+                    <span style="position: absolute;top: 10px;left: 90px;color: dimgray">{{l.evaluateTime.substr(0,10)}}</span>
+                  </p>
+                  <p style="text-align:left;line-height: 30px;margin-top: -15px;margin-left: 50px">
+                    <el-rate
+                      v-model="l.start"
+                      disabled
+                      show-score
+                      text-color="#ff9900"
+                      score-template="{value}">
+                    </el-rate>
+                    <!--{{l.start}}分-->
+                  </p>
+                  <p style="text-align:left;line-height: 30px;margin-top: -15px;margin-left: 50px">
+                    {{l.message}}
+                  </p>
+                </div>
+              </div>
+              <el-dialog
+                title="写评价"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :before-close="handleClose">
+                <el-form :model="Message" style="width: 90%;margin-left: 5%">
+                  <el-form-item>
+                    <el-rate v-model="Message.start"></el-rate>
+                  </el-form-item>
+                  <el-form-item >
+                    <el-input type="textarea" :rows="5"
+                              placeholder="请输入内容" v-model="Message.message"></el-input>
+                  </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                  <el-button type="primary" @click="fabu()">发布</el-button>
+                </div>
+              </el-dialog>
             </div>
           </el-aside>
           <el-main>
@@ -63,6 +111,7 @@
     name: 'StudioBook',
     data(){
       return {
+        dialogVisible:false,
         studioDet:{},
         typename:{},
         sales:'',// 销量
@@ -75,14 +124,29 @@
           subject:'',
           totalAmount:'',
           body:'',
-        }
+        },
+        studioMessages:[],
+        Message:{sid:this.$route.params.sid,message:'',start:'',uid:this.$store.state.user.userInfo.uid},
+        avgstart:''
       }
     },
     created(){
       this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/querydetail",this.$qs.stringify({sid:this.$route.params.sid}))
         .then(res=>{
           this.studioDet=res.data;
-          console.log(this.studioDet);
+          this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/queryAvg',this.$qs.stringify({sid:this.$route.params.sid}))
+            .then(resp=>{
+              this.avgstart=resp.data;
+            })
+            .catch(err=>{
+              this.$message.error("错误");
+            });
+          this.$axios.post("http://localhost:8080/cookbooktest/Studio_MessageController/queryBysid",this.$qs.stringify({sid:this.studioDet.sid}))
+            .then(res=>{
+              this.studioMessages=res.data;
+            }).catch(err=>{
+            this.$message.error("错误");
+          })
           this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/queryTypeByid",this.$qs.stringify({stid:this.studioDet.stid}))
             .then(re=>{
               this.typename=re.data;
@@ -109,30 +173,88 @@
             })
         })
 
+
     },
     methods:{
-      isCollecteds(){
-        this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/updateMyLikes",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
-          .then(res=>{
-            if(res.data>0){
-              this.isFollow=false;
-            }else{
-              this.isFollow=true;
-            }
+      fabu(){
+        if (this.Message.message==''){
+          this.$message("请输入评价")
+        } else if (this.Message.start=='') {
+          this.$message("请评分")
+        }else {
+          this.$axios.post("http://localhost:8080/cookbooktest/Studio_MessageController/add",this.Message)
+            .then(res=>{
+              this.dialogVisible=false;
+              this.$axios.post("http://localhost:8080/cookbooktest/Studio_MessageController/queryBysid",this.$qs.stringify({sid:this.studioDet.sid}))
+                .then(res=>{
+                  this.studioMessages=res.data;
+                }).catch(err=>{
+                this.$message.error("错误");
+              })
+            }).catch(err=>{
+            this.$message.error("错误");
           })
+        }
+      },
+      cl(){
+        if (this.$store.state.user.userLogin) {
+          this.dialogVisible=true
+          this.Message={sid:this.$route.params.sid,message:'',start:'',uid:this.$store.state.user.userInfo.uid}
+        }else {
+          this.$confirm('请登录账号,是否登陆?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push({name:'Login2'})
+          }).catch(() => {
+          });
+        }
+      },
+      isCollecteds(){
+        if (this.$store.state.user.userLogin) {
+          this.$axios.post("http://localhost:8080/cookbooktest/StudioContorller/updateMyLikes",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,sid:this.studioDet.sid}))
+            .then(res=>{
+              if(res.data>0){
+                this.isFollow=false;
+              }else{
+                this.isFollow=true;
+              }
+            })
+        }else {
+          this.$confirm('请登录账号,是否登陆?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push({name:'Login2'})
+          }).catch(() => {
+          });
+        }
       },
       Pay(){
-        var orderCode='';
-        for (var i = 0; i < 6; i++) //6位随机数，用以加在时间戳后面。
-        {
-          orderCode += Math.floor(Math.random() * 10);
-        }
-        orderCode = new Date().getTime() + orderCode;  //时间戳，用来生成订单号。
-        if(this.isPay){
-          this.pay=this.$qs.stringify({order_num:orderCode,bnbname:this.studioDet.sname,order_price:this.studioDet.money,sid:this.studioDet.sid,flog:1})
-          this.$router.push({path:'/tanwei_pay',query:{pay:this.pay}})
-        }else{
-          this.$message("您已购买，请刷新后观看")
+        if (this.$store.state.user.userLogin) {
+          var orderCode='';
+          for (var i = 0; i < 6; i++) //6位随机数，用以加在时间戳后面。
+          {
+            orderCode += Math.floor(Math.random() * 10);
+          }
+          orderCode = new Date().getTime() + orderCode;  //时间戳，用来生成订单号。
+          if(!this.isPay){
+            this.pay=this.$qs.stringify({order_num:orderCode,bnbname:this.studioDet.sname,order_price:this.studioDet.money,sid:this.studioDet.sid,flog:1})
+            this.$router.push({path:'/tanwei_pay',query:{pay:this.pay}})
+          }else{
+            this.$message("您已购买，请刷新后观看")
+          }
+        }else {
+          this.$confirm('请登录账号,是否登陆?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push({name:'Login2'})
+          }).catch(() => {
+          });
         }
       }
     }

@@ -75,9 +75,9 @@
                     </h1>
                     <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px" @click="creatMenu">创建菜谱</el-button>
                   </div>
-                  <div v-else style="height: 350px;margin-top: -20px;margin-right: -20px;background-color: #E9EEF3">
-                        <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px;margin-top: 130px" @click="loginin">登陆</el-button>
-                        <el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px" @click="loginon">注册</el-button>
+                  <div v-else style="height: 350px;margin-top: -50px;margin-right: -20px;background-color: #E9EEF3">
+                        <p style="line-height: 20px"><el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px;margin-top: 130px" @click="loginin">登陆</el-button></p>
+                    <p style="line-height: 20px"><el-button style="background-color: crimson;color: white;width: 170px;height: 60px;font-size: 22px" @click="loginon">注册</el-button></p>
                   </div>
 
                   <!--下厨的朋友们-->
