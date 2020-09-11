@@ -19,7 +19,11 @@ export default new Router({
       component: ()=>import('@/components/cookbook/main'),
       redirect:'/firstpage',
       children:[
-
+        {
+          path:'editWorks',
+          name: 'EditWorks',
+          component: ()=>import('@/components/cookbook/EditWorks'),
+        },
         {
           path: '/housing_order',
           name: 'Housing_order',
@@ -177,9 +181,12 @@ export default new Router({
               path: 'chenWeiStudioChu',
               name: 'ChenWeiStudioChu',
               component: ()=>import('@/components/cookbook/ChenWeiStudioChu'),
-            }
-            ,
-
+            },
+            {
+              path: 'turnover',
+              name: 'Turnover',
+              component: ()=>import('@/components/cookbook/Turnover'),
+            },
             {
               path: 'general',
               name: 'General',

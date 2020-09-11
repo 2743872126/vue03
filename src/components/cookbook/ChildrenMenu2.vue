@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside style="width: 65%">
+      <el-aside style="width: 65%;width: 3000px">
         <h1 style="text-align: left;line-height: 50px;font-size: 30px;margin-top: 20px">{{mtname}}</h1>
         <p style="text-align: left;line-height: 18px;font-size: 18px">
           <span><a style="color: crimson" @click="tochildrenMenu">最近流行</a></span>&nbsp;|

@@ -35,7 +35,7 @@
 
     </el-aside>
     <el-main >
-        <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><a style="color: crimson">查看我的课程>></a></p>
+        <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><router-link v-show="$store.state.user.userLogin" style="color: crimson" :to="{name:'MyStudio'}">查看我的课程>></router-link></p>
       <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">优秀美食作家</p>
       <div @click="toThirePerson(v.uid)" v-for="v in youxiuuser" style="width: 110px;height: 180px;float: left;margin-right: 5px;margin-bottom:20px">
         <el-card :body-style="{ padding: '0px' }" style="margin-top: 20px">
@@ -64,21 +64,19 @@
             this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/querynewStudio')
               .then(resp=>{
                 this.newStudio=resp.data;
-                this.newStudio.forEach(value => {
+                this.newStudio.forEach((value,i) => {
                   this.$axios.post('http://localhost:8080/cookbooktest/UController/querybyid',this.$qs.stringify({uid:value.uid}))
                     .then(resp=>{
-                      this.newStudio=[]
                       value.username=resp.data.uname;
-                      this.newStudio.push(value)
+                      this.$set(this.newStudio,i,value)
                     })
                     .catch(err=>{
                       this.$message.error("错误");
                     });
                   this.$axios.post('http://localhost:8080/cookbooktest/UserTurnoverController/querycountBysid',this.$qs.stringify({sid:value.sid}))
                     .then(resp=>{
-                      this.newStudio=[]
                       value.paycount=resp.data;
-                      this.newStudio.push(value)
+                      this.$set(this.newStudio,i,value)
                     })
                     .catch(err=>{
                       this.$message.error("错误");
@@ -94,13 +92,11 @@
         this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/queryOrderBystart')
           .then(resp=>{
             this.highStudio=resp.data;
-            this.highStudio.forEach(value => {
+            this.highStudio.forEach((value,i) => {
               this.$axios.post('http://localhost:8080/cookbooktest/UController/querybyid',this.$qs.stringify({uid:value.uid}))
                 .then(resp=>{
-                  this.highStudio=[]
                   value.username=resp.data.uname;
-                  this.highStudio.push(value)
-
+                  this.$set(this.highStudio,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");
@@ -108,10 +104,9 @@
 
               this.$axios.post('http://localhost:8080/cookbooktest/UserTurnoverController/querycountBysid',this.$qs.stringify({sid:value.sid}))
                 .then(resp=>{
-                  this.highStudio=[]
 
                   value.paycount=resp.data;
-                  this.highStudio.push(value)
+                  this.$set(this.highStudio,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");
@@ -120,11 +115,8 @@
 
               this.$axios.post('http://localhost:8080/cookbooktest/StudioContorller/queryAvg',this.$qs.stringify({sid:value.sid}))
                 .then(resp=>{
-                  this.highStudio=[]
                   value.avgstart=resp.data;
-                  this.highStudio.push(value)
-                  console.info(this.highStudio)
-
+                  this.$set(this.highStudio,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");

@@ -32,7 +32,7 @@
                </el-radio-group>
              </el-form-item>
              <el-form-item label="生日"  prop="birthday">
-               <el-date-picker v-model="users.birthday"></el-date-picker>
+               <el-date-picker v-model="users.birthday"    :picker-options="pickerOptions"></el-date-picker>
              </el-form-item>
              <el-form-item>
                <el-button type="primary" @click="submitForm">提交</el-button>
@@ -78,6 +78,11 @@
     name: 'Tools',
     data(){
       return {
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now() - 8.64e6
+          }
+        },
         dialogVisible: false,
         isLoading:true,
         butshow:false,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside style="width: 65%">
+      <el-aside style="width: 65%;height: 3000px">
         <h1 style="text-align: left;line-height: 50px;font-size: 30px;margin-top: 20px" v-if="menus.length>0">{{this.$route.params.state}}</h1>
         <p style="font-size: 20px" v-else>全能吃货没有该菜谱!</p>
         <div style="height: 900px" v-if="menus.length!==0">

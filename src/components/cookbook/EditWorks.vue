@@ -1,22 +1,25 @@
+
 <template>
   <div class="main">
-    <h1 style="text-align: left;color: crimson; margin-left: 50px;margin-top: -50px">上传我做的{{this.$route.params.mname}}</h1>
+    <h1 style="text-align: left;color: crimson; margin-left: 50px;margin-top: -50px">作品编辑 {{this.$route.params.mname}}</h1>
     <el-form :model="newWorks" status-icon :rules="rulecs" ref="fmin" label-width="100px" class="demo-ruleForm">
       <div style="float:left;width: 60%">
         <el-form-item prop="winfo">
-          <el-input type="textarea" :roe="5"  style="font-size: 20px;line-height: 20px;margin-top:30px;float: left;width: 70%;" v-model="newWorks.winfo" placeholder="分享心得"></el-input>
+          <el-input type="textarea"  style="margin-top:30px;float: left;width: 70%;" v-model="newWorks.winfo" placeholder="分享心得"></el-input>
         </el-form-item>
-        <el-form-item style="text-align: left" >
+        <el-form-item v-show="isshow" style="text-align: left" >
           <el-upload :limit="1" :on-change="filespic2" list-type="picture-card" drag="" accept=".jpg,.png"  :on-preview="handlePictureCardPreview2" :auto-upload="false">
             <el-link style="font-size: 22px" slot="trigger" size="small" type="primary">上传大图</el-link>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="tu1" >
-          </el-dialog>
         </el-form-item>
-        <el-form-item style="margin-top: 100px;margin-left: -200px">
-          <el-button style="font-size: 20px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布作品</el-button>
-          <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 20px;background-color: crimson;"  type="primary" >退出</el-button>
+        <el-form-item  v-show="!isshow" style="text-align: left" >
+          {{newWorks.pic}}
+          <img :src="'static/jpg/'+newWorks.pic"></img>
+          <el-button @click="isshow=true">删除</el-button>
+        </el-form-item>
+        <el-form-item style="margin-top: 300px;margin-left: -200px">
+          <el-button style="font-size: 30px;background-color: crimson" type="primary" @click="submitForm2" v-loading.fullscreen.lock="fullscreenLoading">发布作品</el-button>
+          <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 30px;background-color: crimson;"  type="primary" >退出</el-button>
         </el-form-item>
 
       </div>
@@ -27,13 +30,13 @@
 
 <script>
   export default {
-    name: 'CreateWorks',
+    name: 'EditWorks',
     data(){
       return {
         newWorks:{uid:this.$store.state.user.userInfo.uid,mid:this.$route.params.mid},
         file1:[],
-        dialogVisible:false,
         tu1:'',
+        isshow:false,
         fullscreenLoading:false,
         rulecs: {
           winfo: [
@@ -50,6 +53,14 @@
             }
           ]
         }
+      }
+    },
+    created(){
+      if(undefined != this.$route.params.wid){
+        this.$axios.post('http://localhost:8080/cookbooktest/WorksController/queryByWid',this.$qs.stringify({'wid':this.$route.params.wid}))
+          .then(res=>{
+            this.newWorks=res.data;
+          })
       }
     },
     methods:{
@@ -70,13 +81,12 @@
                   if (res.data.length > 0) {
                     this.fullscreenLoading = true;
                     this.newWorks.pic=res.data;
-                    this.$axios.post("http://localhost:8080/cookbooktest/WorksController/saveWorks",this.newWorks)
+                    this.$axios.post("http://localhost:8080/cookbooktest/WorksController/updateWorks",this.newWorks)
                       .then(ser=>{
                         if(1!=ser.data){
                           this.$message.error("发布失败");
                         }
                         this.$router.push({name:'Myworks'});
-
                       })
                   }
                 })

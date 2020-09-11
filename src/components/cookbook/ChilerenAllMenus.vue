@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside style="width: 65%">
+      <el-aside style="width: 65%;height: 3000px">
         <h1 style="text-align: left;line-height: 50px;font-size: 30px;margin-top: 20px">全部</h1>
         <div style="height: 900px" v-if="menus.length!==0">
           <div style="height: 150px;text-align: left;margin-bottom: 10px" v-for="v in menus.slice((currentPage-1)*PageSize,currentPage*PageSize)">
