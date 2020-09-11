@@ -35,7 +35,7 @@
           <el-menu-item index="3" :route="{name:'Myworks'}">作品{{this.userinfo.works.length}}</el-menu-item>
           <el-menu-item index="4" :route="{name:'Collected'}">收藏</el-menu-item>
           <el-menu-item index="5" :route="{name:'MyStudio'}">课程</el-menu-item>
-          <el-menu-item index="6" :route="{name:'Drafts'}" style="float: right">草稿箱</el-menu-item>
+          <!--<el-menu-item index="6" :route="{name:'Drafts'}" style="float: right">草稿箱</el-menu-item>-->
         </el-menu>
         <div>
           <router-view></router-view>

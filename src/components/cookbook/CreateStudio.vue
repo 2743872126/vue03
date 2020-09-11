@@ -1,12 +1,11 @@
 <template>
-<div class="main">
-  <h1 style="text-align: left;color: crimson; margin-left: 50px;margin-top: -50px">发布  :</h1>
-  <el-form :model="newStudio" status-icon :rules="rules" ref="myForm" label-width="100px" class="demo-ruleForm">
-    <div style="float:left;width: 60%">
+  <div class="main" style="width: 73%;margin-left: 12%;border: 1px solid black">
+  <el-form style="width: 80%;margin-left: 10%" :model="newStudio" status-icon :rules="rules" ref="myForm"  class="demo-ruleForm">
       <el-form-item prop="sname">
-        <el-input  style="float: left;width: 70%;" v-model="newStudio.sname" placeholder="请输入课程名"></el-input>
+        <el-input  style="font-size: 20px;line-height: 20px" type="textarea" :rows="1" v-model="newStudio.sname" placeholder="请输入课程名"></el-input>
       </el-form-item>
-      <el-form-item style="text-align: left" >
+    <p style="line-height:30px;text-align: left;margin-bottom: 10px;font-size: 22px;color: darkseagreen;font-weight: bold">上传封面图  :</p>
+    <el-form-item style="text-align: left" >
         <el-upload :limit="1" :on-change="filespic2" list-type="picture-card" drag="" accept=".jpg,.png"  :on-preview="handlePictureCardPreview2" :auto-upload="false">
           <el-link style="font-size: 22px" slot="trigger" size="small" type="primary">上传预览图</el-link>
         </el-upload>
@@ -14,18 +13,22 @@
           <img width="100%" :src="tu1" >
         </el-dialog>
       </el-form-item>
-      <el-form-item prop="Info">
-        <el-input type="textarea"  style="margin-top:30px;float: left;width: 70%;" v-model="newStudio.Info" placeholder="课程描述"></el-input>
+    <el-form-item style="margin-top: 40px;">
+      <p style="text-align: left;line-height: 10px;position: relative">
+        <el-avatar :size="60" :src="'/static/jpg/'+this.$store.state.user.userInfo.pic"></el-avatar>
+        <span style="font-size: 18px;position: absolute;top: 25px;left: 80px">{{this.$store.state.user.userInfo.uname}}的厨房</span>
+      </p>
+    </el-form-item>
+      <el-form-item prop="Info" style="margin-top: 40px">
+        <el-input type="textarea" style="font-size: 20px;" v-model="newStudio.Info" placeholder="课程描述"></el-input>
       </el-form-item>
-      <el-form-item style="margin-top: 60px">
-        <el-input-number :min="0" :max="500" style="margin-left: -170px;width: 70%;font-size: 33px;" v-model="newStudio.money" placeholder="价格"></el-input-number>
+    <p style="line-height:40px;text-align: left;margin-bottom: 10px;font-size: 22px;color: darkseagreen;font-weight: bold">选择价格  :</p>
+    <el-form-item style="margin-top: 30px">
+        <el-input-number :min="0" :max="500" style="width: 70%;font-size: 33px;" v-model="newStudio.money" placeholder="价格"></el-input-number>
       </el-form-item>
-      <el-form-item style="margin-top: 60px;">
-        <el-avatar :size="100" :src="'/static/jpg/'+this.$store.state.user.userInfo.pic" style="float:left;margin-top: -30px;margin-bottom: 0px"></el-avatar>
-        <span style="margin-left: -100px;font-size: 40px">{{this.$store.state.user.userInfo.uname}}的厨房</span>
-      </el-form-item>
+
       <el-form-item>
-        <h1 style="text-align: left;margin-bottom: 30px">视频上传  :</h1>
+        <p style="line-height:40px;text-align: left;margin-bottom: 10px;font-size: 22px;color: darkseagreen;font-weight: bold">视频上传  :</p>
         <el-row style="margin-top: 20px;margin-bottom: 20px" :gutter="10" v-for="(v,i) in studioDetail">
           <el-col :span="1">{{i+1}}.</el-col>
           <el-col :span="9"  prop="sInfo" ><el-input type="textarea"  rows="10" v-model="v.sInfo" class="inputsplus"></el-input></el-col>
@@ -35,6 +38,7 @@
             </el-upload>
               <radio v-model="v.State" border size="medium" class="radios" value="1">付费</radio>&nbsp;&nbsp;&nbsp;
               <radio v-model="v.State" border size="medium" class="radios" value="0">免费</radio>
+
           </el-col>
           <el-col :span="5"><icon title="删除这行"  @click="removestep2(i)" style="font-size: 40px;margin-top: 4px" class="el-icon-close"></icon></el-col>
         </el-row>
@@ -45,9 +49,7 @@
         <el-button @click="()=> {this.$router.push({name:'main'})}" style="font-size: 30px;background-color: crimson;"  type="primary" >退出</el-button>
       </el-form-item>
 
-    </div>
     <p style="float: left;width: 5%"></p>
-    <div style="float:left;width: 35%">
       <h1 style="line-height:90px;text-align: left;margin-bottom: 10px">选择分类  :</h1>
       <select v-model="values" class="select" filterable>
         <option v-for="item,index in options" :value="item.stid">{{item.stname}}</option>
@@ -55,7 +57,6 @@
       <select  class="select" v-model="newStudio.stid" filterable >
         <option v-for="item in childrenoptions" :value="item.stid">{{item.stname}}</option>
       </select>
-    </div>
   </el-form>
 </div>
 </template>
@@ -189,10 +190,7 @@
 
 <style scoped>
 
-  .main{
-    width: 80%;
-    margin-left: 10%
-  }
+
   .el-col {
     border-radius: 4px;
   }

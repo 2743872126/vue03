@@ -19,7 +19,7 @@
       </el-pagination>
     </el-aside>
     <el-main >
-      <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><a style="color: crimson">查看我的课程>></a></p>
+      <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><a style="color: crimson" @click="$router.push({name:'MyStudio'})">查看我的课程>></a></p>
       <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">所有课程</p>
       <div style="width: 110px;height: 150px;float: left;margin-right: 5px" v-for="v in Studios.slice(0,8)">
         <el-card style="margin-top: 20px" :body-style="{ padding: '0px' }">

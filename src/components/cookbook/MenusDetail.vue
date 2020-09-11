@@ -94,9 +94,7 @@
             <el-main>
               <p style="text-align: left;line-height: 50px" v-if="user.uid===menu.users.uid">
                 <router-link style="color: crimson" :to="{name:'UpdateMenus',params:{mid:this.menu.mid}}">编辑菜谱</router-link>
-                <el-popconfirm title="确定删除吗？">
                   <a @click="del" slot="reference" style="color: crimson">删除菜谱</a>
-                </el-popconfirm>
               </p>
               <p style="text-align: left;color: dimgray;line-height: 30px">
                 该菜谱创建于{{menu.madeTime.substr(0,10)}}
@@ -191,9 +189,26 @@
             }).catch()
         },
         del(){
-          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deleteMenu',this.$qs.stringify({'mid':this.menu.mid}))
-            .then(resp=>{
-            }).catch()
+          this.$confirm('是否删除该菜谱, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deleteMenu',this.$qs.stringify({'mid':this.menu.mid}))
+              .then(resp=>{
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+              }).catch()
+
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+
         },
         checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})

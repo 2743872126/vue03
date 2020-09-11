@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div style="width: 80%;margin-left: 10%">
+      <div style="width: 80%;margin-left: 10%;height: 2000px">
         <el-container>
           <el-header style="height: 100px">
             <img src="static/jpg/0f000cbIHKdVLOxTk3-o46.jpg" height="100%" width="100%"/>
@@ -8,7 +8,7 @@
           <el-container>
             <el-aside style="width: 17%">
               <!--菜普分类-->
-              <el-menu :router="true" style="width: 99%" class="el-menu-demo"   @select="handleSelect" collapse="true">
+              <el-menu :router="true" style="width: 90%;margin-left: 20px" class="el-menu-demo"   @select="handleSelect" collapse="true">
                 <el-submenu v-for="v in menutypes" :index="v.mtid" :default-openeds="v.menutypess">
                   <template slot="title" >{{v.mtname}}</template>
                   <el-menu-item :index="v.mtid+'-'+s.mtid" style="font-size: 20px" v-for="s in v.menutypess" :route="{name:'menus',params:{'mtid':s.mtid,'mtname':s.mtname}}">{{s.mtname}}</el-menu-item>
@@ -17,14 +17,14 @@
             </el-aside>
             <el-main>
               <el-container>
-                <el-aside style="width: 57%">
+                <el-aside style="width: 60%;height: 2000px">
                   <!--轮播-->
                   <div style="height: 350px;position: relative">
-                    <el-carousel height="348px">
+                    <el-carousel height="340px">
                       <el-carousel-item v-for="item in upmonthmenu" :key="item.mid">
                         <el-image :src="'static/jpg/'+item.pic" style="width: 100%" @click="menudetail(item)"></el-image>
                         <h1 style="position: absolute;top: 180px;left: 20px;color: white;font-size: 45px" class="small">{{ item.mname}}</h1>
-                        <span style="position: absolute;top: 240px;left: 20px;color: white;font-size: 18px" >{{item.works.length}}人做过这道菜
+                        <span style="position: absolute;top: 230px;left: 20px;color: white;font-size: 18px" >{{item.works.length}}人做过这道菜
                           &nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;
                           <el-link href="#" style="color: white;font-size: 18px">{{item.users.uname}}</el-link>
                         </span>
@@ -32,39 +32,39 @@
                     </el-carousel>
                   </div>
                   <!--新秀菜单-->
-                  <div style="height: 300px">
+                  <div style="height: 270px">
                     <div style="height:70px;position: relative">
-                    <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">新秀菜谱</span>
-                      <span style="position: absolute;top: -50px;left: 150px;font-size: 18px">
+                    <span style="position: absolute;top: -50px;left: 10px;font-size: 22px;color: darkseagreen">新秀菜谱</span>
+                      <span style="position: absolute;top: -50px;left: 150px;font-size: 14px">
                         <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
                       </span>
-                    <el-pagination style="height: 35px;width: 90px;position: absolute;top:10px;left: 83%" background  @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="PageSize"
+                    <el-pagination style="height: 35px;width: 90px;position: absolute;top:10px;left: 82%" background  @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="PageSize"
                                     layout="prev, next"
                                     :total="totalCount">
                     </el-pagination>
                     </div>
-                    <div style="width: 150px;height: 150px;float: left;margin-left: 5px;margin-right: 15px;position: relative" v-for="v in newmenu.slice((currentPage-1)*PageSize,currentPage*PageSize)">
-                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 80%" @click="menudetail(v)"></el-image>
-                      <span style="height:90px;width:148px;position: absolute;top: 50%;left: 0px;font-size: 18px" @click="menudetail(v)">{{v.mname.substr(0,7)}}..</span>
+                    <div @click="menudetail(v)" style="width: 160px;height: 140px;float: left;margin-left: 5px;margin-right: 15px;position: relative" v-for="v in newmenu.slice((currentPage-1)*PageSize,currentPage*PageSize)">
+                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 80%" ></el-image>
+                      <span style="height:90px;width:148px;position: absolute;top: 40%;left: 0px;font-size: 15px" @click="menudetail(v)">{{v.mname.substr(0,7)}}..</span>
                     </div>
                   </div>
                   <!--本月最热-->
                   <div >
-                    <div style="height:70px;position: relative">
-                      <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">本月最热</span>
-                      <span style="position: absolute;top: -50px;left: 150px;font-size: 18px;color: red">
+                    <div style="height:50px;line-height: 30px;text-align: left">
+                      <span style="font-size: 22px;color: darkseagreen;margin-left: 5px">本月最热</span>
+                      <span style="font-size: 14px;color: red;margin-left: 50px">
                         <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
                       </span>
                     </div>
-                    <div style="border: 1px solid gainsboro;width: 255px;height: 250px;float: left;margin-right: 5px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
-                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 70%" @click="menudetail(v)"></el-image>
-                      <span style=" height:90px;width:253px;position: absolute;top: 50%;left: 0px;font-size: 24px" @click="menudetail(v)">{{v.mname.substr(0,8)}}..</span>
-                      <span style=" height:90px;width:253px;position: absolute;top: 63%;left: 0px;font-size: 18px;color: darkgrey"><a style="color: black">{{v.users.uname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{v.works.length}}人做过</span>
+                    <div style="border: 1px solid gainsboro;width: 255px;height: 200px;float: left;margin-right: 5px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
+                      <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 65%" @click="menudetail(v)"></el-image>
+                      <span style=" height:90px;width:253px;position: absolute;top: 38%;left: 0px;font-size: 18px" @click="menudetail(v)">{{v.mname.substr(0,8)}}..</span>
+                      <span style=" height:90px;width:253px;position: absolute;top: 53%;left: 0px;font-size: 13px;color: darkgrey"><a style="color: black">{{v.users.uname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{v.works.length}}人做过</span>
                     </div>
                   </div>
                 </el-aside>
                 <el-main>
-                  <div v-if="isuser==true" style="height: 350px;margin-top: -20px;margin-right: -20px;background-color: #E9EEF3;position: relative">
+                  <div v-if="isuser==true" style="height: 340px;margin-top: -20px;margin-right: -20px;background-color: #E9EEF3;position: relative">
                     <el-avatar :size="100" fit="fill" :src="'static/jpg/'+user.pic" style="margin-top: 50px" @click="toPerson()"></el-avatar>
                     <h1 style="margin-top: -120px"><a style="color: crimson"  @click="toPerson()">{{user.uname}}的厨房</a></h1>
                     <h1 style="margin-top: -120px;font-size: 20px">
@@ -83,19 +83,21 @@
                   <!--下厨的朋友们-->
                   <div style="height: 800px;margin-top: 20px;margin-right: -20px;">
                     <div style="height:70px;position: relative">
-                      <span style="position: absolute;top: -50px;left: 10px;font-size: 30px;color: darkseagreen">万能的吃货</span>
-                      <span style="position: absolute;top: -50px;left: 180px;font-size: 18px;color: red" @click="moreusers"><a style="color: crimson">更多</a></span>
-                    </div>
-                    <div   style="border: 1px solid gainsboro;height: 120px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
-                      <a @click="toThirePerson(v.uid)"><el-avatar style="position: absolute;left: 0px;top: 20px" :size="80" fit="fill" :src="'static/jpg/'+v.pic" ></el-avatar></a>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -40px;left: 100px;font-size: 22px">
-                        <a style="color: black" @click="toThirePerson(v.uid)">{{v.uname.substr(0,4)}}..</a>
-                        <el-image src="static/jpg/xingji.png" v-if="v.users.state===1" style="height: 30px"></el-image>
+                      <span style="position: absolute;top: -50px;left: 10px;font-size: 22px;color: darkseagreen">万能的吃货</span>
+                      <span style="position: absolute;top: -50px;left: 180px;font-size: 14px" @click="$router.push({name:'UsersShow'})">
+                        <a style="color: crimson" >更多</a>
                       </span>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -10px;left: 100px;font-size: 18px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
-                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: 20px;left: 100px;font-size: 18px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
-                      <el-button  style="background-color: crimson;color: white;width: 100px;height: 50px;font-size: 22px;position: absolute;top: 35px;left: 245px"  v-show="v.uid!==user.uid" @click="guanzhu(i)">
-                        <span v-if="v.state===0">关注</span><span v-else>取关</span><br>
+                    </div>
+                    <div style="border: 1px solid gainsboro;height: 80px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
+                      <a @click="toThirePerson(v.uid)"><el-avatar style="position: absolute;left: 0px;top: 10px" :size="60" fit="fill" :src="'static/jpg/'+v.pic" ></el-avatar></a>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -60px;left: 80px;font-size: 14px">
+                        <a style="color: black" @click="toThirePerson(v.uid)">{{v.uname.substr(0,4)}}..</a>
+                        <el-image src="static/jpg/xingji.png" v-if="v.state===1" style="height: 20px"></el-image>
+                      </span>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -35px;left: 80px;font-size: 14px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
+                      <span style="text-align: left; height:90px;width:150px;position: absolute;top: -10px;left: 80px;font-size: 14px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
+                      <el-button  style="background-color: crimson;color: white;width: 100px;height: 45px;font-size: 20px;position: absolute;top: 18px;left: 245px"  v-show="v.uid!==user.uid" @click="guanzhu(i)">
+                        <span v-if="v.state2==0">关注</span><span v-else>取关</span><br>
                       </el-button>
 <!--
                       <el-button style="background-color: crimson;color: white;width: 150px;height: 60px;font-size: 22px;position: absolute;top: 35px;left: 275px" @click="guanzhu(v.uid)">已关注</el-button>
@@ -172,14 +174,17 @@
           this.$axios.post('http://localhost:8080/cookbooktest/UController/queryuserinfo')
             .then(resp=>{
               this.users=resp.data;
-              this.users.forEach(v=>{
+              this.users.forEach((v,i)=>{
                 this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:v.uid}))
                   .then(re=>{
                     if(re.data>0){
-                      v.state=1;
+                      v.state2=1;
+                      this.$set(this.users,i,v)
                     }else{
-                      v.state=0;
+                      v.state2=0;
+                      this.$set(this.users,i,v)
                     }
+
                   })
               })
             })
@@ -203,17 +208,20 @@
           },
           guanzhu(i){
             if (undefined!==this.user.uname) {
-              if(this.users[i].state==1){
+              if(this.users[i].state2==1){
                 this.$axios.post("http://localhost:8080/cookbooktest/Isfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
-                  this.users[i].state=0;
+                  this.users[i].state2=0;
+                  let temp=this.users[i];
+                  this.$set(this.users,i,temp)
                 })
               }else {
                 this.$axios.post("http://localhost:8080/cookbooktest/saveIsfollows",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:this.users[i].uid})).then(res=>{
-                  this.users[i].state=1;
+                  this.users[i].state2=1;
+                  let temp=this.users[i];
+                  this.$set(this.users,i,temp)
                 })
               }
-              let temp=this.users[i];
-              this.$set(this.users,i,temp)
+
             }else {
               this.$confirm('请登录账号,是否登陆?', '提示', {
                 confirmButtonText: '确定',
@@ -234,9 +242,6 @@
           },
           loginon(){
             this.$router.push({name:'Register'})
-          },
-          moreusers(){
-            this.$router.push({name:'UsersShow'})
           },
           // 每页显示的条数
           handleSizeChange(val) {
