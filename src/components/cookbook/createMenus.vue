@@ -55,8 +55,8 @@
               </template>
             </el-table-column>
             <el-table-column v-if="detail.length>1">
-              <template>
-              <icon @click="removeAppointUser(i)" style="font-size: 20px;margin-top: 4px" class="el-icon-close"></icon>
+              <template slot-scope="scope">
+              <icon @click="removeAppointUser(scope.$index)" style="font-size: 20px;margin-top: 4px" class="el-icon-close"></icon>
               </template>
             </el-table-column>
           </el-table>
@@ -111,10 +111,11 @@
         value:'',
         file2:[],
         file1:[],
+        isup:true,
         rules: {
           mname: [
             {required: true, message: '不能为空'},
-            {min: 1, max: 20, message: '最多20个字', trigger: ['blur']},
+            {min: 1, max: 20, message: '1-20个字', trigger: ['blur']},
             {validator:function(rule,value,callback){
                 if(value.indexOf('-') == -1){
                   callback();
@@ -125,7 +126,7 @@
           ],
           Info:[
             {required: true, message: '不能为空'},
-            {min: 10, max: 300, message: '最多99个字', trigger: ['blur']},
+            {min: 10, max: 300, message: '10-300个字', trigger: ['blur']},
           ]
         }
       }
@@ -162,20 +163,37 @@
                 for (let i of this.file2) {
                   for1.append('file2', i);
                 }
-                this.$axios.post("http://localhost:8080/cookbooktest/file/uploadImage", for1, {headers: {'Content-Type': 'multipart/form-data'}})
-                let for2 = new FormData();
-                for2.append("file1", this.file1[0])
-                this.$axios.post("http://localhost:8080/cookbooktest/file/uploadpic", for2, {headers: {'Content-Type': 'multipart/form-data'}})
-                let for3 = new FormData();
-                for3.append("menu", JSON.stringify(this.newMenus));
-                for3.append("menuStep", JSON.stringify(this.menuSteps));
-                for3.append("detail", JSON.stringify(this.detail));
-                this.$axios.post("http://localhost:8080/cookbooktest/file/upMenus", for3, {headers: {'Content-Type': 'multipart/form-data'}}
-                ).then(res => {
-                  this.$router.push({name:"Mymenus"})
-                }).catch(error => {
-                  console.log(error);
-                })
+                this.menuSteps.forEach(v=>{
+                  if(''==v.msinfo){
+                    this.isup=false;
+                  }
+                });
+                this.detail.forEach(v=>{
+                  if(''==v.material){
+                    this.isup=false;
+                  }
+                  if(''==v.num){
+                    this.isup=false;
+                  }
+                });
+                if(this.isup){
+                  this.$axios.post("http://localhost:8080/cookbooktest/file/uploadImage", for1, {headers: {'Content-Type': 'multipart/form-data'}})
+                  let for2 = new FormData();
+                  for2.append("file1", this.file1[0])
+                  this.$axios.post("http://localhost:8080/cookbooktest/file/uploadpic", for2, {headers: {'Content-Type': 'multipart/form-data'}})
+                  let for3 = new FormData();
+                  for3.append("menu", JSON.stringify(this.newMenus));
+                  for3.append("menuStep", JSON.stringify(this.menuSteps));
+                  for3.append("detail", JSON.stringify(this.detail));
+                  this.$axios.post("http://localhost:8080/cookbooktest/file/upMenus", for3, {headers: {'Content-Type': 'multipart/form-data'}}
+                  ).then(res => {
+                    this.$router.push({name:"Mymenus"})
+                  }).catch(error => {
+                    console.log(error);
+                  })
+                }else{
+                  this.$Message.error("详情和步骤要写哦");
+                }
               } else {
                 this.$Message.error("请选择分类");
               }
@@ -201,15 +219,12 @@
 
       },
       removeAppointUser(index) {
-        console.log(index)
         this.detail.splice(index,1);
       },
       addstep() {
-        //判断是否已经添加过
         this.menuSteps.push({msinfo:""})
       },
       removestep(index) {
-        console.log(index)
         this.menuSteps.splice(index,1);
       },
       cunrucaogao() {

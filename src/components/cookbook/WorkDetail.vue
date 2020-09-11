@@ -27,8 +27,8 @@
               </p>
               <p style="line-height: 30px;text-align: left;margin-top: 0px;margin-left: 100px">
                 发布于 {{work.makeTime.substr(0,10)}}
-                <a v-if="user.uid===work.user.uid" style="color: crimson">编辑</a>
-                <a v-if="user.uid===work.user.uid" style="color: crimson">删除</a>
+                <router-link v-if="user.uid===work.user.uid" style="color: crimson" :to="{name:'EditWorks',params:{wid:work.wid}}">编辑</router-link>
+                <a v-if="user.uid===work.user.uid" style="color: crimson" @click="delWork">删除</a>
               </p>
               <div style="height: 150px;margin-top: 20px;background-color: gainsboro" v-if="MenuDetail!==''">
                 <p style="line-height: 50px;margin-top: 20px;text-align: left;margin-left: 20px;position: relative">
@@ -262,6 +262,26 @@
         menudetail() {
           this.$router.push({name: 'MenusDetail', params: {menudetail: this.MenuDetail}})
         },
+        delWork(){
+          this.$confirm('是否删除','提示',{
+            confirmButtonText:'确认',
+            cancelButtonText:'取消',
+            type:'waring',
+          }).then(()=>{
+            this.$axios.post('http://localhost:8080/cookbooktest/WorksController/deleteWorks', this.$qs.stringify({'wid': this.work.wid}))
+              .then(resp => {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+                this.$router.push({name:'Myworks'})
+              })
+              .catch(err => {
+                this.$message.error("请稍后尝试");
+              });
+          });
+
+        }
       }
     }
 </script>
