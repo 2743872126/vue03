@@ -114,8 +114,12 @@ export default {
     clickChecked(){
       if(this.ischecked){
         this.ischecked=false;
+        localStorage.removeItem("phone");
+        localStorage.removeItem("pwd");
+        localStorage.removeItem("ischecked")
       }else{
         this.ischecked=true;
+
       }
     },
     checksw(){
@@ -174,6 +178,7 @@ export default {
         if(valid){
           this.$axios.post('http://localhost:8080/cookbooktest/quryByPwd',this.usersin)
             .then(res => {
+              console.log(res)
               if (0!==res.data.length) {
 
                 this.$store.commit("USER_SIGNIN", res.data);
@@ -188,7 +193,7 @@ export default {
                 }
                 this.$router.push({path:'/'});
               }else{
-                this.$message.error('用户名或密码错误')
+                this.$message.error('手机号或密码错误或重复')
               }
             }).catch(err=>{alert(err)})
         }

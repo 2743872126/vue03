@@ -35,7 +35,7 @@
 
     </el-aside>
     <el-main >
-        <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><a style="color: crimson">查看我的课程>></a></p>
+        <p style="font-size: 14px;color: darkseagreen;text-align: left;line-height: 14px"><router-link v-show="$store.state.user.userLogin" style="color: crimson" :to="{name:'MyStudio'}">查看我的课程>></router-link></p>
       <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">优秀美食作家</p>
       <div @click="toThirePerson(v.uid)" v-for="v in youxiuuser" style="width: 110px;height: 180px;float: left;margin-right: 5px;margin-bottom:20px">
         <el-card :body-style="{ padding: '0px' }" style="margin-top: 20px">

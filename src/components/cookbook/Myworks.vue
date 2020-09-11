@@ -11,7 +11,7 @@
         </div>
       </div>
       <p v-if="this.isworks" style="font-size: 25px">
-        <router-link style="color: crimson" :to="{path:'myworks'}">发布一个作品<icon class="el-icon-caret-right"></icon></router-link>
+        <router-link style="color: crimson" :to="{name:'firstpage'}">发布一个作品<icon class="el-icon-caret-right"></icon></router-link>
       </p>
     </div>
 
