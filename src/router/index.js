@@ -177,9 +177,12 @@ export default new Router({
               path: 'chenWeiStudioChu',
               name: 'ChenWeiStudioChu',
               component: ()=>import('@/components/cookbook/ChenWeiStudioChu'),
-            }
-            ,
-
+            },
+            {
+              path: 'turnover',
+              name: 'Turnover',
+              component: ()=>import('@/components/cookbook/Turnover'),
+            },
             {
               path: 'general',
               name: 'General',

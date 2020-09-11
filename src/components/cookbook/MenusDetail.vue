@@ -209,6 +209,10 @@
             });
           });
 
+          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deletemenuBymid',this.$qs.stringify({'mid':this.menu.mid}))
+            .then(resp=>{
+              this.$router.push({name:'Mymenus'})
+            }).catch()
         },
         checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})

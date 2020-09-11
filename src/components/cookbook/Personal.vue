@@ -36,6 +36,8 @@
           <el-menu-item index="4" :route="{name:'Collected'}">收藏</el-menu-item>
           <el-menu-item index="5" :route="{name:'MyStudio'}">课程</el-menu-item>
           <!--<el-menu-item index="6" :route="{name:'Drafts'}" style="float: right">草稿箱</el-menu-item>-->
+          <el-menu-item v-if="$store.state.user.userInfo.state==1" index="7" :route="{name:'Turnover'}">流水</el-menu-item>
+          <el-menu-item index="8" :route="{name:'Drafts'}" style="float: right">草稿箱</el-menu-item>
         </el-menu>
         <div>
           <router-view></router-view>
