@@ -7,22 +7,22 @@
       <el-table-column
         prop="lid"
         label="编号"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="mname"
         label="作品名字"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="LeaveTime"
         label="留言时间"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="State"
         label="状态"
-        width="310px">
+        style="width: 20%">
         <template slot-scope="scope">
           {{scope.row.State === 0?'未阅':'已阅'}}
         </template>
@@ -31,15 +31,16 @@
         prop="info"
         label="留言信息"
         :show-overflow-tooltip="true"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="uname"
         label="留言用户"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
     </el-table>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
@@ -57,7 +58,7 @@
     data(){
       return{
         currentPage:1,
-        pagesize:5,
+        pagesize:10,
         Back_LeaveMessage:[],
       }
     },

@@ -123,6 +123,7 @@
       </div>
     </el-dialog>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"

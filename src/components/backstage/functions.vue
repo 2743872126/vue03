@@ -31,8 +31,8 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible">
-    <el-form ref="fm" :rules="roles" :model="menuFunctions" style="width: 60%;margin-left: 150px" label-width="150px">
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="800px">
+    <el-form ref="fm" :rules="roles" :model="menuFunctions" style="width: 60%;margin-left: 100px" label-width="150px">
       <el-form-item label="编号">
         <el-input v-model="menuFunctions.fid"  readonly></el-input>
       </el-form-item>
@@ -46,6 +46,7 @@
     </div>
   </el-dialog>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
@@ -90,7 +91,7 @@
       },
       show: function (row) {
         if(row != null){
-          this.title = '修改';
+          this.title = '修改菜单';
           this.dialogFormVisible = true;
           this.menuFunctions = Object.assign({},row);
         }

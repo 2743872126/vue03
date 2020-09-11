@@ -4,7 +4,7 @@
     <el-col :span="7">
       <el-card shadow="hover">-->
     <el-form label-width="100px" label-suffix=":" :model="user" :rules="rules" ref="fm">
-      <h2>登录</h2>
+      <h2 class="aaa">登录</h2>
       <el-form-item label="用户名" prop="Lognum">
         <el-input v-model="user.Lognum"></el-input>
       </el-form-item>
@@ -74,13 +74,16 @@
   }
 </script>
 <style scoped>
+  .aaa{
+    margin-bottom: 20px;
+  }
   .el-form {
     border: 2px solid white;
-    width: 20%;
-    margin: 250px auto;
+    width: 25%;
+    margin: 300px auto;
     border-radius: 25px;
     box-shadow: 0 0 15px #B3C0D1;
-    padding: 20px 50px 50px 20px;
+    padding: 30px 50px 30px 30px;
     text-align: center;
   }
 </style>

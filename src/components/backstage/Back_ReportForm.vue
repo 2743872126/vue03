@@ -10,11 +10,11 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <div id="main" style="width: 600px;height: 400px;margin-top: 200px">
+    <div id="main" style="width: 500px;height: 400px;margin-top: 200px">
     </div>
-    <div id="mains" style="width: 600px;height: 400px;margin-top:-400px;margin-left: 600px">
+    <div id="mains" style="width: 500px;height: 400px;margin-top:-400px;margin-left: 600px">
     </div>
-    <div id="mainss" style="width: 600px;height: 400px;margin-top:-400px;margin-left: 1200px">
+    <div id="mainss" style="width: 500px;height: 400px;margin-top:-400px;margin-left: 1200px">
     </div>
   </div>
 </template>

@@ -2,32 +2,32 @@
   <div>
     <el-table
       :data="customers.slice((currentPage-1) * pagesize,currentPage * pagesize)"
-      stripe
+
       style="width: 100%">
       <el-table-column
         prop="cid"
         label="编号"
-        width="300px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="cname"
         label="菜单名字"
-        width="300px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="Lognum"
         label="账号"
-        width="300px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="Pwd"
         label="密码"
-        width="300px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="roles.Rname"
         label="职位"
-        width="280px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="state"
@@ -41,7 +41,7 @@
         </el-switch>
       </el-table-column>
       <el-table-column
-        label="操作" width="300px">
+        label="操作" style="width: 20%">
         <template slot-scope="scope">
           <el-tooltip placement="bottom" content="添加用户">
             <el-button circle class="el-icon-circle-plus-outline" @click="InsertDialog = true"></el-button>
@@ -55,8 +55,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="tit" :visible.sync="InsertDialog">
-      <el-form ref="fm" :rules="roles" :model="customer" style="width: 60%;margin-left: 150px" label-width="150px">
+    <el-dialog :title="tit" :visible.sync="InsertDialog" width="700px">
+      <el-form ref="fm" :rules="roles" :model="customer" style="width: 60%;margin-left: 100px" label-width="150px">
         <el-form-item label="姓名" prop="cname">
           <el-input v-model="customer.cname"></el-input>
         </el-form-item>
@@ -80,8 +80,8 @@
         <el-button type="primary" @click="insert()">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
-      <div class="block">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="600px">
+      <div class="block" style="margin-left: 150px">
         <span class="demonstration">权限信息</span>
         <el-cascader
           :options="options"
@@ -95,6 +95,7 @@
       </div>
     </el-dialog>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
