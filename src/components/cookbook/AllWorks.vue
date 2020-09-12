@@ -8,7 +8,7 @@
 
         <div style="height: 2000px;clear: both">
           <div style="border: 1px solid gainsboro;height: 470px;margin-bottom: 10px;width: 28%;float: left;margin-right: 50px" v-for="v in works">
-            <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
+            <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),inits2(v),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
             <p style="font-size: 14px;line-height: 20px;text-align: left;margin-top: -50px"><a style="color: crimson" @click="menudetail()">{{MenuDetail.mname}}</a></p>
             <p style="font-size: 14px;line-height: 20px;text-align: left;height: 60px">{{v.winfo}}</p>
             <p style="font-size: 14px;line-height: 20px;text-align: left">
@@ -40,8 +40,11 @@
                 <a style="color: crimson">{{work.user.uname}}</a>  <span v-if="MenuDetail!==''">做过  <a style="color: crimson" @click="menudetail()">{{MenuDetail.mname}}</a></span>
                   <span v-else>分享作品</span>
               </span>
-                  <span style="position: absolute;top: 15px;left: 520px">
-                <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
+              <span style="position: absolute;top: 15px;left: 520px">
+                <el-button  @click="startWorks4" style="width: 80px;background-color: crimson;color: white">
+                    <span v-if="isStart4">赞</span>
+                    <span v-else>取消赞</span>
+                </el-button>
               </span>
                 </p>
                 <p style="line-height: 20px;text-align: left;margin-top: -15px;margin-left: 100px;color: black">
@@ -49,8 +52,8 @@
                 </p>
                 <p style="line-height: 30px;text-align: left;margin-top: 0px;margin-left: 100px">
                   发布于 {{work.makeTime.substr(0,10)}}
-                  <a v-if="user.uid===work.user.uid" style="color: crimson">编辑</a>
-                  <a v-if="user.uid===work.user.uid" style="color: crimson">删除</a>
+                  <router-link v-if="user.uid===work.user.uid" style="color: crimson" :to="{name:'EditWorks',params:{wid:work.wid}}">编辑</router-link>
+                  <a v-if="user.uid===work.user.uid" style="color: crimson" @click="delWork">删除</a>
                 </p>
                 <div style="height: 150px;margin-top: 20px;background-color: gainsboro" v-if="MenuDetail!==''">
                   <p style="line-height: 50px;margin-top: 20px;text-align: left;margin-left: 20px;position: relative">
@@ -154,6 +157,7 @@
           MenuDetail:{users:{},pic:''},
           work:{user:{pic:''},makeTime:'',startUsers:[],works_messages:[]},
           work_messages:[],
+          isStart4:false,
         }
       },
       created:function () {
@@ -167,6 +171,39 @@
           });
       },
       methods: {
+        inits2(v){
+          this.work=v;
+          this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryLikes",this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+            .then(res=>{
+              if(res.data>0){
+                this.isStart4=false;
+              }else{
+                this.isStart4=true;
+              }
+            })
+        },
+        startWorks4(){
+          if(this.$store.state.user.userLogin){
+            this.$axios.post('http://localhost:8080/cookbooktest/WorksController/updateLike',this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+              .then(resp=>{
+                if(resp.data>0){
+                  this.isStart4=false;
+                }else{
+                  this.isStart4=true;
+                }
+              }).catch()
+          }else{
+            this.$confirm('请登录账号,是否登陆?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({name:'Login2'})
+            }).catch(() => {
+            });
+          }
+
+        },
         getuser(uid){
           this.$axios.post('http://localhost:8080/cookbooktest/UController/queryUser',this.$qs.stringify({'uid':uid}))
             .then(resp=>{
@@ -212,19 +249,24 @@
           }
         },
         fabu(){
-          if (this.message.upid!=0){
-            this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
-            console.info(this.message)
+          if(this.$store.state.user.userLogin){
+            if (this.message.upid!=0){
+              this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
+              console.info(this.message)
+            }
+            this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
+              .then(resp=>{
+                this.getMessage(this.message.wid);
+                this.message.message='';
+                this.message.upid=0;
+              })
+              .catch(err=>{
+                this.$message.error("错误");
+              });
+          }else {
+            this.$message.error('请登录再发布');
           }
-          this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
-            .then(resp=>{
-              this.getMessage(this.message.wid);
-              this.message.message='';
-              this.message.upid=0;
-            })
-            .catch(err=>{
-              this.$message.error("错误");
-            });
+
         },
         del(wmid){
           this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/del',this.$qs.stringify({'wmid':wmid}))
@@ -253,6 +295,26 @@
         },
         toWorkDynamic(){
           this.$router.push({name:'WorkDynamic'})
+        },
+        delWork(){
+          this.$confirm('是否删除','提示',{
+            confirmButtonText:'确认',
+            cancelButtonText:'取消',
+            type:'waring',
+          }).then(()=>{
+            this.$axios.post('http://localhost:8080/cookbooktest/WorksController/deleteWorks', this.$qs.stringify({'wid': this.work.wid}))
+              .then(resp => {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+                this.$router.push({name:'Myworks'})
+              })
+              .catch(err => {
+                this.$message.error("请稍后尝试");
+              });
+          });
+
         }
       }
     }

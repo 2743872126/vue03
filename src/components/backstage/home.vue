@@ -7,7 +7,7 @@
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect">
-      <el-menu-item style="margin-left: 900px"></el-menu-item>
+      <el-menu-item style="margin-left: 800px"></el-menu-item>
       <template v-for="(l,k) in datal.childList">
       <el-submenu :index="'2-'+l.parentFid">
         <template slot="title">{{l.parentName}}</template>
@@ -19,7 +19,8 @@
       </el-submenu>
         </template>
         <el-menu-item index="9" :route="{name:'Myself'}">个人中心</el-menu-item>
-      <el-menu-item index="10" disabled style="color: black" class="el-icon-user">欢迎: {{this.user[0].cname}}</el-menu-item>
+      <el-menu-item index="10" @click="exit">退出</el-menu-item>
+      <el-menu-item index="11" disabled style="color: black" class="el-icon-user">欢迎: {{this.user[0].cname}}</el-menu-item>
     </el-menu>
     <el-main>
       <!-- 路由视图 -->
@@ -102,6 +103,10 @@
       },
       NewHref() {
         this.$router.push('Myself')
+      },
+      exit(){
+        this.$session.clear();
+        this.$router.push('Login1')
       }
     }
   }

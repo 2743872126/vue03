@@ -7,7 +7,7 @@
       </h1>
       <div style="height: 500px">
         <!--{{users}}-->
-        <div style="height: 140px;margin-bottom:20px;position: relative;width: 33%;float: left" v-for="v,i in users.slice(0,30)">
+        <div v-show="v.uid!==user.uid" style="height: 140px;margin-bottom:20px;position: relative;width: 33%;float: left" v-for="v,i in users.slice(0,30)">
           <a @click="toThirePerson(v.uid)"><el-avatar style="position: absolute;left: 20px;top: 20px" :size="100" fit="fill" :src="'static/jpg/'+v.pic"></el-avatar></a>
           <span style="text-align: left; height:90px;width:150px;position: absolute;top: -30px;left: 150px;font-size: 24px"><a style="color: black" @click="toThirePerson(v.uid)">{{v.uname.substr(0,4)}}..</a>
                           <el-image src="static/jpg/xingji.png" v-if="v.state===1" style="height: 30px"></el-image>
@@ -35,26 +35,30 @@
       },
       created:function () {
         this.user=this.$store.state.user.userInfo;
-        this.$axios.post('http://localhost:8080/cookbooktest/UController/queryuserinfo')
-          .then(resp=>{
-            this.users=resp.data;
-            this.users.forEach((v,i)=>{
-              this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:v.uid}))
-                .then(re=>{
-                  if(re.data>0){
-                    v.state2=1;
-                    this.$set(this.users,i,v)
-                  }else{
-                    v.state2=0;
-                    this.$set(this.users,i,v)
-                  }
+        if(!this.$route.params.users){
+          this.$axios.post('http://localhost:8080/cookbooktest/UController/queryuserinfo')
+            .then(resp=>{
+              this.users=resp.data;
+              this.users.forEach((v,i)=>{
+                this.$axios.post("http://localhost:8080/cookbooktest/queryIsFollow",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid,followid:v.uid}))
+                  .then(re=>{
+                    if(re.data>0){
+                      v.state2=1;
+                      this.$set(this.users,i,v)
+                    }else{
+                      v.state2=0;
+                      this.$set(this.users,i,v)
+                    }
 
-                })
+                  })
+              })
             })
-          })
-          .catch(err=>{
-            this.$message.error("请稍后尝试");
-          })
+            .catch(err=>{
+              this.$message.error("请稍后尝试");
+            })
+        }else{
+          this.users=this.$route.params.users;
+        }
       },
       methods:{
         toThirePerson(uid){

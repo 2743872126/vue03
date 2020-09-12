@@ -69,8 +69,10 @@
                     <h1 style="margin-top: -120px"><a style="color: crimson"  @click="toPerson()">{{user.uname}}的厨房</a></h1>
                     <h1 style="margin-top: -120px;font-size: 20px">
                       <a style="color: crimson">{{user.munus.length}}菜谱</a>|
-                      <a style="color: crimson">{{user.works.length}}作品</a>|
+                      <a style="color: crimson">{{user.works.length}}作品</a>
+<!--
                       <a style="color: crimson">{{user.user_menus.length}}收藏</a>|
+-->
 
                     </h1>
                     <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px" @click="creatMenu">创建菜谱</el-button>
@@ -88,7 +90,7 @@
                         <a style="color: crimson" >更多</a>
                       </span>
                     </div>
-                    <div style="border: 1px solid gainsboro;height: 80px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
+                    <div v-show="v.uid!==user.uid" style="border: 1px solid gainsboro;height: 80px;margin-bottom:20px;position: relative" v-for="v,i in users.slice(0,8)">
                       <a @click="toThirePerson(v.uid)"><el-avatar style="position: absolute;left: 0px;top: 10px" :size="60" fit="fill" :src="'static/jpg/'+v.pic" ></el-avatar></a>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -60px;left: 80px;font-size: 14px">
                         <a style="color: black" @click="toThirePerson(v.uid)">{{v.uname.substr(0,4)}}..</a>
@@ -96,7 +98,7 @@
                       </span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -35px;left: 80px;font-size: 14px;color: darkgrey">{{v.users.length}}&nbsp;&nbsp;关注</span>
                       <span style="text-align: left; height:90px;width:150px;position: absolute;top: -10px;left: 80px;font-size: 14px;color: darkgrey">{{v.munus.length}}&nbsp;&nbsp;菜谱&nbsp;&nbsp;{{v.works.length}}&nbsp;&nbsp;作品</span>
-                      <el-button  style="background-color: crimson;color: white;width: 100px;height: 45px;font-size: 20px;position: absolute;top: 18px;left: 245px"  v-show="v.uid!==user.uid" @click="guanzhu(i)">
+                      <el-button  style="background-color: crimson;color: white;width: 100px;height: 45px;font-size: 20px;position: absolute;top: 18px;left: 245px"  @click="guanzhu(i)">
                         <span v-if="v.state2==0">关注</span><span v-else>取关</span><br>
                       </el-button>
 <!--

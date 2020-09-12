@@ -43,14 +43,13 @@
     <el-dialog title="修改密码" :visible.sync="dialogVisible">
       <el-form ref="fm" :model="NewPass" :rules="roles" label-width="200px">
         <el-form-item label="姓名">
-          <el-input v-model="user[0].cname" disabled style="width: 500px;margin-left:-200px"></el-input>
+          <el-input v-model="user[0].cname" disabled style="width: 350px"></el-input>
         </el-form-item>
-        {{user[0]}}
         <el-form-item label="原密码">
-          <el-input v-model="user[0].pwd" disabled style="width: 500px;margin-left:-200px"></el-input>
+          <el-input v-model="user[0].pwd" disabled style="width: 350px"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="NewPwd">
-          <el-input v-model="NewPass.NewPwd" style="width: 500px;margin-left:-200px"></el-input>
+          <el-input v-model="NewPass.NewPwd" style="width: 350px"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -105,7 +104,7 @@
                 if (resp.data == 1) {
                   this.$message('修改成功')
                   this.$session.clear();
-                  this.$router.push({name: 'Login'})
+                  this.$router.push({name: 'Login1'})
                 } else {
                   this.$message('用户名错误')
                 }

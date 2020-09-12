@@ -4,7 +4,7 @@
 
       <div style="border:1px solid burlywood;margin-bottom: 50px;height: 100px;margin-left:3%;float: left;line-height: 100px;width: 30%;" v-for="v in users.slice((currentPage-1)*PageSize,currentPage*PageSize)">
         <router-link :to="{name:'TheirPersonal',params:{uid:v.uid}}" >
-          <el-image lazy style="margin : 0 0 0 0;float: left;height: 90px;width: 100px;" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
+          <el-image lazy style="margin : 0 0 0 0;float: left;height: 100%;width: 100px;" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
           <a style="color: crimson;margin-left: -50px">{{v.uname}}</a>
         </router-link>
       </div>

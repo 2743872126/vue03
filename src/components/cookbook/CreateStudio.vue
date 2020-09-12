@@ -117,32 +117,36 @@
               })
               if(this.yannum){
                 if(this.file2.length==this.upnum){
-                  let for1=new FormData();
-                  for1.append("file1",this.file1[0]);
-                  console.log(for1.get("file1"));
-                  this.$axios.post("http://localhost:8080/cookbooktest/file/uploads",for1,).then(res=>{
-                    if(res.data=='ok'){
-                      this.file2.forEach(v=>{
-                        for1.append("file2",v);
-                      })
-                      this.$axios.post("http://localhost:8080/cookbooktest/file/studiosVideo",for1).then(res=>{
-                        if(res.data=='ok'){
-                          for1.append("newStudio",JSON.stringify(this.newStudio));
-                          for1.append("studioDetail",JSON.stringify(this.studioDetail));
-                          this.$axios.post("http://localhost:8080/cookbooktest/file/upStudios",for1).then(res=>{
-                            if(res.data=='ok'){
+                  if (0!=this.file1.length){
+                    let for1=new FormData();
+                    for1.append("file1",this.file1[0]);
+                    console.log(for1.get("file1"));
+                    this.$axios.post("http://localhost:8080/cookbooktest/file/uploads",for1,).then(res=>{
+                      if(res.data=='ok'){
+                        this.file2.forEach(v=>{
+                          for1.append("file2",v);
+                        })
+                        this.$axios.post("http://localhost:8080/cookbooktest/file/studiosVideo",for1).then(res=>{
+                          if(res.data=='ok'){
+                            for1.append("newStudio",JSON.stringify(this.newStudio));
+                            for1.append("studioDetail",JSON.stringify(this.studioDetail));
+                            this.$axios.post("http://localhost:8080/cookbooktest/file/upStudios",for1).then(res=>{
+                              if(res.data=='ok'){
 
-                              setTimeout(() => {
-                                this.fullscreenLoading=false;
-                                this.$router.push({name:'MyStudio2'});
-                              }, 2000);
+                                setTimeout(() => {
+                                  this.fullscreenLoading=false;
+                                  this.$router.push({name:'MyStudio2'});
+                                }, 2000);
 
-                            }
-                          })
-                        }
-                      })
-                    }
-                  })
+                              }
+                            })
+                          }
+                        })
+                      }
+                    })
+                  } else {
+                    this.$message.error("封面图不可少"+this.file2.length);
+                  }
                 }else{
                   this.$message.error("视频必不可少"+this.file2.length);
                 }

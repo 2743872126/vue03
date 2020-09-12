@@ -130,7 +130,7 @@
         menuTypes:[],
         currentPage:1,
         rows:'',
-        pagesize:10,
+        pagesize:5,
         tit:'详情',
         title:'添加菜谱',
         changeMenuTypes:{},

@@ -10,11 +10,11 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <div id="main" style="width: 500px;height: 400px;margin-top: 200px">
+    <div id="main" style="width: 500px;height: 400px;margin-top: 150px">
     </div>
-    <div id="mains" style="width: 500px;height: 400px;margin-top:-400px;margin-left: 600px">
+    <div id="mains" style="width: 400px;height: 400px;margin-top:-400px;margin-left: 550px">
     </div>
-    <div id="mainss" style="width: 500px;height: 400px;margin-top:-400px;margin-left: 1200px">
+    <div id="mainss" style="width: 400px;height: 400px;margin-top:-400px;margin-left: 1000px">
     </div>
   </div>
 </template>
@@ -69,13 +69,14 @@
           this.$axios.post('http://localhost:8080/cookbooktest/BackReportForm/ReportFormMenuTypesYear').then(resp=>{
             this.menuType = []
             this.menuTypeVal = []
-            this.menus = []
-            this.menusVal = []
             for (let a=0;a<resp.data.length;a++){
               this.menuType[a] = resp.data[a].Mtname
               this.menuTypeVal[a] = resp.data[a].count
             }
             this.$axios.post('http://localhost:8080/cookbooktest/BackReportForm/ReportFormMenuYear').then(resp=>{
+              this.menus = []
+              this.menusVal = []
+              console.log(resp.data)
               for (let a=0;a<resp.data.length;a++){
                 this.menus[a] = resp.data[a].Mtnames
                 this.menusVal[a] = resp.data[a].count

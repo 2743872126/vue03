@@ -25,12 +25,17 @@
       }
     },
     created:function(){
-      this.userinfo=this.$store.state.user.userInfo.user_menus;
-      console.log(this.userinfo)
-      if(0==this.userinfo.length){
+      this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryMyWorksByid",this.$qs.stringify({uid:this.$store.state.user.userInfo.uid}))
+        .then(res=>{
+          this.userinfo=res.data;
+          if(0==this.userinfo.length){
 
-        this.isshow=true;
-      }
+            this.isshow=true;
+          }
+        })
+
+      console.log(this.userinfo)
+
 
     },
     methods:{
@@ -45,7 +50,7 @@
 <style scoped>
   .ps{;
     font-size: 20px;
-    line-height: 40px;
+    line-height: 30px;
   }
   .span{
     color: red;

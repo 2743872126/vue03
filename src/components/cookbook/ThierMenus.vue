@@ -1,6 +1,6 @@
 <template>
     <div v-if="menuss.length!==0">
-      <div class="menus" v-for="(v,k) in menuss">
+      <div v-if="v.state==0" class="menus" v-for="(v,k) in menuss">
         <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"  @click="menudetail(v)"></el-image>
         <div style="margin-top: -120px">
           <h1 style="font-size: 18px;margin:30px 0 -100px 0 " >
