@@ -96,14 +96,14 @@
             if (undefined == this.usersup.phone) {
               this.$message.error("输入手机号")
             } else {
-              /*this.$axios.post("http://localhost:8080/cookbooktest/SMS", this.$qs.stringify({'phone': this.usersup.phone})).then(res => {
+              this.$axios.post("http://localhost:8080/cookbooktest/SMS", this.$qs.stringify({'phone': this.usersup.phone})).then(res => {
                 console.log(res)
                 if (res.data.result == 0) {
                   this.isLoading = true;
                   setTimeout(function () {
                     this.isLoading = false;
                   }, 10000);
-                }*/
+                }
                 this.butshow = true;
                 this.agin = "秒后重新获取"
                 const TIME_COUNT = 60;
@@ -121,9 +121,7 @@
                     }
                   }, 1000)
                 }
-/*
               })
-*/
 
             }
           }
