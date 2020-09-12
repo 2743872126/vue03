@@ -2,10 +2,10 @@
   <div>
     <div style="overflow: hidden">
       <p style="line-height:40px;text-align: left;margin-bottom: 20px;font-size: 30px;color: darkseagreen;font-weight: bold">作品</p>
-      <div style="float:left;" class="workss" v-for="(v,k) in userinfo.works.slice(0,9)">
+      <div style="float:left;margin-bottom: 20px" class="workss" v-for="(v,k) in userinfo.works.slice(0,9)">
         <el-image style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
         <div style="margin-top: -100px;margin-bottom: -100px">
-          <p style="font-size: 18px;" >{{v.winfo.substring(0,20)}}..</p>
+          <p style="font-size: 18px;" >{{v.winfo.substring(0,15)}}..</p>
         </div>
         <div style="font-size: 14px;margin:-55px 0 -55px -30px ;">
           {{v.makeTime.substring(0,10)}}拍摄
@@ -24,7 +24,7 @@
     <hr/>
     <div style="overflow: auto">
       <p style="line-height:40px;text-align: left;margin-bottom: 20px;font-size: 30px;color: darkseagreen;font-weight: bold">菜谱</p>
-      <div style="float:left;" class="workss" v-for="(v,k) in userinfo.munus.slice(0,9)">
+      <div style="float:left;margin-bottom: 20px" class="workss" v-for="(v,k) in userinfo.munus.slice(0,9)">
         <el-image style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover" @click="menudetail(v)"></el-image>
         <div style="margin-top: -120px"><h1 style="font-size: 18px;margin:30px 0 -100px 0 "><a @click="menudetail(v)" style="color: black">{{v.mname}}</a></h1></div>
         <div style="font-size: 14px;margin:-55px 0 -55px -30px ;">

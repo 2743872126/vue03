@@ -7,12 +7,12 @@
       <el-table-column
         prop="mtid"
         label="菜谱编号"
-        width="400px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="mtname"
         label="菜单名字"
-        width="400px">
+        style="width: 20%">
       </el-table-column>
       <!--<el-table-column
         prop="state"
@@ -21,7 +21,7 @@
       </el-table-column>-->
       <el-table-column
         label="详情"
-        width="400px">
+        style="width: 20%">
         <template slot-scope="scope">
           <el-tooltip placement="bottom" content="详情">
             <el-button circle class="el-icon-more" type="el-icon-more" plain @click="moreInfo(scope.row)"></el-button>
@@ -29,6 +29,7 @@
         </template>
       </el-table-column>
       <el-table-column
+        style="width: 20%"
         label="操作">
         <template slot-scope="scope">
           <el-tooltip placement="bottom" content="添加菜谱">
@@ -42,22 +43,22 @@
     </el-table>
     <el-dialog :title="tit" :visible.sync="moreInformations">
       <el-card class="box-card" >
-        <span v-if="this.moreInfoTypeTwo.mLevel !==0">所属二级菜谱
+        <span style="margin-left: 350px" v-if="this.moreInfoTypeTwo.mLevel !==0">所属二级菜谱
           <el-divider direction="vertical"></el-divider>
         </span>
-        <span>所属一级菜谱</span>
+        <span style="margin-left: 350px">所属一级菜谱</span>
         <el-divider></el-divider>
-        <span>{{this.moreInfoTypeTwo.mtname}}</span>
+        <span style="margin-left: 350px">{{this.moreInfoTypeTwo.mtname}}</span>
         <el-divider v-if="this.moreInfoTypeTwo.mLevel !==0" direction="vertical"></el-divider>
-        <span>{{this.moreInfoTypeOne.mtname}}</span>
+        <span style="margin-left: 350px">{{this.moreInfoTypeOne.mtname}}</span>
       </el-card>
     </el-dialog>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" style="margin-top: 20px">
       <el-divider></el-divider>
-      <el-form v-model="mTnames" style="width: 50%;margin-left: 150px" label-width="150px">
+      <el-form v-model="mTnames" style="width: 50%;margin-left: 150px;" label-width="150px">
         <el-form-item label="请选择一级菜谱">
           <el-cascader
-            style="width: 310px;"
+            style="width: 265px;"
             v-model="props.value"
             :options="options"
             :props="props">
@@ -72,12 +73,12 @@
         <el-button type="primary" @click="insertMenuTypes()">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="tits" :visible.sync="dialogFormTypes">
+    <el-dialog :title="tits" :visible.sync="dialogFormTypes" width="800px">
       <el-divider></el-divider>
-      <el-form  v-model="mTnames" style="width: 50%;margin-left: 180px" label-width="150px">
+      <el-form  v-model="mTnames" style="width: 50%;margin-left: 150px" label-width="150px">
         <el-form-item label="请选择一级菜谱" v-if="this.rowsLevel > 0">
           <el-cascader
-            style="width: 310px;margin-left: 50px"
+            style="width: 230px"
             v-model="props.value"
             :options="options"
             :props="props">
@@ -93,6 +94,7 @@
       </div>
     </el-dialog>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
@@ -128,7 +130,7 @@
         menuTypes:[],
         currentPage:1,
         rows:'',
-        pagesize:5,
+        pagesize:10,
         tit:'详情',
         title:'添加菜谱',
         changeMenuTypes:{},

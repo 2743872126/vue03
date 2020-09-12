@@ -7,40 +7,41 @@
       <el-table-column
         prop="Wid"
         label="编号"
-        width="300px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="Mname"
         label="作品名字"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="uname"
         label="评论用户"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         label="作品图片"
-        width="310px">
+        style="width: 20%">
         <template slot-scope="scope">
           <el-image style="width: 60px;height: 60px;"
-                    :src="'static/'+scope.row.Pic"
-                    :preview-src-list="['static/'+scope.row.Pic]"></el-image>
+                    :src="'static/jpg/'+scope.row.Pic"
+                    :preview-src-list="['static/jpg/'+scope.row.Pic]"></el-image>
         </template>
       </el-table-column>
       <el-table-column
         prop="MakeTime"
         label="时间"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="Winfo"
         label="作品描述"
         :show-overflow-tooltip="true"
-        width="310px">
+        style="width: 20%">
       </el-table-column>
     </el-table>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"

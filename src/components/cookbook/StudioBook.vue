@@ -48,7 +48,7 @@
               </el-row>
               <div style="background-color: gainsboro">
                 <h1 style="text-align: left;line-height: 50px;font-size: 30px;color: darkseagreen">课程评价
-                  <a style="font-size: 16px;color: crimson;margin-left: 580px" @click="cl">写评价</a>
+                  <a style="font-size: 16px;color: crimson;margin-left: 580px" v-show="isPay" @click="cl">写评价</a>
                 </h1>
 <!--
                 {{this.studioMessages}}

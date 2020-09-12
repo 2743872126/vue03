@@ -56,8 +56,8 @@
                 <div v-for="w in menu.works" style="border:1px solid gainsboro;height: 290px;width: 180px;float: left;margin-right: 12px">
                   <router-link :to="{name:'WorkDetail',params:{wid:w.wid}}">
                     <img :src="'static/jpg/'+w.pic" width="178px" height="150px" />
-                    <p style="line-height: 20px;margin-top: -60px">{{w.makeTime.substr(0,10)}}</p>
-                    <p style="height:40px;line-height: 20px">{{w.winfo.substr(0,24)}}</p>
+                    <p style="line-height: 20px;margin-top: -60px;color:gray">{{w.makeTime.substr(0,10)}}</p>
+                    <p style="height:40px;line-height: 20px;color: black">{{w.winfo.substr(0,24)}}</p>
                     <p style="line-height: 20px" v-if="w.users!==null">
                       <el-avatar v-if="w.users.pic!==null" :size="20" fit="fill" :src="'static/jpg/'+w.users.pic"></el-avatar>
                       <a style="color: crimson">{{w.users.uname}}</a>

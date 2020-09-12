@@ -56,7 +56,7 @@
                         <a style="color: crimson" href="http://localhost:8081/#/Menus">全部</a>
                       </span>
                     </div>
-                    <div style="border: 1px solid gainsboro;width: 255px;height: 200px;float: left;margin-right: 5px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
+                    <div style="border: 1px solid gainsboro;width: 255px;height: 220px;float: left;margin-right: 5px;margin-left: 5px;margin-bottom:20px;position: relative" v-for="v in thismonthmenu">
                       <el-image :src="'static/jpg/'+v.pic" style="width: 100%;height: 65%" @click="menudetail(v)"></el-image>
                       <span style=" height:90px;width:253px;position: absolute;top: 38%;left: 0px;font-size: 18px" @click="menudetail(v)">{{v.mname.substr(0,8)}}..</span>
                       <span style=" height:90px;width:253px;position: absolute;top: 53%;left: 0px;font-size: 13px;color: darkgrey"><a style="color: black">{{v.users.uname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{v.works.length}}人做过</span>
@@ -71,7 +71,7 @@
                       <a style="color: crimson">{{user.munus.length}}菜谱</a>|
                       <a style="color: crimson">{{user.works.length}}作品</a>|
                       <a style="color: crimson">{{user.user_menus.length}}收藏</a>|
-                      <a style="color: crimson">草稿箱</a>
+
                     </h1>
                     <el-button style="position: absolute;top: 260px;left: 40%;background-color: crimson;color: white;width: 100px;height: 50px" @click="creatMenu">创建菜谱</el-button>
                   </div>

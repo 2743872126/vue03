@@ -27,13 +27,13 @@
         </el-header>
         <el-main>
           <el-table :data="this.per">
-            <el-table-column prop="cname" label="姓名" width="400">
+            <el-table-column prop="cname" label="姓名" width="300">
             </el-table-column>
-            <el-table-column prop="lognum" label="账号" width="400">
+            <el-table-column prop="lognum" label="账号" width="300">
             </el-table-column>
-            <el-table-column prop="pwd" label="密码" width="400">
+            <el-table-column prop="pwd" label="密码" width="300">
             </el-table-column>
-            <el-table-column label="当前时间" width="400">
+            <el-table-column label="当前时间" width="300">
               {{ nowDate + ' ' + nowTime + ' ' + nowWeek }}
             </el-table-column>
           </el-table>

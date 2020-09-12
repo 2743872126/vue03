@@ -3,12 +3,11 @@
     <div class="line"></div>
     <el-menu
       :router="true"
-      style="margin-top: -50px"
       :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect">
-      <el-menu-item style="margin-left: 1150px"></el-menu-item>
+      <el-menu-item style="margin-left: 900px"></el-menu-item>
       <template v-for="(l,k) in datal.childList">
       <el-submenu :index="'2-'+l.parentFid">
         <template slot="title">{{l.parentName}}</template>

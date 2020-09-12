@@ -3,7 +3,7 @@
     <p class="ps"><span  @click="mys">购买的</span>         |        <span class="span">发布的</span><router-link style="float: right" :to="{name:'CreateStudio'}">去发布<icon class="el-icon-caret-right"></icon></router-link></p>
     <div class="menus" v-for="(v,k) in release" @click="StudioDetail(v.sid)">
       <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/video/'+v.stupic" fit="cover"></el-image>
-      <div style="margin-top: -120px"><h1 style="font-size: 18px;margin:30px 0 -100px 0 ">{{v.sname}}</h1></div>
+      <div style="margin-top: -120px"><h1 style="font-size: 18px;margin:30px 0 -100px 0 ">{{v.sname.substring(0,15)}}..</h1></div>
       <div style="font-size: 14px;margin:-55px 0 -55px -30px ;">
         {{v.upTime.substring(0,10)}}发布 |
         <span v-if="v.str">星级：<icon class="el-icon-star-on">{{v.str}}</icon> |</span>

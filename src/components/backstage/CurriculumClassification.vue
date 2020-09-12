@@ -7,12 +7,12 @@
       <el-table-column
         prop="stid"
         label="课程编号"
-        width="400px">
+        style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="stname"
         label="课程名称"
-        width="400px">
+        style="width: 20%">
       </el-table-column>
       <!--<el-table-column
         prop="state"
@@ -21,7 +21,7 @@
       </el-table-column>-->
       <el-table-column
         label="详情"
-        width="400px">
+        style="width: 20%">
         <template slot-scope="scope">
           <el-tooltip placement="bottom" content="详情">
            <el-button circle class="el-icon-more"  plain @click="moreInfo(scope.row)"></el-button>
@@ -29,6 +29,7 @@
         </template>
       </el-table-column>
       <el-table-column
+        style="width: 20%"
         label="操作">
         <template slot-scope="scope">
           <el-tooltip placement="bottom" content="添加课程">
@@ -42,14 +43,14 @@
     </el-table>
     <el-dialog :title="tit" :visible.sync="moreInformations">
       <el-card class="box-card" >
-        <span v-if="this.moreInfoTypeTwo.sLevel !==0">所属二级课程
+        <span style="margin-left: 350px" v-if="this.moreInfoTypeTwo.sLevel !==0">所属二级课程
           <el-divider direction="vertical"></el-divider>
         </span>
-        <span>所属课程</span>
+        <span style="margin-left: 350px">所属课程</span>
         <el-divider></el-divider>
-        <span>{{this.moreInfoTypeTwo.stname}}</span>
+        <span style="margin-left: 350px">{{this.moreInfoTypeTwo.stname}}</span>
         <el-divider v-if="this.moreInfoTypeTwo.sLevel !==0" direction="vertical"></el-divider>
-        <span>{{this.moreInfoTypeOne.stname}}</span>
+        <span style="margin-left: 350px">{{this.moreInfoTypeOne.stname}}</span>
       </el-card>
     </el-dialog>
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
@@ -57,7 +58,7 @@
       <el-form v-model="mTnames" style="width: 50%;margin-left: 180px" label-width="150px">
         <el-form-item label="请选择所属课程">
           <el-cascader
-            style="width: 310px;"
+            style="width: 265px;"
             v-model="props.value"
             :options="options"
             :props="props">
@@ -77,7 +78,7 @@
       <el-form :model="this.rowstname" style="width: 50%;margin-left: 180px" label-width="150px">
         <el-form-item label="请选择所属课程" v-if="this.rowsLevel > 0">
           <el-cascader
-            style="width: 310px;"
+            style="width: 265px;"
             v-model="props.value"
             :options="options"
             :props="props">
@@ -93,6 +94,7 @@
       </div>
     </el-dialog>
     <el-pagination
+      style="margin-left: 600px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"

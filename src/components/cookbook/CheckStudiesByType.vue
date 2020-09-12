@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 1000px">
+  <el-container style="height: 2000px">
     <el-aside style="width: 70%">
       <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">{{this.$route.query.stname}}</p>
       <div v-if="Studios.length!==0">
