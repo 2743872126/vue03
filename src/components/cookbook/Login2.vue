@@ -151,24 +151,25 @@ export default {
                 this.isLoading = false;
               }, 10000);
             }
+            this.butshow = true;
+            this.agin = "秒后重新获取"
+            let TIME_COUNT = 60;
+            if (!this.timer) {
+              this.count = TIME_COUNT;
+              this.timer = setInterval(()=>{
+                if (this.count > 0 && this.count <= TIME_COUNT) {
+                  this.count--;
+                } else {
+                  clearInterval(this.timer);
+                  this.timer = null;
+                  this.butshow = false;
+                  this.count = "获取验证码"
+                  this.agin = ''
+                }
+              }, 1000)
+            }
           })
-          this.butshow = true;
-          this.agin = "秒后重新获取"
-          const TIME_COUNT = 60;
-          if (!this.timer) {
-            this.count = TIME_COUNT;
-            this.timer = setInterval(function () {
-              if (this.count > 0 && this.count <= TIME_COUNT) {
-                this.count--;
-              } else {
-                clearInterval(this.timer);
-                this.timer = null;
-                this.butshow = false;
-                this.count = "获取验证码"
-                this.agin = ''
-              }
-            }, 1000)
-          }
+
         }
       }
     },
@@ -209,8 +210,8 @@ export default {
               .then(res => {
                 console.log(res);
                 if (''!==res.data) {
-                  this.$store.commit("USER_SIGNIN", res);
-                  this.$router.push({name:'main'});
+                  this.$store.commit("USER_SIGNIN", res.data);
+                  this.$router.push({name:'firstpage'});
                 }else{
                   this.$message.error('验证码错误')
                 }

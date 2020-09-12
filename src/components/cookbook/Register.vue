@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+ <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div v-width="400"style="margin-top: 10%;margin-left: 35%">
       <el-form label-width="70px" label-suffix=": " :model="usersup" :rules="rules" ref="fmup">
 
@@ -96,32 +96,35 @@
             if (undefined == this.usersup.phone) {
               this.$message.error("输入手机号")
             } else {
-              this.$axios.post("http://localhost:8080/cookbooktest/SMS", this.$qs.stringify({'phone': this.usersup.phone})).then(res => {
+              /*this.$axios.post("http://localhost:8080/cookbooktest/SMS", this.$qs.stringify({'phone': this.usersup.phone})).then(res => {
                 console.log(res)
                 if (res.data.result == 0) {
                   this.isLoading = true;
                   setTimeout(function () {
                     this.isLoading = false;
                   }, 10000);
+                }*/
+                this.butshow = true;
+                this.agin = "秒后重新获取"
+                const TIME_COUNT = 60;
+                if (!this.timer) {
+                  this.count = TIME_COUNT;
+                  this.timer = setInterval(()=> {
+                    if (this.count > 0 && this.count <= TIME_COUNT) {
+                      this.count--;
+                    } else {
+                      clearInterval(this.timer);
+                      this.timer = null;
+                      this.butshow = false;
+                      this.count = "获取验证码"
+                      this.agin = ''
+                    }
+                  }, 1000)
                 }
+/*
               })
-              this.butshow = true;
-              this.agin = "秒后重新获取"
-              const TIME_COUNT = 60;
-              if (!this.timer) {
-                this.count = TIME_COUNT;
-                this.timer = setInterval(function () {
-                  if (this.count > 0 && this.count <= TIME_COUNT) {
-                    this.count--;
-                  } else {
-                    clearInterval(this.timer);
-                    this.timer = null;
-                    this.butshow = false;
-                    this.count = "获取验证码"
-                    this.agin = ''
-                  }
-                }, 1000)
-              }
+*/
+
             }
           }
         }
@@ -131,22 +134,14 @@
           // 当表单所有rules都返回true valid会是true
           if(valid){
             if(this.isLoading){
-              this.$axios.post('http://localhost:8080/cookbooktest/queryphone',this.$qs.stringify({phone:this.usersup.phone}))
+              this.$axios.post('http://localhost:8080/cookbooktest/register',this.$qs.stringify(this.usersup))
                 .then(res => {
                   console.log(res);
-                  if (res.data.length!=0) {
-                    this.$message.error("这个手机号已经注册");
+                  if (null!==res.phone) {
+                    this.$store.commit("USER_SIGNIN", res.data);
+                    this.$router.push({name:'Login2'});
                   }else{
-                    this.$axios.post('http://localhost:8080/cookbooktest/register',this.$qs.stringify(this.usersup))
-                      .then(res => {
-                        console.log(res);
-                        if (null!==res.phone) {
-                          this.$store.commit("USER_SIGNIN", res);
-                          this.$router.push({name:'main'});
-                        }else{
-                          this.$message.error('验证码错误')
-                        }
-                      })
+                    this.$message.error('验证码错误')
                   }
                 })
             }
