@@ -40,14 +40,14 @@
                 <el-avatar size="30px" :src="'static/jpg/'+v.leveluser.pic"></el-avatar>
                 <span style="position: absolute;top: 10px">
                   &nbsp;&nbsp;
-                  <span style="font-weight: bold;color: black">{{v.leveluser.uname}}</span>&nbsp;&nbsp;评论了你的课程&nbsp;
-                  <a  @click="del2(i,v.smid,v.sid)">去解答 ></a>
+                  <span style="font-weight: bold;color: black">{{v.leveluser.uname}}</span>&nbsp;&nbsp;评价了你的课程&nbsp;
+                  <a  @click="del2(i,v.smid,v.sid)">去查看 ></a>
                   <el-link style="margin-left: 380px" @click="del2(i,v.smid,'')" >忽略</el-link>
                 </span>
               </p>
               <p style="margin-top: -10px;margin-left: 50px;line-height: 20px;font-size: 13px">
                 {{v.message}}&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="color: dimgray">{{v.evaluateTime.substr(0,10)}}&nbsp;&nbsp;回复</span>
+                <span style="color: dimgray">{{v.evaluateTime.substr(0,10)}}&nbsp;&nbsp;评价</span>
               </p>
             </div>
           </div>

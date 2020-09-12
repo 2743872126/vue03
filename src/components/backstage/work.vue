@@ -11,12 +11,12 @@
       </el-table-column>
       <el-table-column
         prop="Mname"
-        label="作品名字"
+        label="菜谱名字"
         style="width: 20%">
       </el-table-column>
       <el-table-column
         prop="uname"
-        label="评论用户"
+        label="作者"
         style="width: 20%">
       </el-table-column>
       <el-table-column

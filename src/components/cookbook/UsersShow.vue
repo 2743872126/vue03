@@ -4,7 +4,7 @@
         <h1 style="text-align: left;line-height: 120px;font-size: 40px">万能的吃货们</h1>
         <div style="height: 500px;width:70%;float: left">
           <!--{{users}}-->
-          <div style="border: 1px solid gainsboro;height: 80px;margin-bottom:20px;position: relative;width: 44%;float: left;margin-left: 5px;margin-right: 5px" v-for="v,i in users.slice(0,30)">
+          <div v-show="v.uid!==user.uid" style="border: 1px solid gainsboro;height: 80px;margin-bottom:20px;position: relative;width: 44%;float: left;margin-left: 5px;margin-right: 5px" v-for="v,i in users.slice(0,30)">
             <a @click="toThirePerson(v.uid)"><el-avatar style="position: absolute;left: 0px;top: 10px" :size="60" fit="fill" :src="'static/jpg/'+v.pic" ></el-avatar></a>
             <span style="text-align: left; height:90px;width:150px;position: absolute;top: -60px;left: 80px;font-size: 16px">
                         <a style="color: black" @click="toThirePerson(v.uid)">{{v.uname.substr(0,4)}}..</a>

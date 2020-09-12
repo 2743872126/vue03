@@ -57,7 +57,7 @@
                   <p style="text-align:left;line-height: 20px;position: relative">
                     <el-avatar :size="40" fit="fill" :src="'static/jpg/'+l.leveluser.pic"></el-avatar>
                     <a style="color: crimson;position: absolute;top: 10px;left: 50px">{{l.leveluser.uname}}</a>
-                    <span style="position: absolute;top: 10px;left: 90px;color: dimgray">{{l.evaluateTime.substr(0,10)}}</span>
+                    <span style="position: absolute;top: 10px;left: 110px;color: dimgray">{{l.evaluateTime.substr(0,10)}}</span>
                   </p>
                   <p style="text-align:left;line-height: 30px;margin-top: -15px;margin-left: 50px">
                     <el-rate

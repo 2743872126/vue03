@@ -179,14 +179,25 @@
       },
       methods:{
         CollectedMenu(){
-          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/updateCollection',this.$qs.stringify({mid:this.menu.mid,uid:this.$store.state.user.userInfo.uid}))
-            .then(resp=>{
-              if(resp.data>0){
-                this.isCollected=false;
-              }else{
-                this.isCollected=true;
-              }
-            }).catch()
+          if(this.$store.state.user.userLogin){
+            this.$axios.post('http://localhost:8080/cookbooktest/MenuController/updateCollection',this.$qs.stringify({mid:this.menu.mid,uid:this.$store.state.user.userInfo.uid}))
+              .then(resp=>{
+                if(resp.data>0){
+                  this.isCollected=false;
+                }else{
+                  this.isCollected=true;
+                }
+              }).catch()
+          }else {
+            this.$confirm('请登录账号,是否登陆?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({name:'Login2'})
+            }).catch(() => {
+            });
+          }
         },
         del(){
           this.$confirm('是否删除该菜谱, 是否继续?', '提示', {
@@ -200,6 +211,7 @@
                   type: 'success',
                   message: '删除成功!'
                 });
+                this.$router.push({name:'Mymenus'})
               }).catch()
 
           }).catch(() => {
@@ -209,10 +221,10 @@
             });
           });
 
-          this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deletemenuBymid',this.$qs.stringify({'mid':this.menu.mid}))
+         /* this.$axios.post('http://localhost:8080/cookbooktest/MenuController/deletemenuBymid',this.$qs.stringify({'mid':this.menu.mid}))
             .then(resp=>{
               this.$router.push({name:'Mymenus'})
-            }).catch()
+            }).catch()*/
         },
         checkAllWorks(){
           this.$router.push({name:'MenuWorks',params:{menu:this.menu}})
@@ -225,7 +237,19 @@
         },*/
 
         tocreateworks(){
-          this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})
+          if(this.$store.state.user.userLogin){
+            this.$router.push({name: 'CreateWorks',replace:true,params:{mid:this.menu.mid,mname:this.menu.mname}})
+          }else{
+            this.$confirm('请登录账号,是否登陆?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({name:'Login2'})
+            }).catch(() => {
+            });
+          }
+
         }
       }
     }

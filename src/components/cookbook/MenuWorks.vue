@@ -187,14 +187,25 @@
               })
           },
         startWorks2(){
-          this.$axios.post('http://localhost:8080/cookbooktest/WorksController/updateLike',this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
-            .then(resp=>{
-              if(resp.data>0){
-                this.isStart2=false;
-              }else{
-                this.isStart2=true;
-              }
-            }).catch()
+          if(this.$store.state.user.userLogin){
+            this.$axios.post('http://localhost:8080/cookbooktest/WorksController/updateLike',this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+              .then(resp=>{
+                if(resp.data>0){
+                  this.isStart2=false;
+                }else{
+                  this.isStart2=true;
+                }
+              }).catch()
+          }else{
+            this.$confirm('请登录账号,是否登陆?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({name:'Login2'})
+            }).catch(() => {
+            });
+          }
         },
         toWorkDetail(wid){
           console.log(wid)

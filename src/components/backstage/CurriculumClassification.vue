@@ -130,7 +130,7 @@
         rows:'',
         rowstname:{},
         rowsLevel:'',
-        pagesize:10,
+        pagesize:5,
         tit:'详情',
         title:'添加课程',
         changeMenuTypes:{},

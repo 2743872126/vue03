@@ -12,7 +12,7 @@
 
         <div style="height: 2000px;clear: both" v-if="this.$store.state.user.userLogin">
           <div style="border: 1px solid gainsboro;height: 430px;margin-bottom: 20px;width: 28%;float: left;margin-right: 55px" v-for="v in works">
-            <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
+            <el-image :src="'static/jpg/'+v.pic" style="height: 250px" @click="dialogVisible=true,work=v,inits2(v),getuser(v.user.uid),getMessage(v.wid),getMenuDetail(v.mid),message={wid:v.wid,upid:0,uid:user.uid,message:''}"></el-image>
             <p style="font-size: 14px;line-height: 20px;text-align: left;margin-top: -50px"><a style="color: crimson" @click="menudetail()">{{MenuDetail.mname}}</a></p>
             <p style="font-size: 14px;line-height: 20px;text-align: left;height: 40px">{{v.winfo}}</p>
             <p style="font-size: 14px;line-height: 20px;text-align: left">
@@ -46,7 +46,10 @@
                   <span v-else>分享作品</span>
               </span>
                   <span style="position: absolute;top: 15px;left: 520px">
-                <el-button style="width: 80px;background-color: crimson;color: white">赞</el-button>
+                <el-button  @click="startWorks5" style="width: 80px;background-color: crimson;color: white">
+                    <span v-if="isStart5">赞</span>
+                    <span v-else>取消赞</span>
+                </el-button>
               </span>
                 </p>
                 <p style="line-height: 20px;text-align: left;margin-top: -15px;margin-left: 100px;color: black">
@@ -159,6 +162,7 @@
           MenuDetail:{users:{},pic:''},
           work:{user:{pic:''},makeTime:'',startUsers:[],works_messages:[]},
           work_messages:[],
+          isStart5:false,
         }
       },
       created:function () {
@@ -172,6 +176,39 @@
           });
       },
       methods: {
+        inits2(v){
+          this.work=v;
+          this.$axios.post("http://localhost:8080/cookbooktest/WorksController/queryLikes",this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+            .then(res=>{
+              if(res.data>0){
+                this.isStart5=false;
+              }else{
+                this.isStart5=true;
+              }
+            })
+        },
+        startWorks5(){
+          if(this.$store.state.user.userLogin){
+            this.$axios.post('http://localhost:8080/cookbooktest/WorksController/updateLike',this.$qs.stringify({wid:this.work.wid,uid:this.$store.state.user.userInfo.uid}))
+              .then(resp=>{
+                if(resp.data>0){
+                  this.isStart5=false;
+                }else{
+                  this.isStart5=true;
+                }
+              }).catch()
+          }else{
+            this.$confirm('请登录账号,是否登陆?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({name:'Login2'})
+            }).catch(() => {
+            });
+          }
+
+        },
         getuser(uid){
           this.$axios.post('http://localhost:8080/cookbooktest/UController/queryUser',this.$qs.stringify({'uid':uid}))
             .then(resp=>{
@@ -217,19 +254,30 @@
           }
         },
         fabu(){
-          if (this.message.upid!=0){
-            this.message.message=this.message.message.substr(this.message.message.indexOf(':')+1,this.message.message.length)
-            console.info(this.message)
-          }
-          this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add',this.message)
-            .then(resp=>{
-              this.getMessage(this.message.wid);
-              this.message.message='';
-              this.message.upid=0;
-            })
-            .catch(err=>{
-              this.$message.error("错误");
+          if(this.$store.state.user.userLogin) {
+            if (this.message.upid != 0) {
+              this.message.message = this.message.message.substr(this.message.message.indexOf(':') + 1, this.message.message.length)
+              console.info(this.message)
+            }
+            this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/add', this.message)
+              .then(resp => {
+                this.getMessage(this.message.wid);
+                this.message.message = '';
+                this.message.upid = 0;
+              })
+              .catch(err => {
+                this.$message.error("错误");
+              });
+          }else{
+            this.$confirm('请登录账号,是否登陆?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({name:'Login2'})
+            }).catch(() => {
             });
+          }
         },
         del(wmid){
           this.$axios.post('http://localhost:8080/cookbooktest/Works_messageController/del',this.$qs.stringify({'wmid':wmid}))

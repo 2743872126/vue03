@@ -54,7 +54,7 @@
         data(){
           return{
             OrderDetails:[],
-            PageSize:10,
+            PageSize:5,
             currentPage:1,
           }
         },
