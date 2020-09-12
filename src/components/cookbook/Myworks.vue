@@ -2,7 +2,7 @@
     <div>
       <div class="workss" v-for="(v,k) in userinfo.works.slice(0,9)" @click="toworkdetail(v.wid)">
         <el-image lazy style="width: 100%; height: 300px;margin: 0 0 -30px 0" :src="'static/jpg/'+v.pic" fit="cover" ></el-image>
-        <div style="margin-top: -100px;margin-bottom: -100px"><p style="font-size: 18px;" >{{v.winfo.substring(0,20)}}..</p></div>
+        <div style="margin-top: -100px;margin-bottom: -100px"><p style="font-size: 18px;" >{{v.winfo.substring(0,15)}}..</p></div>
         <div style="font-size: 14px;margin:-55px 0 -55px -30px ;">
           {{v.makeTime.substring(0,10)}}拍摄
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

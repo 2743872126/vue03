@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 1000px">
+  <el-container style="height: 2000px">
     <el-aside style="width: 70%">
         <p style="font-size: 20px;color: darkseagreen;text-align: left;line-height: 30px;clear: both">全部课程</p>
         <div style="width: 200px;height: 300px;float: left;margin-right: 5px;margin-bottom:20px" v-for="v in Studios.slice((currentPage-1)*PageSize,currentPage*PageSize)">
@@ -49,21 +49,19 @@
           .then(resp=>{
             this.Studios=resp.data;
             this.totalCount=resp.data.length
-            this.Studios.forEach(value => {
+            this.Studios.forEach((value,i) => {
               this.$axios.post('http://localhost:8080/cookbooktest/UController/querybyid',this.$qs.stringify({uid:value.uid}))
                 .then(resp=>{
-                  this.Studios=[]
                   value.username=resp.data.uname;
-                  this.Studios.push(value)
+                  this.$set(this.Studios,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");
                 });
               this.$axios.post('http://localhost:8080/cookbooktest/UserTurnoverController/querycountBysid',this.$qs.stringify({sid:value.sid}))
                 .then(resp=>{
-                  this.Studios=[]
                   value.paycount=resp.data;
-                  this.Studios.push(value)
+                  this.$set(this.Studios,i,value)
                 })
                 .catch(err=>{
                   this.$message.error("错误");

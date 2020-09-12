@@ -69,11 +69,14 @@
         v-model="User.state"
         style="width: 20%"
         label="状态">
-        <el-switch slot-scope="scope"
+        <template slot-scope="scope">
+          {{scope.row.state==1?'星级厨师':'普通用户'}}
+        </template>
+        <!--<el-switch slot-scope="scope"
         v-model="scope.row.state ===1"
         active-color="#5eb058"
         inactive-color="#cccccc" @click.native="handleUpdate(scope.row)">
-        </el-switch>
+        </el-switch>-->
       </el-table-column>
          <!-- <el-switch
             slot-scope="scope"

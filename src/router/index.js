@@ -316,6 +316,11 @@ export default new Router({
       component: () => import('../components/backstage/home'),
       children: [
         {
+          path: '/details',
+          name: 'details',
+          component: () => import('../components/backstage/details')
+        },
+        {
           path: '/Users',
           name: 'Users',
           component: () => import('../components/backstage/Users')

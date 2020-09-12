@@ -24,8 +24,8 @@
         style="width: 20%">
         <template slot-scope="scope">
           <el-image style="width: 60px;height: 60px;"
-                    :src="'static/'+scope.row.Pic"
-                    :preview-src-list="['static/'+scope.row.Pic]"></el-image>
+                    :src="'static/jpg/'+scope.row.Pic"
+                    :preview-src-list="['static/jpg/'+scope.row.Pic]"></el-image>
         </template>
       </el-table-column>
       <el-table-column

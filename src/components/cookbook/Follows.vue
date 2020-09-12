@@ -2,10 +2,10 @@
     <div>
       <div class="ps"><span class="span">我关注的</span>         |        <span @click="()=>{this.$router.push({name:'FollowMe'})}">关注我的</span></div>
 
-      <div style="margin-bottom: 50px;background-color: gainsboro;height: 100px;margin-left:1%;float: left;line-height: 100px;width: 32%;" v-for="v in users.slice((currentPage-1)*PageSize,currentPage*PageSize)">
+      <div style="border:1px solid burlywood;margin-bottom: 50px;height: 100px;margin-left:3%;float: left;line-height: 100px;width: 30%;" v-for="v in users.slice((currentPage-1)*PageSize,currentPage*PageSize)">
         <router-link :to="{name:'TheirPersonal',params:{uid:v.uid}}" >
-          <el-image lazy style="margin : 0 0 -30px 0;float: left;height: 100px;width: 100px;" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
-          <a style="color: crimson;">{{v.uname}}</a>
+          <el-image lazy style="margin : 0 0 0 0;float: left;height: 90px;width: 100px;" :src="'static/jpg/'+v.pic" fit="cover"></el-image>
+          <a style="color: crimson;margin-left: -50px">{{v.uname}}</a>
         </router-link>
       </div>
       <el-pagination style="clear: both;" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 50, 200, 1000]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="totalCount"></el-pagination>
@@ -57,9 +57,8 @@
 
 <style scoped>
   .ps{
-    text-align: left;
-    font-weight: 100;
-    font-size: 40px;
+    font-size: 20px;
+    line-height: 80px;
   }
   .span{
     color: red;

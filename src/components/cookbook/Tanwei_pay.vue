@@ -31,7 +31,6 @@
         </dl>
       </div>
     </el-form>
-{{this.pay}}
     <div id="foot">
       <ul class="foot-ul">
         <li>支付宝版权所有 2015-2018 ALIPAY.COM</li>

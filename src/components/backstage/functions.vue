@@ -7,17 +7,17 @@
     <el-table-column
       prop="fid"
       label="编号"
-      width="500px">
+      width="400px">
     </el-table-column>
     <el-table-column
       prop="fname"
       label="菜单名字"
-      width="500px">
+      width="400px">
     </el-table-column>
     <el-table-column
       prop="flevel"
       label="级别"
-      width="500px">
+      width="400px">
       <template slot-scope="scope">
         {{scope.row.flevel === 0?'一级菜单':'二级菜单'}}
       </template>

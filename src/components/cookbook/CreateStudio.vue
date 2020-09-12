@@ -87,7 +87,7 @@
         rules:{
           sname: [
             {required: true, message: '不能为空'},
-            {min: 1, max: 20, message: '最多20个字', trigger: ['blur']},
+            {min: 1, max:50, message: '1-50个字', trigger: ['blur']},
             {validator:function(rule,value,callback){
                 if(value.indexOf('-') == -1){
                   callback();
@@ -98,7 +98,7 @@
           ],
           Info:[
             {required: true, message: '不能为空'},
-            {min: 1, max: 99, message: '最多99个字', trigger: ['blur']},
+            {min: 1, max: 300, message: '1-300个字', trigger: ['blur']},
           ],
         }
       }
